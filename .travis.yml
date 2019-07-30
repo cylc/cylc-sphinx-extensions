@@ -1,0 +1,17 @@
+# Configuration for building documentation on Travis CI
+# See https://travis-ci.org/ for more info.
+
+---
+language: python
+python:
+    - '3.7'
+
+install:
+    - pip install -e .['test']
+    - npm install -g eslint
+
+script:
+    - pytest --doctest-modules
+    - pycodestyle .
+    - eslint cylc/
+    - make html linkcheck
