@@ -7,11 +7,11 @@ python:
     - '3.7'
 
 install:
-    - pip install -e .['test']
+    - pip install -e .[all]
     - npm install -g eslint
 
 script:
-    - pytest --doctest-modules
+    - pytest
     - pycodestyle .
     - eslint cylc/
     - make html linkcheck

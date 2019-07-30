@@ -48,7 +48,6 @@ __all__ = [
 ]
 
 
-from cylc.sphinx import register_static
 from cylc.sphinx.practical.admonitions import (
     Practical,
     PracticalExtension,
@@ -56,13 +55,12 @@ from cylc.sphinx.practical.admonitions import (
 )
 
 
-__import__('pkg_resources').declare_namespace(__name__)
-
 __version__ = '1.0.0'
 
 
 def setup(app):
     """Sphinx setup function."""
+    from cylc.sphinx import register_static
     app.add_directive('practical', Practical)
     app.add_directive('practical-extension', PracticalExtension)
     app.add_directive('spoiler', Spoiler)

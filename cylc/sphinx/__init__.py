@@ -18,16 +18,14 @@
 """Sphinx extensions for documenting Cylc projects."""
 
 
+from pathlib import Path
 import os
-
-
-__import__('pkg_resources').declare_namespace(__name__)
 
 
 __version__ = '1.0.0'
 
 
-def register_static(app, extension_name):
+def register_static(app, extension):
     """Register the _static directory of an extension.
 
     Args:
@@ -39,12 +37,10 @@ def register_static(app, extension_name):
 
     """
     app.config.html_static_path.append(
-        os.path.relpath(
-            os.path.join(
-                os.path.dirname(__file__),
-                extension_name.rsplit('.', 1)[1],
+        str(
+            Path(__file__).resolve().parent.joinpath(
+                extension.replace(__name__ + '.', '').replace('.', os.sep),
                 '_static'
-            ),
-            app.confdir
-          )
+            )
+        )
     )

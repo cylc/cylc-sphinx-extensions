@@ -16,10 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
+import re
 
 from pathlib import Path
-import re
-from setuptools import setup, find_packages
+
+from setuptools import find_namespace_packages, setup
 
 
 def get_version(filename):
@@ -36,17 +37,27 @@ __version__ = get_version(
 )
 
 
-install_requires = {
-    'all': [
-        'sphinx'
-    ],
+REQS = {
     'cylc_lang': [
         'pygments'
     ],
+    'hieroglyph_patch': [
+        'hieroglyph'
+    ],
+    'hieroglyph_theme_addons': [
+        'hieroglyph'
+    ],
+    'rtd_theme_addons': [
+        'sphinx_rtd_theme'
+    ],
     'sub_lang': [
         'pygments'
+    ],
+    'test': [
+        'pycodestyle'
     ]
 }
+REQS['all'] = list({x for y in REQS.values() for x in y})
 
 
 setup(
@@ -55,9 +66,9 @@ setup(
     description='Sphinx extensions for documenting Cylc',
     long_description=open('README.rst', 'r').read(),
     long_description_content_type='text/x-rst',
-    install_requires=list({x for y in install_requires.values() for x in y}),
-    extras_require={
-        'test': {'pycodestyle'}
-    },
-    packages=find_packages()
+    install_requires=[
+        'sphinx>=2.0.0'
+    ],
+    extras_require=REQS,
+    packages=find_namespace_packages(include=["cylc.*"]),
 )

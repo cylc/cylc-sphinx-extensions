@@ -3,23 +3,54 @@ Cylc Sphinx Extensions
 
 A library of extensions for documenting Cylc projects.
 
+
 Installation
 ------------
+
+Install all extensions (but not dependencies):
 
 .. code-block:: console
 
    $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git
 
+OR all extensions + dependencies for specified extension(s) by name:
+
+.. code-block:: console
+
+   # TODO
+   $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git[cylc_lang]
+
+OR all extensions + dependencies for all extensions:
+
+.. code-block:: console
+
+   # TODO
+   $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git[all]
+
+
 Usage
 -----
 
-Register extensions in your project's ``conf.py``:
+To use an extension register it in your project's ``conf.py``:
 
 .. code-block:: python
 
    extension = [
        'cylc.sphinx.cylc_lang'
    ]
+
+Some of these extensions are "auto-loading" and do not require any extra steps
+to activate.
+
+If the ``html_static_path`` configuration is set in your ``conf.py`` you will
+need to move this into a ``setup`` function, otherwise extensions cannot append
+to this path to add their own static resources e.g:
+
+.. code-block:: python
+
+   def setup(app):
+       app.config.html_static_path.append('_static')
+
 
 Development
 -----------

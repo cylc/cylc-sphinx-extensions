@@ -63,8 +63,6 @@ Pygments language: `cylc-graph`
 
 from cylc.sphinx.cylc_lang.lexers import CylcLexer, CylcGraphLexer
 
-__import__('pkg_resources').declare_namespace(__name__)
-
 
 __all__ = ['CylcLexer', 'CylcGraphLexer', 'setup']
 

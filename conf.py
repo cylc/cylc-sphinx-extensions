@@ -17,20 +17,31 @@
 # -----------------------------------------------------------------------------
 from cylc.sphinx import __version__
 
-extensions = [
-    'sphinx.ext.autosummary',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.graphviz',
-
-    'cylc.sphinx.cylc_lang',
-    'cylc.sphinx.minicylc',
-    'cylc.sphinx.sub_lang',
-    'cylc.sphinx.practical'
-]
-
+# project settings
 master_doc = 'index'
-
 project = 'Cylc Sphinx Extensions'
 release = __version__
+html_theme = 'sphinx_rtd_theme'
+extensions = [
+    # sphinx built-in extensions
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.graphviz',
 
+    # cylc.sphinx extensions
+    'cylc.sphinx.cylc_lang',
+    'cylc.sphinx.diff_selection',
+    'cylc.sphinx.grid_table',
+    'cylc.sphinx.hieroglyph_theme_addons',
+    'cylc.sphinx.minicylc',
+    'cylc.sphinx.practical',
+    'cylc.sphinx.rtd_theme_addons',
+    'cylc.sphinx.sub_lang',
+
+    # addons required by extensions
+    'hieroglyph',
+    'sphinx_rtd_theme',
+]
+
+# minicylc settings
 graphviz_output_format = 'svg'
