@@ -39,7 +39,7 @@ a project's Sphinx extensions. No directives required.
 
 """
 
-from cylc.sphinx import register_static
+from cylc.sphinx_ext import register_static
 
 
 __version__ = '1.0.0'

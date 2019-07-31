@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
-from cylc.sphinx import __version__
+from cylc.sphinx_ext import __version__
 
 # project settings
 master_doc = 'index'
@@ -28,15 +28,15 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.graphviz',
 
-    # cylc.sphinx extensions
-    'cylc.sphinx.cylc_lang',
-    'cylc.sphinx.diff_selection',
-    'cylc.sphinx.grid_table',
-    'cylc.sphinx.hieroglyph_theme_addons',
-    'cylc.sphinx.minicylc',
-    'cylc.sphinx.practical',
-    'cylc.sphinx.rtd_theme_addons',
-    'cylc.sphinx.sub_lang',
+    # cylc.sphinx_ext extensions
+    'cylc.sphinx_ext.cylc_lang',
+    'cylc.sphinx_ext.diff_selection',
+    'cylc.sphinx_ext.grid_table',
+    'cylc.sphinx_ext.hieroglyph_theme_addons',
+    'cylc.sphinx_ext.minicylc',
+    'cylc.sphinx_ext.practical',
+    'cylc.sphinx_ext.rtd_theme_addons',
+    'cylc.sphinx_ext.sub_lang',
 
     # addons required by extensions
     'hieroglyph',

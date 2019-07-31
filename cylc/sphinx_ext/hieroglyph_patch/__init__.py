@@ -38,7 +38,7 @@ from sphinx.writers.html import HTMLTranslator
 from sphinx.ext.graphviz import html_visit_graphviz
 from sphinx.ext.autosummary import (autosummary_toc_visit_html,
                                     autosummary_table_visit_html)
-from cylc.sphinx.minicylc import MiniCylc
+from cylc.sphinx_ext.minicylc import MiniCylc
 
 
 __version__ = '1.0.0'

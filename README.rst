@@ -36,7 +36,7 @@ To use an extension register it in your project's ``conf.py``:
 .. code-block:: python
 
    extension = [
-       'cylc.sphinx.cylc_lang'
+       'cylc.sphinx_ext.cylc_lang'
    ]
 
 Some of these extensions are "auto-loading" and do not require any extra steps
@@ -57,19 +57,24 @@ Development
 
 Fork and clone ``https://github.com/cylc/cylc-sphinx-extensions.git``.
 
+Extensions are auto-documented from their module docstrings.
+
 Build documentation by running:
 
 .. code-block:: sub
 
    $ make clean <format>  # e.g. make html
 
-This documentation build serves as a simple test battery, warnings will cause
-it to fail.
-
-Unittests and Doctests are run by pycodestyle:
+This documentation build serves as a simple test battery (warnings will cause
+it to fail), for everything else there's pytest:
 
 .. code-block:: console
 
-   $ pycodestyle .
+   $ pytest
 
-Extensions are auto-documented from their module docstrings.
+For code linting:
+
+.. code-block:: console
+
+   $ pycodestyle .  # python
+   $ eslint cylc/   # javascript

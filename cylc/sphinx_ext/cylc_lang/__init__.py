@@ -15,36 +15,62 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
-"""An extension providing a pygments lexer for <substitutions> in text.
+'''An extension providing pygments lexers for the Cylc suite.rc language.
 
 .. rubric:: Examples
 
-Pygments language: ``sub``
+Pygments language: `cylc`
 
 .. code-block:: rst
 
-   .. code-block:: sub
+   .. code-block:: cylc
 
-      # foo
-      bar <pub>
+      [scheduling]
+          initial cycle point = 2000
+          [[dependencies]]
+              [[[P1Y]]]
+                  graph = """
+                      @wall_clock => foo => bar
+                      (foo & bar) => pub
+                  """
 
-.. code-block:: sub
+.. code-block:: cylc
 
-   # foo
-   bar <pub>
+   [scheduling]
+       initial cycle point = 2000
+       [[dependencies]]
+           [[[P1Y]]]
+               graph = """
+                   @wall_clock => foo => bar
+                   (foo & bar) => pub
+               """
 
-"""
+Pygments language: `cylc-graph`
+
+.. code-block:: rst
+
+   .. code-block:: cylc-graph
+
+      @wall_clock => foo => bar
+      (foo & bar) => pub
+
+.. code-block:: cylc-graph
+
+   @wall_clock => foo => bar
+   (foo & bar) => pub
+
+'''
+
+from cylc.sphinx_ext.cylc_lang.lexers import CylcLexer, CylcGraphLexer
 
 
-from cylc.sphinx.sub_lang.lexer import SubstitutionLexer
-
-
-__all__ = ['SubstitutionLexer', 'setup']
+__all__ = ['CylcLexer', 'CylcGraphLexer', 'setup']
 
 __version__ = '1.0.0'
 
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_lexer('sub', SubstitutionLexer())
+    app.add_lexer('cylc', CylcLexer())
+    app.add_lexer('cylc-graph', CylcGraphLexer())
     return {'version': __version__, 'parallel_read_safe': True}

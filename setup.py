@@ -33,7 +33,7 @@ def get_version(filename):
 
 
 __version__ = get_version(
-    Path('cylc/sphinx/__init__.py')
+    Path('cylc/sphinx_ext/__init__.py')
 )
 
 

@@ -6,12 +6,12 @@ Available Extensions
 .. autosummary::
    :toctree: extensions
 
-   cylc.sphinx.cylc_lang
-   cylc.sphinx.diff_selection
-   cylc.sphinx.grid_table
-   cylc.sphinx.hieroglyph_patch
-   cylc.sphinx.hieroglyph_theme_addons
-   cylc.sphinx.minicylc
-   cylc.sphinx.practical
-   cylc.sphinx.sub_lang
-   cylc.sphinx.rtd_theme_addons
+   cylc.sphinx_ext.cylc_lang
+   cylc.sphinx_ext.diff_selection
+   cylc.sphinx_ext.grid_table
+   cylc.sphinx_ext.hieroglyph_patch
+   cylc.sphinx_ext.hieroglyph_theme_addons
+   cylc.sphinx_ext.minicylc
+   cylc.sphinx_ext.practical
+   cylc.sphinx_ext.sub_lang
+   cylc.sphinx_ext.rtd_theme_addons

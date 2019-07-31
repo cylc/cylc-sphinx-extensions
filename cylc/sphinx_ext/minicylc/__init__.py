@@ -72,7 +72,7 @@ graphviz_output_format
 """
 
 
-from cylc.sphinx.minicylc.minicylc import MiniCylc, MiniCylcDirective
+from cylc.sphinx_ext.minicylc.minicylc import MiniCylc, MiniCylcDirective
 
 import sphinx
 
@@ -91,7 +91,7 @@ __version__ = '1.0.0'
 
 def setup(app):
     """Sphinx plugin setup function."""
-    from cylc.sphinx import register_static
+    from cylc.sphinx_ext import register_static
     app.add_node(MiniCylc,
                  html=(MiniCylc.visit_html, None),
                  latex=(latex_visit_graphviz, None),
