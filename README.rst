@@ -27,6 +27,13 @@ OR all extensions + dependencies for all extensions:
    # TODO
    $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git[all]
 
+Note the ``minicylc`` extension requires ``graphviz``:
+
+.. code-block:: console
+
+   # install graphviz from your package manager e.g:
+   $ sudo apt-get install -y graphviz
+
 
 Usage
 -----
