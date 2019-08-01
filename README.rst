@@ -1,8 +1,87 @@
 Cylc Sphinx Extensions
 ======================
 
-**Work In Progress**
+A library of extensions for documenting Cylc projects.
 
-A common repository of Sphinx extensions for documenting Cylc projects.
 
-See: https://github.com/cylc/cylc-doc/issues/39
+Installation
+------------
+
+Install all extensions (but not dependencies):
+
+.. code-block:: console
+
+   $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git
+
+OR all extensions + dependencies for specified extension(s) by name:
+
+.. code-block:: console
+
+   # TODO
+   $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git[cylc_lang]
+
+OR all extensions + dependencies for all extensions:
+
+.. code-block:: console
+
+   # TODO
+   $ pip install git+https://github.com/cylc/cylc-sphinx-extensions.git[all]
+
+Note the ``minicylc`` extension requires ``graphviz``:
+
+.. code-block:: console
+
+   # install graphviz from your package manager e.g:
+   $ sudo apt-get install -y graphviz
+
+
+Usage
+-----
+
+To use an extension register it in your project's ``conf.py``:
+
+.. code-block:: python
+
+   extension = [
+       'cylc.sphinx_ext.cylc_lang'
+   ]
+
+Some of these extensions are "auto-loading" and do not require any extra steps
+to activate.
+
+If the ``html_static_path`` configuration is set in your ``conf.py`` you will
+need to move this into a ``setup`` function, otherwise extensions cannot append
+to this path to add their own static resources e.g:
+
+.. code-block:: python
+
+   def setup(app):
+       app.config.html_static_path.append('_static')
+
+
+Development
+-----------
+
+Fork and clone ``https://github.com/cylc/cylc-sphinx-extensions.git``.
+
+Extensions are auto-documented from their module docstrings.
+
+Build documentation by running:
+
+.. code-block:: sub
+
+   $ make clean <format>  # e.g. make html
+
+This documentation build serves as a simple test battery (warnings will cause
+it to fail), for everything else there's pytest:
+
+.. code-block:: console
+
+   $ pytest
+
+For code linting:
+
+.. code-block:: console
+
+   $ pycodestyle .  # python
+   $ eslint cylc/   # javascript
