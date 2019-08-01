@@ -14,7 +14,7 @@ Modifications:
 
       .. error::
 
-         The inner admonition should appear in a differet colour to the outer
+         The inner admonition should appear in a different colour to the outer
          one.
 
 2. Permit linking admonitions
@@ -33,7 +33,7 @@ Modifications:
 
    .. versionchanged:: 1.2.3
 
-      Someting changed!
+      Something changed!
 
 5. Restyle code-block captions
 

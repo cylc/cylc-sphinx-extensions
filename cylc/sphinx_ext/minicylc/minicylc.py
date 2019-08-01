@@ -112,7 +112,7 @@ class MiniCylcDirective(GraphvizSimple):
     required_arguments = 0  # Arg will be provided in run().
 
     CONDITIONAL_CHARS = ['&', '|', '(', ')']
-    CONDITIONAL_REGEX = re.compile(r'([\(\)\|\&])')
+    CONDITIONAL_REGEX = re.compile(r'([()|&])')
 
     @staticmethod
     def extract_or_deps(dep):
@@ -181,7 +181,7 @@ class MiniCylcDirective(GraphvizSimple):
                                       cls.CONDITIONAL_CHARS):
                             trigs.add((left, right, left in ors))
                 elif len(dep) == 1:
-                    # No depedent task.
+                    # No dependent task.
                     for left in (i for i in dep if i not in
                                  cls.CONDITIONAL_CHARS):
                         trigs.add((None, left, False))

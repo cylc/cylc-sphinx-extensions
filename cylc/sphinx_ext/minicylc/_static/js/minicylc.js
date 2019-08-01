@@ -84,8 +84,8 @@ class MiniCylc {
         /**
          * Associate task/dependency names with SVG nodes.
          *
-         * Associations stored as dicionaries this.nodes and this.edges.
-         * @param svg The <svg> element containg the workflow.
+         * Associations stored as dictionaries this.nodes and this.edges.
+         * @param svg The <svg> element containing the workflow.
          */
         var nodes = {};
         var edges = {};
@@ -261,7 +261,7 @@ class MiniCylc {
     _main_loop(itt) {
         /*
          * The main loop - runs the simulation and handles restyling of nodes.
-         * Note function calls itself reccursively.
+         * Note function calls itself recursively.
          */
         var exit = false;
 

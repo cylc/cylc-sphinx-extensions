@@ -24,8 +24,8 @@ from docutils.parsers.rst.directives.admonitions import BaseAdmonition
 class Practical(BaseAdmonition):
     """Directive for practical sections in documentation.
 
-    This class serves as a standin for maintainability purposes. It is
-    equivalient to:
+    This class serves as a stand-in for maintainability purposes. It is
+    equivalent to:
 
         .. admonition:: Practical
            :class: note
@@ -48,7 +48,7 @@ class PracticalExtension(Practical):
 
 
 class Spoiler(BaseAdmonition):
-    """Directive for auto-hiden "spoiler" sections.
+    """Directive for auto-hidden "spoiler" sections.
 
     When rendered in HTML the section will be collapsed and a "Show" button put
     in its place.

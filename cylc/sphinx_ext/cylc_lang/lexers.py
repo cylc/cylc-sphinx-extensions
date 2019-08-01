@@ -161,7 +161,7 @@ class CylcLexer(RegexLexer):
              r'(?:[+-=]\s?\w+)?'  # [+-=] for selecting parameters.
              r'\s?'  # Permit whitespace.
              r'(?:'  # BEGIN optional extra parameter groups...
-             r'(?:\s?,\s?\w+\s?'  # Comma seperated parameters.
+             r'(?:\s?,\s?\w+\s?'  # Comma separated parameters.
              r'(?:[+-=]\s?\w+)?'  # [+-=] for selecting parameters.
              r'\s?)'  # Permit whitespace.
              r'+)?'  # ...END optional extra parameter groups.

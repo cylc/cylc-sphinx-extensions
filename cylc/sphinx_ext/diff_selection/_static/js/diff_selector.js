@@ -17,7 +17,7 @@
  * ------------------------------------------------------------------------- */
 
 /* Return a list of matches for the provided string, see also String.indexOf. */
-String.prototype.indiciesOf = function (sub) {
+String.prototype.indicesOf = function (sub) {
     var str = String(this);
     var index = str.indexOf(sub);
     var count = 0;
@@ -34,18 +34,18 @@ String.prototype.indiciesOf = function (sub) {
 
 /* Split a text node on the newline character, see also Text.splitText. */
 Text.prototype.splitLines = function () {
-    var indicies = $(this).text().indiciesOf('\n');
-    if (indicies && indicies[0] == 0) {
+    var indices = $(this).text().indicesOf('\n');
+    if (indices && indices[0] == 0) {
         // ignore leading new line characters
-        indicies.shift();
+        indices.shift();
     }
-    if (indicies.length < 1) {
+    if (indices.length < 1) {
         // no line breaks - skip
         return [];
     }
     var node = this;
     var offset = 0;
-    for (let index of indicies) {
+    for (let index of indices) {
         node = node.splitText(index - offset);
         offset = index;
     }

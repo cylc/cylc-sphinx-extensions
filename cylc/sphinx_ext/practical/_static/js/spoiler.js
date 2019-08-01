@@ -59,7 +59,7 @@ $(document).ready(function() {
 
     }
 
-    // On-click un-hide the contents of the adminition and hide the button.
+    // On-click un-hide the contents of the admonition and hide the button.
     $('.spoiler-show').click(function() {
         $(this).parent().children().show();
         $(this).hide();

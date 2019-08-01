@@ -74,8 +74,6 @@ graphviz_output_format
 
 from cylc.sphinx_ext.minicylc.minicylc import MiniCylc, MiniCylcDirective
 
-import sphinx
-
 from sphinx.ext.graphviz import (
     latex_visit_graphviz,
     texinfo_visit_graphviz,

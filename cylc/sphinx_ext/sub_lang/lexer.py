@@ -22,7 +22,7 @@ from pygments.token import Text, String, Comment
 
 
 class SubstitutionLexer(RegexLexer):
-    """Pygments lexer for highlighting <subsitutions> in code e.g. paths."""
+    """Pygments lexer for highlighting <substitutions> in code e.g. paths."""
     name = 'Substitution'
     aliases = []
     filenames = []
