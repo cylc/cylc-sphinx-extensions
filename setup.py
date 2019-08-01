@@ -63,6 +63,8 @@ REQS['all'] = list({x for y in REQS.values() for x in y})
 setup(
     name='cylc-sphinx-extensions',
     version=__version__,
+    license='GPL',
+    license_file='LICENCE',
     description='Sphinx extensions for documenting Cylc',
     long_description=open('README.rst', 'r').read(),
     long_description_content_type='text/x-rst',
