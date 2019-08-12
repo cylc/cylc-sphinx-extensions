@@ -73,4 +73,9 @@ setup(
     ],
     extras_require=REQS,
     packages=find_namespace_packages(include=["cylc.*"]),
+    package_data={
+        'cylc.sphinx_ext': [
+            '*/_static/*/*'
+        ]
+    }
 )
