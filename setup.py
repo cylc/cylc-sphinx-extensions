@@ -67,7 +67,6 @@ setup(
     license_file='LICENCE',
     description='Sphinx extensions for documenting Cylc',
     long_description=open('README.rst', 'r').read(),
-    long_description_content_type='text/x-rst',
     install_requires=[
         'sphinx>=2.0.0'
     ],
