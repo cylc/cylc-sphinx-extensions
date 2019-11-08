@@ -168,6 +168,13 @@ def tokens_from_partials(partials):
          'section': ('b', 'c'),
          'setting': 'd',
          'value': None}
+        >>> tokens_from_partials([  # doctest: +NORMALIZE_WHITESPACE
+        ...     ('section', 'a'),
+        ... ])
+        {'conf': None,
+         'section': ('a',),
+         'setting': None,
+         'value': None}
 
     """
     ret = {}
@@ -185,6 +192,62 @@ def tokens_from_partials(partials):
                     ret[key] = partial_value
         if key == 'section':
             ret[key] = tuple(ret[key])
+    return ret
+
+
+def tokens_relative(base, override):
+    """
+    Examples:
+        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
+        ...     tokenise('a[b]c=d'),
+        ...     tokenise('f')
+        ... )
+        {'conf': 'a',
+         'section': ('b',),
+         'setting': 'f',
+         'value': None}
+        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
+        ...     tokenise('a[b]c=d'),
+        ...     tokenise('f|g')
+        ... )
+        {'conf': 'f',
+         'section': None,
+         'setting': 'g',
+         'value': None}
+        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
+        ...     tokenise('a[b][c]'),
+        ...     tokenise('[d]e')
+        ... )
+        {'conf': 'a',
+         'section': ('d',),
+         'setting': 'e',
+         'value': None}
+        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
+        ...     tokenise('a[b]c'),
+        ...     tokenise('[d]')
+        ... )
+        {'conf': 'a',
+         'section': ('d',),
+         'setting': None,
+         'value': None}
+        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
+        ...     tokenise('a[b]c'),
+        ...     tokenise('[b]')
+        ... )
+        {'conf': 'a',
+         'section': ('b',),
+         'setting': None,
+         'value': None}
+    """
+    flag = False
+    ret = {**base}
+    for token in KEYS:
+        value = override.get(token)
+        if value:
+            flag = True
+            ret[token] = value
+        elif flag:
+            ret[token] = value
     return ret
 
 
@@ -220,7 +283,7 @@ class CylcDirective(ObjectDescription):
         """
         Examples:
             >>> CylcSettingDirective.sanitise_signature('a=b')
-            'a', 'b'
+            ('a', 'b')
 
         """
         value = None
@@ -256,7 +319,8 @@ class CylcDirective(ObjectDescription):
 
     def add_target_and_index(self, sig, _, signode):
         tokens = self.get_tokens(sig)
-        tokens['value'] = None
+        if self.NAME != 'value':
+            tokens['value'] = None
         # register this item with the cylc domain
         self.env.domains['cylc'].set(tokens, self.env.docname)
         # associate this node with the fqdn (allows hyperlinks)
@@ -266,7 +330,8 @@ class CylcDirective(ObjectDescription):
         return ''  # TODO?
 
     def get_reference_context(self):
-        name = self.arguments[0].strip()
+        # name = self.arguments[0].strip()
+        name, _ = self.sanitise_signature(self.arguments[0].strip())
         return ('cylc', self.NAME, name, id(self))
 
 
@@ -299,9 +364,13 @@ class CylcXRefRole(XRefRole):
         # copy ref_context to the refnode so that we can access it in
         # resolve_xref. Note that walking through the node tree to extract
         # ref_context items appears only to work in the HTML buider.
-        refnode['ref_context'] = dict(env.ref_context)
-        # target = target.replace('<', '').replace('>', '')
-        print('%', title, target)
+        # refnode['ref_context'] = dict(env.ref_context)
+        refnode['ref_context'] = tuple((
+            (context[1], context[2])
+            for context, _ in env.ref_context.items()
+            if isinstance(context, tuple)
+            and context[0] == 'cylc'
+        )) # TODO combine
         return title, target
 
 
@@ -325,7 +394,7 @@ class CylcDomain(Domain):
         'conf': CylcConfDirective,
         'section': CylcSectionDirective,
         'setting': CylcSettingDirective,
-        'value': CylcSettingDirective
+        'value': CylcValueDirective
     }
     """Associate domain prefixes with the directives used to define them."""
 
@@ -345,7 +414,7 @@ class CylcDomain(Domain):
 
     def clear_doc(self, docname):
         """Wipe all entries for the specified docname."""
-        for partials, x_docname in self.data['objects'].items():
+        for partials, x_docname in list(self.data['objects'].items()):
             if docname == x_docname:
                 self.data['objects'].pop(partials)
 
@@ -377,22 +446,38 @@ class CylcDomain(Domain):
             )
 
     def resolve_xref(
-        self, env, fromdocname, builder, typ, target, node, contnode):
-        if typ == 'conf':
-            tokens = {'conf': target}
-        else:
-            tokens = tokenise(target)
-            tokens.pop('value')
+        self, env, fromdocname, builder, typ, target, node, contnode
+    ):
+        # strip intersphinx mapping
+        # TODO
 
+        # get tokens for the object we are trying to reference
+        tokens = tokenise(target)
+
+        # check if we have a relative reference
+        if len([key for key, value in tokens.items() if value]) < 2:
+            if typ == 'section':
+                tokens = {typ: (target,)}
+            else:
+                # NOTE: this also handles `conf` items which get mistaken for
+                #       settings by the `tokenise` method.
+                tokens = {typ: target}
+
+        # get the context of the reference (to allow relative referencing)
+        ref_tokens = tokens_from_partials(node['ref_context'])
+        tokens = tokens_relative(ref_tokens, tokens)
+
+        # get the page this item is documented on
         try:
             docname = self.get(tokens)
         except KeyError:
             # object does not exist, "nitpicky" mode will pick this up
-            import pdb; pdb.set_trace()
             return None
 
-        display = detokenise(tokens)  # .replace('<', '').replace('>', '')
+        # standardise the display text
+        display = detokenise(tokens)
 
+        # build and return a reference node
         return make_refnode(
             builder,
             fromdocname,
