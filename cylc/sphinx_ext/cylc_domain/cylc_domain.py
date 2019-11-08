@@ -316,21 +316,24 @@ class CylcDomain(Domain):
     object_types = {
         'conf': ObjType('conf', 'conf', 'obj'),
         'section': ObjType('section', 'section', 'obj'),
-        'setting': ObjType('setting', 'setting', 'obj')
+        'setting': ObjType('setting', 'setting', 'obj'),
+        'value': ObjType('value', 'value', 'obj')
     }
     """List of object types, these should mirror the ``directives``."""
 
     directives = {
         'conf': CylcConfDirective,
         'section': CylcSectionDirective,
-        'setting': CylcSettingDirective
+        'setting': CylcSettingDirective,
+        'value': CylcSettingDirective
     }
     """Associate domain prefixes with the directives used to define them."""
 
     roles = {
         'conf': CylcXRefRole(),
         'section': CylcXRefRole(),
-        'setting': CylcXRefRole()
+        'setting': CylcXRefRole(),
+        'value': CylcXRefRole()
     }
     """The RST text "roles" associated with the domain ``:cylc:<role>:``."""
 
@@ -374,8 +377,7 @@ class CylcDomain(Domain):
             )
 
     def resolve_xref(
-        self, env, fromdocname, builder, typ, target, node, contnode
-    ):
+        self, env, fromdocname, builder, typ, target, node, contnode):
         if typ == 'conf':
             tokens = {'conf': target}
         else:
