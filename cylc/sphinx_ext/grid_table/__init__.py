@@ -1,6 +1,6 @@
 """A borderless table for simple grid layouts.
 
-Re-styles the Sphinx built-in :rst:dir:`list-table` directive.
+Re-styles the Sphinx built-in ``list-table`` directive.
 
 Extension is automatically loaded for all code diffs when it is added to
 a project's Sphinx extensions. No directives required.

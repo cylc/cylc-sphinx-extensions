@@ -160,8 +160,7 @@ def tokens_from_partials(partials):
     Examples:
         >>> tokens_from_partials([  # doctest: +NORMALIZE_WHITESPACE
         ...     ('conf', 'a'),
-        ...     ('section', 'b'),
-        ...     ('section', 'c'),
+        ...     ('section', ('b', 'c')),
         ...     ('setting', 'd')
         ... ])
         {'conf': 'a',
@@ -169,7 +168,7 @@ def tokens_from_partials(partials):
          'setting': 'd',
          'value': None}
         >>> tokens_from_partials([  # doctest: +NORMALIZE_WHITESPACE
-        ...     ('section', 'a'),
+        ...     ('section', ('a',)),
         ... ])
         {'conf': None,
          'section': ('a',),
@@ -187,7 +186,7 @@ def tokens_from_partials(partials):
             partial_key, partial_value = partial
             if partial_key == key:
                 if key == 'section':
-                    ret[key].append(partial_value)
+                    ret[key].extend(partial_value)
                 else:
                     ret[key] = partial_value
         if key == 'section':
@@ -313,7 +312,8 @@ class CylcDirective(ObjectDescription):
                 and context[0] == 'cylc'
             ] + [
                 # include this node
-                (sig[1], sig[2])
+                (sig[1], (sig[2],)) if self.NAME == 'section'
+                else (sig[1], sig[2])
             ]
         )
 
@@ -332,6 +332,8 @@ class CylcDirective(ObjectDescription):
     def get_reference_context(self):
         # name = self.arguments[0].strip()
         name, _ = self.sanitise_signature(self.arguments[0].strip())
+        if self.NAME == 'section':
+            name = (name,)
         return ('cylc', self.NAME, name, id(self))
 
 

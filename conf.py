@@ -27,6 +27,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.graphviz',
+    'sphinx.ext.intersphinx',
 
     # cylc.sphinx_ext extensions
     'cylc.sphinx_ext.cylc_lang',
@@ -50,3 +51,7 @@ templates_path = ['_templates']
 
 autosummary_generate = True
 autosummary_imported_members = True
+
+intersphinx_mapping = {
+    'sphinx': ('http://www.sphinx-doc.org/', None)
+}
