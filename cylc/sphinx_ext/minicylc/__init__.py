@@ -17,7 +17,15 @@
 # -----------------------------------------------------------------------------
 """An extension for visualising simple Cylc graph strings.
 
-.. rubric:: Directives
+.. rst-example::
+
+   .. minicylc::
+      :snippet:
+
+      foo => bar => baz
+
+Directives
+----------
 
 .. _graphviz size attribute: https://graphviz.org/doc/info/attrs.html#d:size
 
@@ -50,24 +58,28 @@
 
       Inherits options from the :rst:dir:`digraph` directive.
 
-.. rubric:: Required Sphinx Configuration
+Configuration
+-------------
+
+Required
+^^^^^^^^
 
 extensions
    Must include ``sphinx.ext.graphviz``
 graphviz_output_format
    Must be set to ``svg`` for animated visualisations
 
-.. rubric:: Example
+Recommended
+^^^^^^^^^^^
 
-.. code-block:: rst
+extensions
+    Should contain either:
 
-   .. minicylc::
+    * ``sphinxcontrib.rsvgconverter``
+    * ``sphinxcontrib.inkscapeconverter``
 
-      foo => bar => baz
-
-.. minicylc::
-
-   foo => bar => baz
+graphviz_dot_args
+    ``['-Gfontname=sans', '-Nfontname=sans', '-Gbgcolor=none']``
 
 """
 

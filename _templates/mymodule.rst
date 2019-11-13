@@ -2,6 +2,6 @@
    template for minimal documentation of a module (i.e. docstring only)
 #}
 
-{{ fullname | escape | underline}}
+{{ fullname.split(".")[-1] | escape | underline}}
 
 .. automodule:: {{ fullname }}

@@ -34,6 +34,7 @@ extensions = [
     'cylc.sphinx_ext.diff_selection',
     'cylc.sphinx_ext.grid_table',
     'cylc.sphinx_ext.hieroglyph_theme_addons',
+    'cylc.sphinx_ext.hieroglyph_patch',
     'cylc.sphinx_ext.minicylc',
     'cylc.sphinx_ext.practical',
     'cylc.sphinx_ext.rtd_theme_addons',
@@ -47,12 +48,14 @@ extensions = [
 
 # minicylc settings
 graphviz_output_format = 'svg'
+graphviz_dot_args = ['-Gfontname=sans', '-Nfontname=sans', '-Gbgcolor=none']
 
+# autosummary options
 templates_path = ['_templates']
-
 autosummary_generate = True
 autosummary_imported_members = True
 
+# external references
 intersphinx_mapping = {
     'sphinx': ('http://www.sphinx-doc.org/', None)
 }

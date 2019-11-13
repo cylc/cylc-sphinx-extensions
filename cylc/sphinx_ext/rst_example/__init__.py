@@ -18,13 +18,22 @@
 
 """Directive for rendering RST alongside its code representation.
 
-Example:
+Directives
+----------
 
-.. rst-example::
+.. rst:directive:: rst-example
 
-   .. note::
-   
-      hello world
+   Display an RST code-snippet followed by its rendering.
+
+   .. directive-seption
+
+   .. rst-example::
+
+      .. rst-example::
+
+          .. note::
+
+             hello world
 
 """
 

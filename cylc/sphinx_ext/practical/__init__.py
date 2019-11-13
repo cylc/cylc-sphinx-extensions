@@ -17,25 +17,55 @@
 # -----------------------------------------------------------------------------
 """Directives for use in practical exercises.
 
-.. rubric:: Example
 
-.. code-block:: rst
+Directives
+----------
 
-    .. practical::
+.. rst:directive:: practical
 
-       Some instructions here.
+   Directive for practical exercise.
 
-       .. spoiler:: warning
+   .. rst-example::
 
-          Hidden text which will display with class ``warning``.
+      .. practical::
 
-.. practical::
+         Some instructions here.
 
-   Some instructions here.
+         .. practical::
 
-   .. spoiler:: warning
+            Here is an exercise to complete
 
-      Hidden text which will display with class ``warning``.
+.. rst:directive:: practical-extension
+
+   Directive for practical exercise extensions.
+
+   .. rst-example::
+
+      .. practical-extension::
+
+         Here is a follow-on exercise
+
+.. rst:directive:: spoiler
+
+   Directive for content which is hidden by default.
+
+   .. rst-example::
+
+      .. spoiler:: Spoiled warning
+
+         Hidden text which will display with class ``warning``.
+
+   Arguments
+      title
+         Title to give the admonition
+      class
+         The admonition class to give this element (effects display)
+         i.e. one of:
+
+         * hint
+         * note
+         * warning
+         * error
 
 """
 

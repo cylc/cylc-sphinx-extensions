@@ -17,11 +17,16 @@
 # -----------------------------------------------------------------------------
 '''An extension providing pygments lexers for the Cylc suite.rc language.
 
-.. rubric:: Examples
 
-Pygments language: `cylc`
+Pygments Lexers
+---------------
 
-.. code-block:: rst
+``cylc``
+^^^^^^^^
+
+Lexer for the Cylc ``.rc`` language and ``suite.rc`` extensions.
+
+.. rst-example::
 
    .. code-block:: cylc
 
@@ -34,92 +39,57 @@ Pygments language: `cylc`
                       (foo & bar) => pub
                   """
 
-.. code-block:: cylc
+``cylc-graph``
+^^^^^^^^^^^^^^
 
-   [scheduling]
-       initial cycle point = 2000
-       [[dependencies]]
-           [[[P1Y]]]
-               graph = """
-                   @wall_clock => foo => bar
-                   (foo & bar) => pub
-               """
+Lexer for the Cylc "graph string" language.
 
-Pygments language: `cylc-graph`
-
-.. code-block:: rst
+.. rst-example::
 
    .. code-block:: cylc-graph
 
       @wall_clock => foo => bar
       (foo & bar) => pub
 
-.. code-block:: cylc-graph
 
-   @wall_clock => foo => bar
-   (foo & bar) => pub
+Domains
+-------
 
-Cylc Sphinx Domain
+Sphinx domain for ``cylc`` configurations.
 
-.. code-block:: rst
+``cylc``
+^^^^^^^^
+
+.. rst-example::
 
    .. cylc:conf:: my-conf.rc
 
-      .. cylc:setting:: foo
+     .. cylc:setting:: foo
 
-         a setting called ``foo``.
+        a setting called ``foo``.
 
-        see also :cylc:setting:`[bar]baz` (this is a relative reference)
+       see also :cylc:setting:`[bar]baz` (this is a relative reference)
 
-      .. cylc:section:: bar
+     .. cylc:section:: bar
 
-         a section called ``bar``.
+        a section called ``bar``.
 
-         .. cylc:setting:: baz
+        .. cylc:setting:: baz
 
-            a setting called ``baz``
+           a setting called ``baz``
 
-            .. cylc:value:: integer
+           .. cylc:value:: integer
 
-               :deprecated: 1.2.3
+              :deprecated: 1.2.3
 
-               seconds as an integer.
+              seconds as an integer.
 
-               the newer :cylc:value:`string` is prefered (this is also
-               a relative reference).
+              the newer :cylc:value:`string` is prefered (this is also
+              a relative reference).
 
-            .. cylc:value:: string
+           .. cylc:value:: string
 
-               an iso8601 duration.
-
-.. cylc:conf:: my-conf.rc
-
-  .. cylc:setting:: foo
-
-     a setting called ``foo``.
-
-    see also :cylc:setting:`[bar]baz` (this is a relative reference)
-
-  .. cylc:section:: bar
-
-     a section called ``bar``.
-
-     .. cylc:setting:: baz
-
-        a setting called ``baz``
-
-        .. cylc:value:: integer
-
-           :deprecated: 1.2.3
-
-           seconds as an integer.
-
-           the newer :cylc:value:`string` is prefered (this is also
-           a relative reference).
-
-        .. cylc:value:: string
-
-           an iso8601 duration.
+              an iso8601 duration.
 
 '''
 

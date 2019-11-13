@@ -2,40 +2,27 @@
 
 Re-styles the Sphinx built-in ``list-table`` directive.
 
-Extension is automatically loaded for all code diffs when it is added to
-a project's Sphinx extensions. No directives required.
+.. note::
 
-.. rubric:: Example
+   Extension is automatically loaded when added to extensions, no directives or
+   confiruations required.
 
-.. code-block:: rst
+
+.. rst-example::
 
    .. list-table::
       :class: grid-table
 
-      * - ..rubric:: Col1 Header
-        - ..rubric:: Col2 Header
+      * - .. rubric:: Col1 Header
+        - .. rubric:: Col2 Header
       * -
           .. code-block:: none
 
              Col 1 Row 1
-      * -
+        -
           .. code-block:: none
 
              Col 2 Row 1
-
-.. list-table::
-   :class: grid-table
-
-   * - .. rubric:: Col1 Header
-     - .. rubric:: Col2 Header
-   * -
-       .. code-block:: none
-
-          Col 1 Row 1
-     -
-       .. code-block:: none
-
-          Col 2 Row 1
 
 """
 

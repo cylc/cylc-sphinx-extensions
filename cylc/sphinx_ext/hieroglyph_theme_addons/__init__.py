@@ -8,6 +8,13 @@
 
 .. nextslide::
 
+.. note::
+
+   extension is automatically loaded when added to extensions, no directives or
+   confiruations required.
+
+.. nextslide::
+
 1. Make quotations small enough to fit on the slide.
 
    A quotation should not overwhelm the entire slide, it should fit in neatly

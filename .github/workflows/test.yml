@@ -21,6 +21,7 @@ jobs:
             node-version: '10.x'
       - name: install
         run: |
+          pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
           pip install -e .[all]
           npm install -g eslint
           sudo apt-get install -y graphviz
@@ -33,4 +34,8 @@ jobs:
           pytest
       - name: build
         run: |
-          make html linkcheck
+          make html slides linkcheck
+      - name: debug
+        if: failure()
+        run: |
+          cat /tmp/sphinx-err*  # sphinx traceback
