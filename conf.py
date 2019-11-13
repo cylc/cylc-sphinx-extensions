@@ -37,6 +37,7 @@ extensions = [
     'cylc.sphinx_ext.minicylc',
     'cylc.sphinx_ext.practical',
     'cylc.sphinx_ext.rtd_theme_addons',
+    'cylc.sphinx_ext.rst_example',
     'cylc.sphinx_ext.sub_lang',
 
     # addons required by extensions
