@@ -5,6 +5,7 @@ Available Extensions
 
 .. autosummary::
    :toctree: extensions
+   :template: mymodule.rst
 
    cylc.sphinx_ext.cylc_lang
    cylc.sphinx_ext.diff_selection

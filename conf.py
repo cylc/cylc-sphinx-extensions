@@ -45,3 +45,8 @@ extensions = [
 
 # minicylc settings
 graphviz_output_format = 'svg'
+
+templates_path = ['_templates']
+
+autosummary_generate = True
+autosummary_imported_members = True
