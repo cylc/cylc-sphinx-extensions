@@ -44,7 +44,8 @@ TESTS_REQUIRE = [
 
 REQS = {
     'cylc_lang': [
-        'pygments'
+        'pygments',
+        'cylc-flow'
     ],
     'hieroglyph_patch': [
         'hieroglyph'
