@@ -372,7 +372,7 @@ class CylcXRefRole(XRefRole):
             for context, _ in env.ref_context.items()
             if isinstance(context, tuple)
             and context[0] == 'cylc'
-        )) # TODO combine
+        ))  # TODO combine
         return title, target
 
 

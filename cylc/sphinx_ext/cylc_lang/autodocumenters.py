@@ -22,6 +22,7 @@ def get_vdr_info(vdr):
     except KeyError:
         return CylcConfigValidator.V_TYPE_HELP[vdr]
 
+
 def get_obj_from_module(namespace):
     """
         >>> get_obj_from_module('os')  # doctest: +ELLIPSIS
@@ -155,8 +156,6 @@ class CylcAutoDirective(Directive):
     option_spec = {}
     required_arguments = 1
     optional_arguments = 1
-
-
 
     @staticmethod
     def doc_conf(name):
