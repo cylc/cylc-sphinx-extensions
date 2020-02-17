@@ -102,8 +102,6 @@ class CylcAutoTypeDirective(Directive):
         ).run()
 
     def run(self):
-        print('#', self.arguments)
-
         if len(self.arguments) == 0:
             types = json.loads('\n'.join(self.content))
         else:
