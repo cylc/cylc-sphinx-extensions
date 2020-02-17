@@ -50,7 +50,7 @@ REQS = {
     'hieroglyph_patch': [
         'hieroglyph'
     ],
-    'hieroglyph_theme_addons': [
+    'hieroglyph_addons': [
         'hieroglyph'
     ],
     'rtd_theme_addons': [
@@ -77,7 +77,8 @@ setup(
     description='Sphinx extensions for documenting Cylc',
     long_description=open('README.rst', 'r').read(),
     install_requires=[
-        'sphinx>=2.1.0'
+        'sphinx>=2.1.0',
+        'docutils<0.16.0'
     ],
     tests_require=TESTS_REQUIRE,
     extras_require=REQS,
