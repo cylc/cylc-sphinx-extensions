@@ -59,3 +59,6 @@ autosummary_imported_members = True
 intersphinx_mapping = {
     'sphinx': ('http://www.sphinx-doc.org/', None)
 }
+
+# avoid issues with transitive files
+exclude_patterns = ['_build', 'venv', 'env']
