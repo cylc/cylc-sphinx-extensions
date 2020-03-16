@@ -1,9 +1,9 @@
-name: deploy
+name: release
 
-on: [published]
+on: [pull_request]
 
 jobs:
-  test:
+  gh-pages:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -12,14 +12,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
-      - name: configure node
-        uses: actions/setup-node@v1
-        with:
-            node-version: '10.x'
       - name: install
         run: |
           pip install -e .[all]
-          npm install -g eslint
           sudo apt-get install -y graphviz
       - name: build
         run: |
@@ -27,5 +22,6 @@ jobs:
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GH_PAGES_DEPlOY_KEY }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./_build/html
+          publish_branch: gh-pages
