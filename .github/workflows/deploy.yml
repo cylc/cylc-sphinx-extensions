@@ -1,6 +1,6 @@
 name: deploy
 
-on: [published]
+on: [pull_request]
 
 jobs:
   test:
