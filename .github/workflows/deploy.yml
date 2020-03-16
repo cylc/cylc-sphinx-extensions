@@ -1,0 +1,31 @@
+name: deploy
+
+on: [published]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: configure python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+      - name: configure node
+        uses: actions/setup-node@v1
+        with:
+            node-version: '10.x'
+      - name: install
+        run: |
+          pip install -e .[all]
+          npm install -g eslint
+          sudo apt-get install -y graphviz
+      - name: build
+        run: |
+          make html
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_PAGES_DEPlOY_KEY }}
+          publish_dir: ./_build/html
