@@ -37,6 +37,11 @@ __version__ = get_version(
 )
 
 
+TESTS_REQUIRE = [
+    'pytest'
+]
+
+
 REQS = {
     'cylc_lang': [
         'pygments'
@@ -57,7 +62,10 @@ REQS = {
         'pycodestyle'
     ]
 }
-REQS['all'] = list({x for y in REQS.values() for x in y})
+REQS['all'] = list(
+    {x for y in REQS.values() for x in y}
+    | set(TESTS_REQUIRE)
+)
 
 
 setup(
@@ -70,6 +78,7 @@ setup(
     install_requires=[
         'sphinx>=2.0.0'
     ],
+    tests_require=TESTS_REQUIRE,
     extras_require=REQS,
     packages=find_namespace_packages(include=["cylc.*"]),
     package_data={
