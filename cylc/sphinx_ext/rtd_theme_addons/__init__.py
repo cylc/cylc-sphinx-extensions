@@ -9,7 +9,7 @@
 .. note::
 
    extension is automatically loaded when added to extensions, no directives or
-   confiruations required.
+   configurations required.
 
 
 Modifications:

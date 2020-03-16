@@ -84,7 +84,7 @@ Sphinx domain for ``cylc`` configurations.
 
               seconds as an integer.
 
-              the newer :cylc:value:`string` is prefered (this is also
+              the newer :cylc:value:`string` is preferred (this is also
               a relative reference).
 
            .. cylc:value:: string

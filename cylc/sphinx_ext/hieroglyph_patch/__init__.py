@@ -32,7 +32,7 @@ minimum this hard-coded extension should suffice.
 .. note::
 
    extension is automatically loaded when added to extensions, no directives or
-   confiruations required.
+   configurations required.
 
 
 """

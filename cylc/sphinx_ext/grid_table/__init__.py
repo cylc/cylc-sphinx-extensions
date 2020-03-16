@@ -5,7 +5,7 @@ Re-styles the Sphinx built-in ``list-table`` directive.
 .. note::
 
    Extension is automatically loaded when added to extensions, no directives or
-   confiruations required.
+   configurations required.
 
 
 .. rst-example::

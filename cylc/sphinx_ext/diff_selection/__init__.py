@@ -8,7 +8,7 @@ Designed to assist with tutorial material for ``diff`` code-blocks:
 .. note::
 
    Extension is automatically loaded when added to extensions, no directives or
-   confiruations required.
+   configurations required.
 
 
 .. rubric:: Example
