@@ -28,7 +28,7 @@ Note the ``minicylc`` extension requires ``graphviz``::
 Usage
 -----
 
-To use an extension register it in your project's ``conf.py``::
+To use an extension register it in your project's ``conf.py`` e.g::
 
    extension = [
        'cylc.sphinx_ext.cylc_lang'
@@ -54,7 +54,7 @@ Extensions are auto-documented from their module docstrings.
 
 Build documentation by running::
 
-   $ make clean <format>  # e.g. make html
+   $ make clean <format>  # e.g. make html slides
 
 This documentation build serves as a simple test battery (warnings will cause
 it to fail), for everything else there's pytest::

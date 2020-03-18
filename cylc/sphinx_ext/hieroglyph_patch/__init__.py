@@ -29,6 +29,12 @@ It would be possible to patch the ``add_node`` method of the Sphinx application
 to patch extensions automatically but in the interests of keeping the hack to a
 minimum this hard-coded extension should suffice.
 
+.. note::
+
+   extension is automatically loaded when added to extensions, no directives or
+   configurations required.
+
+
 """
 
 import sphinx

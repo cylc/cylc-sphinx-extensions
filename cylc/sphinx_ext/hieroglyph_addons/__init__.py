@@ -8,6 +8,13 @@
 
 .. nextslide::
 
+.. note::
+
+   extension is automatically loaded when added to extensions, no directives or
+   configurations required.
+
+.. nextslide::
+
 1. Make quotations small enough to fit on the slide.
 
    A quotation should not overwhelm the entire slide, it should fit in neatly
@@ -44,6 +51,6 @@ __all__ = ['setup']
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_css_file('css/hieroglyph_theme_addons.css')
+    app.add_css_file('css/hieroglyph_addons.css')
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}

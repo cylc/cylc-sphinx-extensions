@@ -6,6 +6,12 @@
 
    These modifications only work in the `Read The Docs Theme`_
 
+.. note::
+
+   extension is automatically loaded when added to extensions, no directives or
+   configurations required.
+
+
 Modifications:
 
 1. Permit nested admonitions of differing class

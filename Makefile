@@ -1,7 +1,7 @@
 # Minimal makefile for Sphinx documentation
 
 # You can set these variables from the command line:
-SPHINXOPTS = -W
+SPHINXOPTS = -Wn
 SPHINXBUILD = sphinx-build
 SOURCEDIR = .
 BUILDDIR = _build
@@ -21,5 +21,4 @@ clean:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile cli
 	# build documentation
-	sphinx-autogen -i index.rst -o extensions
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

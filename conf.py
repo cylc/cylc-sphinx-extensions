@@ -27,15 +27,18 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.graphviz',
+    'sphinx.ext.intersphinx',
 
     # cylc.sphinx_ext extensions
     'cylc.sphinx_ext.cylc_lang',
     'cylc.sphinx_ext.diff_selection',
     'cylc.sphinx_ext.grid_table',
-    'cylc.sphinx_ext.hieroglyph_theme_addons',
+    'cylc.sphinx_ext.hieroglyph_addons',
+    'cylc.sphinx_ext.hieroglyph_patch',
     'cylc.sphinx_ext.minicylc',
     'cylc.sphinx_ext.practical',
     'cylc.sphinx_ext.rtd_theme_addons',
+    'cylc.sphinx_ext.rst_example',
     'cylc.sphinx_ext.sub_lang',
 
     # addons required by extensions
@@ -45,3 +48,17 @@ extensions = [
 
 # minicylc settings
 graphviz_output_format = 'svg'
+graphviz_dot_args = ['-Gfontname=sans', '-Nfontname=sans', '-Gbgcolor=none']
+
+# autosummary options
+templates_path = ['_templates']
+autosummary_generate = True
+autosummary_imported_members = True
+
+# external references
+intersphinx_mapping = {
+    'sphinx': ('http://www.sphinx-doc.org/', None)
+}
+
+# avoid issues with transitive files
+exclude_patterns = ['_build', 'venv', 'env']

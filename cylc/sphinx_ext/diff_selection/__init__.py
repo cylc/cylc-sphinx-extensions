@@ -5,8 +5,11 @@ Designed to assist with tutorial material for ``diff`` code-blocks:
 * Makes ``-`` lines non-selectable.
 * Makes ``+`` symbol non-selectable.
 
-Extension is automatically loaded for all code diffs when it is added to
-a project's Sphinx extensions. No directives required.
+.. note::
+
+   Extension is automatically loaded when added to extensions, no directives or
+   configurations required.
+
 
 .. rubric:: Example
 
