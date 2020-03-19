@@ -1,6 +1,9 @@
 name: release
 
-on: [pull_request]
+# on: [publish]
+on:
+  schedule:
+    - cron: '*t /30 * * * *'
 
 jobs:
   gh-pages:
@@ -14,8 +17,9 @@ jobs:
           python-version: '3.7'
       - name: install
         run: |
-          pip install -e .[all]
           sudo apt-get install -y graphviz
+          pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
+          pip install -e .[all]
       - name: build
         run: |
           make html
