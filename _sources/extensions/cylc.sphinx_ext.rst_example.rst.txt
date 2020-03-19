@@ -1,0 +1,6 @@
+
+
+rst\_example
+============
+
+.. automodule:: cylc.sphinx_ext.rst_example

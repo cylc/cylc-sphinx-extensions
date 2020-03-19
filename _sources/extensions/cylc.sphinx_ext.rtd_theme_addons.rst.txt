@@ -1,0 +1,6 @@
+
+
+rtd\_theme\_addons
+==================
+
+.. automodule:: cylc.sphinx_ext.rtd_theme_addons

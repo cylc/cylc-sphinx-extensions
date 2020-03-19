@@ -1,0 +1,6 @@
+
+
+diff\_selection
+===============
+
+.. automodule:: cylc.sphinx_ext.diff_selection

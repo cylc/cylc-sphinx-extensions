@@ -1,0 +1,6 @@
+
+
+cylc\_lang
+==========
+
+.. automodule:: cylc.sphinx_ext.cylc_lang

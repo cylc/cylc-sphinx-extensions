@@ -1,0 +1,6 @@
+
+
+minicylc
+========
+
+.. automodule:: cylc.sphinx_ext.minicylc

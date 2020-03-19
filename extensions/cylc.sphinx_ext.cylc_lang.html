@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/diff_selector.js"></script>
+        <script src="../_static/js/minicylc.js"></script>
+        <script src="../_static/js/spoiler.js"></script>
+        <script src="../_static/js/addons.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/diff_selector.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/grid_table.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/hieroglyph_addons.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/addons.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="diff_selection" href="cylc.sphinx_ext.diff_selection.html" />
+    <link rel="prev" title="Cylc Sphinx Extensions" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Cylc Sphinx Extensions
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">cylc_lang</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pygments-lexers">Pygments Lexers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cylc"><code class="docutils literal notranslate"><span class="pre">cylc</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cylc-graph"><code class="docutils literal notranslate"><span class="pre">cylc-graph</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#domains">Domains</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">cylc</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#auto-documenters">Auto Documenters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.diff_selection.html">diff_selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.grid_table.html">grid_table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_addons.html">hieroglyph_addons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_patch.html">hieroglyph_patch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.minicylc.html">minicylc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.practical.html">practical</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.rtd_theme_addons.html">rtd_theme_addons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.rst_example.html">rst_example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.sub_lang.html">sub_lang</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cylc Sphinx Extensions</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cylc_lang</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/extensions/cylc.sphinx_ext.cylc_lang.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cylc.sphinx_ext.cylc_lang">
+<span id="cylc-lang"></span><h1>cylc_lang<a class="headerlink" href="#module-cylc.sphinx_ext.cylc_lang" title="Permalink to this headline">¶</a></h1>
+<p>An extension providing pygments lexers for the Cylc suite.rc language.</p>
+<div class="section" id="pygments-lexers">
+<h2>Pygments Lexers<a class="headerlink" href="#pygments-lexers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cylc">
+<h3><code class="docutils literal notranslate"><span class="pre">cylc</span></code><a class="headerlink" href="#cylc" title="Permalink to this headline">¶</a></h3>
+<p>Lexer for the Cylc <code class="docutils literal notranslate"><span class="pre">.rc</span></code> language and <code class="docutils literal notranslate"><span class="pre">suite.rc</span></code> extensions.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">cylc</span>
+
+<span class="s">   [scheduling]</span>
+<span class="s">       initial cycle point = 2000</span>
+<span class="s">       [[dependencies]]</span>
+<span class="s">           [[[P1Y]]]</span>
+<span class="s">               graph = &quot;&quot;&quot;</span>
+<span class="s">                   @wall_clock =&gt; foo =&gt; bar</span>
+<span class="s">                   (foo &amp; bar) =&gt; pub</span>
+<span class="s">               &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<dd><div class="highlight-cylc notranslate"><div class="highlight"><pre><span></span><span class="nt">[scheduling]</span>
+    <span class="nv">initial cycle point </span><span class="o">=</span><span class="s"> 2000</span>
+    <span class="nt">[[dependencies]]</span>
+        <span class="nt">[[[P1Y]]]</span>
+            <span class="nv">graph</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+                <span class="cp">@wall_clock</span> <span class="o">=&gt;</span> <span class="kd">foo</span> <span class="o">=&gt;</span> <span class="kd">bar</span>
+                <span class="p">(</span><span class="kd">foo</span> <span class="o">&amp;</span> <span class="kd">bar</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kd">pub</span>
+            <span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</dd></div>
+<div class="section" id="cylc-graph">
+<h3><code class="docutils literal notranslate"><span class="pre">cylc-graph</span></code><a class="headerlink" href="#cylc-graph" title="Permalink to this headline">¶</a></h3>
+<p>Lexer for the Cylc “graph string” language.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">cylc-graph</span>
+
+<span class="s">   @wall_clock =&gt; foo =&gt; bar</span>
+<span class="s">   (foo &amp; bar) =&gt; pub</span>
+</pre></div>
+</div>
+<dd><div class="highlight-cylc-graph notranslate"><div class="highlight"><pre><span></span><span class="cp">@wall_clock</span> <span class="o">=&gt;</span> <span class="kd">foo</span> <span class="o">=&gt;</span> <span class="kd">bar</span>
+<span class="p">(</span><span class="kd">foo</span> <span class="o">&amp;</span> <span class="kd">bar</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kd">pub</span>
+</pre></div>
+</div>
+</dd></div>
+</div>
+<div class="section" id="domains">
+<h2>Domains<a class="headerlink" href="#domains" title="Permalink to this headline">¶</a></h2>
+<p>Sphinx domain for <code class="docutils literal notranslate"><span class="pre">cylc</span></code> configurations.</p>
+<div class="section" id="id1">
+<h3><code class="docutils literal notranslate"><span class="pre">cylc</span></code><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">cylc:conf</span><span class="p">::</span> my-conf1.rc
+
+<span class="p">  ..</span> <span class="ow">cylc:setting</span><span class="p">::</span> foo
+
+     a setting called <span class="s">``foo``</span>.
+
+    see also <span class="na">:cylc:setting:</span><span class="nv">`[bar]pub`</span> (this is a relative reference)
+
+<span class="p">  ..</span> <span class="ow">cylc:section</span><span class="p">::</span> bar
+
+     a section called <span class="s">``bar``</span>.
+
+<span class="p">     ..</span> <span class="ow">cylc:setting</span><span class="p">::</span> pub
+
+        a setting called <span class="s">``pub``</span>
+
+<span class="p">        ..</span> <span class="ow">cylc:value</span><span class="p">::</span> integer
+
+           <span class="nc">:deprecated:</span> 1.2.3
+
+           seconds as an integer.
+
+           the newer <span class="na">:cylc:value:</span><span class="nv">`string`</span> is preferred (this is also
+           a relative reference).
+
+<span class="p">        ..</span> <span class="ow">cylc:value</span><span class="p">::</span> string
+
+           an iso8601 duration.
+</pre></div>
+</div>
+<dd><dl class="conf">
+<dt id="my-conf1.rc">
+<code class="sig-name descname">my-conf1.rc</code><a class="headerlink" href="#my-conf1.rc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="setting">
+<dt id="my-conf1.rc|foo">
+<code class="sig-name descname">foo</code><a class="headerlink" href="#my-conf1.rc|foo" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>a setting called <code class="docutils literal notranslate"><span class="pre">foo</span></code>.</p>
+</div></blockquote>
+<p>see also <a class="reference internal" href="#my-conf1.rc[bar]pub" title="my-conf1.rc[bar]pub"><code class="xref cylc cylc-setting docutils literal notranslate"><span class="pre">[bar]pub</span></code></a> (this is a relative reference)</p>
+</dd></dl>
+
+<dl class="section">
+<dt id="my-conf1.rc[bar]">
+<code class="sig-name descname">bar</code><a class="headerlink" href="#my-conf1.rc[bar]" title="Permalink to this definition">¶</a></dt>
+<dd><p>a section called <code class="docutils literal notranslate"><span class="pre">bar</span></code>.</p>
+<dl class="setting">
+<dt id="my-conf1.rc[bar]pub">
+<code class="sig-name descname">pub</code><a class="headerlink" href="#my-conf1.rc[bar]pub" title="Permalink to this definition">¶</a></dt>
+<dd><p>a setting called <code class="docutils literal notranslate"><span class="pre">pub</span></code></p>
+<dl class="value">
+<dt id="my-conf1.rc[bar]pub=integer">
+<code class="sig-name descname">integer</code><a class="headerlink" href="#my-conf1.rc[bar]pub=integer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Deprecated</dt>
+<dd class="field-odd"><p>1.2.3</p>
+</dd>
+</dl>
+<p>seconds as an integer.</p>
+<p>the newer <a class="reference internal" href="#my-conf1.rc[bar]pub=string" title="my-conf1.rc[bar]pub=string"><code class="xref cylc cylc-value docutils literal notranslate"><span class="pre">string</span></code></a> is preferred (this is also
+a relative reference).</p>
+</dd></dl>
+
+<dl class="value">
+<dt id="my-conf1.rc[bar]pub=string">
+<code class="sig-name descname">string</code><a class="headerlink" href="#my-conf1.rc[bar]pub=string" title="Permalink to this definition">¶</a></dt>
+<dd><p>an iso8601 duration.</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd></div>
+</div>
+<div class="section" id="auto-documenters">
+<h2>Auto Documenters<a class="headerlink" href="#auto-documenters" title="Permalink to this headline">¶</a></h2>
+<dl class="directive">
+<dt id="directive-auto-cylc-conf">
+<code class="sig-name descname">.. auto-cylc-conf::</code><a class="headerlink" href="#directive-auto-cylc-conf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directive for documenting Parsec specification dictionaries.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">auto-cylc-conf</span><span class="p">::</span> name-of-conf python.namespace.SPEC
+</pre></div>
+</div>
+<p>For development the <code class="docutils literal notranslate"><span class="pre">SPEC</span></code> can alternatively be provided in JSON
+format in the directive body.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">auto-cylc-conf</span><span class="p">::</span> my-conf2.rc
+
+   {
+       &quot;foo&quot;: {
+           &quot;bar&quot;: {
+               &quot;pub&quot;: [&quot;V_BOOLEAN&quot;, &quot;True&quot;]
+           },
+           &quot;baz&quot;: [&quot;V_BOOLEAN&quot;, &quot;True&quot;, &quot;True&quot;, &quot;False&quot;]
+       }
+   }
+
+Expected usage would look like this:
+
+<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> rst
+
+<span class="p">   ..</span> <span class="ow">auto-cylc-conf</span><span class="p">::</span> suite cylc.flow.cfgspec.suite.SPEC
+</pre></div>
+</div>
+<dd><dd><dl class="conf">
+<dt id="my-conf2.rc">
+<code class="sig-name descname">my-conf2.rc</code><a class="headerlink" href="#my-conf2.rc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="section">
+<dt id="my-conf2.rc[foo]">
+<code class="sig-name descname">foo</code><a class="headerlink" href="#my-conf2.rc[foo]" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="section">
+<dt id="my-conf2.rc[foo][bar]">
+<code class="sig-name descname">bar</code><a class="headerlink" href="#my-conf2.rc[foo][bar]" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="setting">
+<dt id="my-conf2.rc[foo][bar]pub">
+<code class="sig-name descname">pub</code><a class="headerlink" href="#my-conf2.rc[foo][bar]pub" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+<dt class="field-even">Default</dt>
+<dd class="field-even"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="setting">
+<dt id="my-conf2.rc[foo]baz">
+<code class="sig-name descname">baz</code><a class="headerlink" href="#my-conf2.rc[foo]baz" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+<dt class="field-even">Default</dt>
+<dd class="field-even"><p>True</p>
+</dd>
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</dd><p>Expected usage would look like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">auto-cylc-conf</span><span class="p">::</span> suite cylc.flow.cfgspec.suite.SPEC
+</pre></div>
+</div>
+</dd></dd></dl>
+
+<dl class="directive">
+<dt id="directive-auto-cylc-type">
+<code class="sig-name descname">.. auto-cylc-type::</code><a class="headerlink" href="#directive-auto-cylc-type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directive for documenting Parsec types.</p>
+<p>Extracts type information from <code class="docutils literal notranslate"><span class="pre">cylc.flow</span></code>, or, for development purposes,
+from JSON in the directive body.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">auto-cylc-type</span><span class="p">::</span>
+
+   [
+       {
+           &quot;name&quot;: &quot;boolean&quot;,
+           &quot;help&quot;: &quot;A boolean in Python format&quot;,
+           &quot;options&quot;: [&quot;True&quot;, &quot;False&quot;],
+           &quot;examples&quot;: {
+               &quot;True&quot;: &quot;/usr/bin/true to your heart&quot;,
+               &quot;False&quot;: &quot;oh noes&quot;
+           },
+           &quot;references&quot;: [
+               [&quot;rst:dir&quot;, &quot;auto-cylc-type&quot;]
+           ]
+       }
+   ]
+
+Expected usage would look like this:
+
+<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">rst</span>
+
+   <span class="p">..</span> <span class="ow">auto-cylc-type</span><span class="p">::</span>
+      cylc.flow.parsec.validate.ParsecValidator.V_TYPE_HELP
+      cylc.flow.parsec.validate.CylcConfigValidator.V_TYPE_HELP
+</pre></div>
+</div>
+<dd><dl class="describe">
+<dt>
+<code class="sig-name descname">boolean</code></dt>
+<dd><p>A boolean in Python format</p>
+<p class="rubric">Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code> - <em>/usr/bin/true to your heart</em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code> - <em>oh noes</em></p></li>
+</ul>
+<p class="rubric">See Also:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#directive-auto-cylc-type" title="auto-cylc-type directive"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">auto-cylc-type</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+<p>Expected usage would look like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">auto-cylc-type</span><span class="p">::</span>
+   cylc.flow.parsec.validate.ParsecValidator.V_TYPE_HELP
+   cylc.flow.parsec.validate.CylcConfigValidator.V_TYPE_HELP
+</pre></div>
+</div>
+</dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cylc.sphinx_ext.diff_selection.html" class="btn btn-neutral float-right" title="diff_selection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="Cylc Sphinx Extensions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

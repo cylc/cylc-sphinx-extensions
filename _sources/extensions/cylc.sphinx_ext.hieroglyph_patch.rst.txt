@@ -1,0 +1,6 @@
+
+
+hieroglyph\_patch
+=================
+
+.. automodule:: cylc.sphinx_ext.hieroglyph_patch

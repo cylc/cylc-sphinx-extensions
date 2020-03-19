@@ -1,0 +1,6 @@
+
+
+practical
+=========
+
+.. automodule:: cylc.sphinx_ext.practical

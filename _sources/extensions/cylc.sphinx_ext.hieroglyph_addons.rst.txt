@@ -1,0 +1,6 @@
+
+
+hieroglyph\_addons
+==================
+
+.. automodule:: cylc.sphinx_ext.hieroglyph_addons
