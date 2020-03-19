@@ -1,7 +1,7 @@
 Cylc Sphinx Extensions
 ======================
 
-A library of extensions for documenting Cylc projects.
+A library of Sphinx extensions for documenting Cylc projects.
 
 
 Installation
