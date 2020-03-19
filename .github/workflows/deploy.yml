@@ -23,6 +23,6 @@ jobs:
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.FOO }}
+          deploy_key: elephant
           publish_dir: ./_build/html
           publish_branch: gh-pages
