@@ -1,9 +1,6 @@
 name: release
 
-# on: [publish]
-on:
-  schedule:
-    - cron: '*/30 * * * *'
+on: [publish]
 
 jobs:
   gh-pages:
