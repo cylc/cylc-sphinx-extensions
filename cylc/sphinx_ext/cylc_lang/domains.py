@@ -5,6 +5,7 @@ from sphinx import addnodes
 from sphinx.directives import ObjectDescription
 from sphinx.domains import Domain, ObjType
 from sphinx.roles import XRefRole
+from sphinx.util import ws_re
 from sphinx.util.nodes import make_refnode
 
 
@@ -478,6 +479,120 @@ class CylcDomain(Domain):
 
         # standardise the display text
         display = detokenise(tokens)
+
+        # build and return a reference node
+        return make_refnode(
+            builder,
+            fromdocname,
+            docname,
+            display,
+            contnode,
+            display
+        )
+
+
+# The following is a minimal domain for documenting parsec objects:
+
+def parsec_ref(tokens):
+    """The detokenise equivalent for parsec (much simpler).i
+
+    Example:
+        >>> parsec_ref(('domain_name', 'object_type', 'object name'))
+        'domain_name-object_type-object_name'
+
+    """
+    return ('-'.join(tokens)).replace(' ', '_')
+
+
+class ParsecDirective(ObjectDescription):
+    """Base directive for parsec objects."""
+
+    DOMAIN = 'parsec'
+    TYP = None
+
+    def handle_signature(self, sig, signode):
+        signode += addnodes.desc_name(sig, sig)
+        return sig
+
+    def add_target_and_index(self, sig, _, signode):
+        tokens = (self.DOMAIN, self.TYP, sig)
+        # register this item with the cylc domain
+        self.env.domains[self.DOMAIN].set(tokens, self.env.docname)
+        # associate this node with the fqdn (allows hyperlinks)
+        signode['ids'].append(parsec_ref(tokens))
+
+
+class ParsecTypeDirective(ParsecDirective):
+    """Directive for parsec "types" i.e. validators."""
+
+    TYP = 'type'
+
+
+class ParsecDomain(Domain):
+    """Domain for documenting primitive parsec objects.
+
+    This way they become referenceable objects we can link to from other
+    sections. This "domain" is a minimal facade to achieve this.
+
+    """
+
+    name = 'parsec'
+    label = 'Parsec'
+
+    object_types = {
+        'type': ObjType('type', 'type', 'obj')
+    }
+
+    directives = {
+        'type': ParsecTypeDirective
+    }
+
+    roles = {
+        'type': XRefRole()
+    }
+
+    initial_data = {
+        'objects': {}
+    }
+
+    dangling_warnings = {
+    }
+
+    def set(self, tokens, docname):
+        self.data['objects'][tokens] = docname
+
+    def get(self, tokens):
+        return self.data['objects'][tokens]
+
+    def get_objects(self):
+        for tokens, docname in self.data['objects'].items():
+            name = tokens[-1]
+            dispname = name
+            anchor = name
+            priority = 1
+            yield(
+                name,
+                dispname,
+                'type',
+                docname,
+                anchor,
+                priority
+            )
+
+    def resolve_xref(
+        self, env, fromdocname, builder, typ, target, node, contnode
+    ):
+        tokens = ('parsec', typ, target)
+
+        # get the page this item is documented on
+        try:
+            docname = self.get(tokens)
+        except KeyError:
+            # object does not exist, "nitpicky" mode will pick this up
+            return None
+
+        # detokenise
+        display = parsec_ref(tokens)
 
         # build and return a reference node
         return make_refnode(

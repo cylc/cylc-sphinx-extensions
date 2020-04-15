@@ -164,7 +164,10 @@ from cylc.sphinx_ext.cylc_lang.autodocumenters import (
     CylcAutoDirective,
     CylcAutoTypeDirective
 )
-from cylc.sphinx_ext.cylc_lang.domains import CylcDomain
+from cylc.sphinx_ext.cylc_lang.domains import (
+    ParsecDomain,
+    CylcDomain
+)
 from cylc.sphinx_ext.cylc_lang.lexers import CylcLexer, CylcGraphLexer
 
 
@@ -184,6 +187,7 @@ def setup(app):
     app.add_lexer('cylc', CylcLexer())
     app.add_lexer('cylc-graph', CylcGraphLexer())
     app.add_domain(CylcDomain)
+    app.add_domain(ParsecDomain)
     app.add_directive('auto-cylc-conf', CylcAutoDirective)
     app.add_directive('auto-cylc-type', CylcAutoTypeDirective)
     return {'version': __version__, 'parallel_read_safe': True}
