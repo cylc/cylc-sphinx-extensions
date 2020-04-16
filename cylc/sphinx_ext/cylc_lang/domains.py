@@ -115,12 +115,17 @@ def tokenise(namespace_string):
 def detokenise(namespace_tokens):
     """
     Examples:
+        Full namespace
         >>> detokenise(tokenise('x[a][b][c]d=e'))
         'x[a][b][c]d=e'
         >>> detokenise(tokenise('x|a'))
         'x|a'
         >>> detokenise(tokenise('a'))
         'a'
+
+        Partial namespace
+        >>> detokenise({'section': 'a'})
+        '[a]'
 
     """
     ret = ''
@@ -262,10 +267,6 @@ class CylcDirective(ObjectDescription):
 
         index_node, cont_node = ObjectDescription.run(self)
 
-        # cont_node.ref_context = {
-        #     self.ref_context_key: None
-        # }
-
         return [index_node, cont_node]
 
     def before_content(self):
@@ -298,11 +299,18 @@ class CylcDirective(ObjectDescription):
 
     def handle_signature(self, sig, signode):
         sig, value = self.sanitise_signature(sig)
-        signode += addnodes.desc_name(sig, sig)
+        # signode += addnodes.desc_name(sig, sig)
+        signode += addnodes.desc_name(sig, self.display_name())
         if value:
             annotation = f' = {value}'
             signode += addnodes.desc_annotation(annotation, annotation)
         return (sig, self.NAME, sig)
+
+    def display_name(self):
+        sig = self.arguments[0]
+        if self.NAME == CylcSectionDirective.NAME:
+            sig = [sig]
+        return detokenise({self.NAME: sig})
 
     def get_tokens(self, sig):
         return tokens_from_partials(
