@@ -16,10 +16,12 @@ KEYS = {
     'value': lambda s: f'={s}'
 }
 
+# NOTE we allow `<...>` because this is used for custom sections
+# (i.e. for `__MANY__` items)
 CYLC_WORD = r'''
-    (?:[\w\-\_])?
+    (?:[\<\w\-\_])?
     (?:[\w\-\_][\w\-\_ \.]+)?
-    [\w]
+    [\w\>]
 '''
 
 REGEX = re.compile(

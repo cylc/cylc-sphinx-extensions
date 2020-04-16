@@ -128,7 +128,7 @@ def doc_setting(item):
 
     return directive(
         'cylc:setting',
-        [item.name],
+        [item.display_name],
         {},
         fields,
         item.desc
@@ -138,7 +138,7 @@ def doc_setting(item):
 def doc_section(item):
     return directive(
         'cylc:section',
-        [item.name],
+        [item.display_name],
         {},
         {},
         item.desc
