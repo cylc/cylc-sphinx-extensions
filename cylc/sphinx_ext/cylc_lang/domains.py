@@ -299,7 +299,6 @@ class CylcDirective(ObjectDescription):
 
     def handle_signature(self, sig, signode):
         sig, value = self.sanitise_signature(sig)
-        # signode += addnodes.desc_name(sig, sig)
         signode += addnodes.desc_name(sig, self.display_name())
         if value:
             annotation = f' = {value}'
