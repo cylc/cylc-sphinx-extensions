@@ -467,7 +467,11 @@ class CylcDomain(Domain):
         # get tokens for the object we are trying to reference
         tokens = tokenise(target)
 
-        # check if we have a relative reference
+        if not tokens['conf']:
+            # TODO: allow setting relative from anywhere with context cmd
+            tokens['conf'] = 'suite.rc'
+
+        # check if we have a relative reference from a definition
         if len([key for key, value in tokens.items() if value]) < 2:
             if typ == 'section':
                 tokens = {typ: (target,)}
