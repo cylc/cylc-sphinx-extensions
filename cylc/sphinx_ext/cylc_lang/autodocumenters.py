@@ -9,17 +9,9 @@ from docutils.parsers.rst import Directive
 from docutils.statemachine import StringList
 
 from sphinx import addnodes
-from sphinx.directives import ObjectDescription
 
 from cylc.flow.parsec.config import ConfigNode
 from cylc.flow.parsec.validate import ParsecValidator, CylcConfigValidator
-from cylc.sphinx_ext.cylc_lang.domains import (
-    CylcConfDirective,
-    CylcSectionDirective,
-    CylcSettingDirective,
-    CylcValueDirective,
-    ParsecDirective
-)
 
 
 def get_vdr_info(vdr):
@@ -103,9 +95,9 @@ def directive(
     if content:
         ret.extend(
             indent(
-                # remove indentation and head,tail blanklines
+                # remove indentation and head,tail blanklines
                 dedent(content).strip(),
-                # add the directive indentation
+                # add the directive indentation
                 '   '
             ).splitlines()
         )
@@ -164,13 +156,13 @@ def doc_spec(spec):
                 doc_conf(item)
             )
         elif item.is_leaf():
-            # setting
+            # setting
             ret.extend([
                 indent(line, '   ' * level)
                 for line in doc_setting(item)
             ])
         else:
-            # section
+            # section
             ret.extend([
                 indent(line, '   ' * level)
                 for line in doc_section(item)
@@ -209,9 +201,8 @@ class CylcAutoDirective(Directive):
     optional_arguments = 1
 
     def run(self):
-        conf_name = self.arguments[0].strip()
         if len(self.arguments) == 2:
-            spec = get_obj_from_module(self.arguments[1].strip())
+            spec = get_obj_from_module(self.arguments[0].strip())
         else:
             spec = json.loads('\n'.join(self.content))
 

@@ -109,6 +109,7 @@ def test_directive():
         ''
     ]
 
+
 @pytest.fixture
 def simple_setting():
     """A leaf-node configuration."""
@@ -125,6 +126,7 @@ def option_setting():
 def default_setting():
     """A leaf-node configuration with a default."""
     return ConfigNode('default-setting', VDR.V_STRING, default='x')
+
 
 @pytest.fixture
 def documented_setting():
