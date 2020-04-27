@@ -11,6 +11,7 @@ from docutils.statemachine import StringList
 from sphinx import addnodes
 from sphinx.directives import ObjectDescription
 
+from cylc.flow.parsec.config import ConfigNode
 from cylc.flow.parsec.validate import ParsecValidator, CylcConfigValidator
 from cylc.sphinx_ext.cylc_lang.domains import (
     CylcConfDirective,
@@ -118,7 +119,7 @@ def doc_setting(item):
     if item.vdr:
         vdr_info = get_vdr_info(item.vdr)
         fields['type'] = f':parsec:type:`{vdr_info[0]}`'
-    if item.default:
+    if item.default and item.default != ConfigNode.UNSET:
         fields['default'] = f'``{item.default}``'
     if item.options:
         fields['options'] = ', '.join(
