@@ -106,13 +106,30 @@ def directive(
     return ret
 
 
+def repr_value(value):
+    """Return a string repr for a configuration value.
+
+        >>> doc_default([1, 2, 3])
+        '1, 2, 3'
+
+        >>> doc_default(['a b', 'c d'])
+        "'a b', 'c d'"
+    """
+    if isinstance(value, list):
+        return ', '.join((
+            f"'{x}'" if ' ' in str(x) else f'{x}'
+            for x in value
+        ))
+    return str(value)
+
+
 def doc_setting(item):
     fields = {}
     if item.vdr:
         vdr_info = get_vdr_info(item.vdr)
         fields['type'] = f':parsec:type:`{vdr_info[0]}`'
     if item.default and item.default != ConfigNode.UNSET:
-        fields['default'] = f'``{item.default}``'
+        fields['default'] = f'``{repr_value(item.default)}``'
     if item.options:
         fields['options'] = ', '.join(
             f'``{option}``'
@@ -201,7 +218,7 @@ class CylcAutoDirective(Directive):
     optional_arguments = 1
 
     def run(self):
-        if len(self.arguments) == 2:
+        if len(self.arguments) == 1:
             spec = get_obj_from_module(self.arguments[0].strip())
         else:
             spec = json.loads('\n'.join(self.content))
