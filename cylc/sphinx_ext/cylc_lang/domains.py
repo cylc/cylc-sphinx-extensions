@@ -461,6 +461,10 @@ class CylcDomain(Domain):
     def resolve_xref(
         self, env, fromdocname, builder, typ, target, node, contnode
     ):
+        # remove the value from a reference if present
+        target, *_ = target.rsplit('=', 1)
+        target = target.strip()
+
         # strip intersphinx mapping
         # TODO
 
