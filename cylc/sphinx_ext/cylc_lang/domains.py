@@ -41,6 +41,7 @@ REGEX = re.compile(
             (?:\[(?P<section1>{CYLC_WORD})\])?
             (?:\[(?P<section2>{CYLC_WORD})\])?
             (?:\[(?P<section3>{CYLC_WORD})\])?
+            (?:\[(?P<section4>{CYLC_WORD})\])?
         )|(?:
             \|
         )
