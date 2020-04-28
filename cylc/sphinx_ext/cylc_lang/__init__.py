@@ -68,7 +68,11 @@ Sphinx domain for ``cylc`` configurations.
 
         a setting called ``foo``.
 
-       see also :cylc:setting:`[bar]pub` (this is a relative reference)
+        We can use relative references to link to other sections in the
+        same configuration tree. Just use ``..`` to back up a level
+        like this: :cylc:conf:`[..][bar]pub`
+
+        Note the ``[..]`` will disappear when the docs are built.
 
      .. cylc:section:: bar
 
@@ -84,12 +88,13 @@ Sphinx domain for ``cylc`` configurations.
 
               seconds as an integer.
 
-              the newer :cylc:value:`string` is preferred (this is also
+              the newer :cylc:value:`..=string` is preferred (this is also
               a relative reference).
 
            .. cylc:value:: string
 
               an iso8601 duration.
+
 
 Auto Documenters
 ----------------
@@ -101,28 +106,6 @@ Auto Documenters
    .. code-block:: rst
 
       .. auto-cylc-conf:: name-of-conf python.namespace.SPEC
-
-   For development the ``SPEC`` can alternatively be provided in JSON
-   format in the directive body.
-
-   .. rst-example::
-
-      .. auto-cylc-conf:: my-conf2.rc
-
-         {
-             "foo": {
-                 "bar": {
-                     "pub": ["V_BOOLEAN", "True"]
-                 },
-                 "baz": ["V_BOOLEAN", "True", "True", "False"]
-             }
-         }
-
-      Expected usage would look like this:
-
-      .. code-block:: rst
-
-         .. auto-cylc-conf:: suite cylc.flow.cfgspec.suite.SPEC
 
 .. rst:directive:: auto-cylc-type
 
@@ -158,6 +141,30 @@ Auto Documenters
             cylc.flow.parsec.validate.ParsecValidator.V_TYPE_HELP
             cylc.flow.parsec.validate.CylcConfigValidator.V_TYPE_HELP
 
+
+Directives
+----------
+
+.. rst:directive:: cylc-scope
+
+   Sets the context for cylc object references.
+
+   .. rst-example::
+
+      .. cylc-scope:: my-conf1.rc[bar]
+
+      Lets head to the :cylc:conf:`pub`.
+
+   .. rst-example::
+
+      Always be nice and reset the scope afterwards.
+
+      .. cylc-scope::
+
+      .. note::
+
+         This resets it to the hardcoded default which is ``suite.rc``.
+
 '''
 
 from cylc.sphinx_ext.cylc_lang.autodocumenters import (
@@ -166,7 +173,8 @@ from cylc.sphinx_ext.cylc_lang.autodocumenters import (
 )
 from cylc.sphinx_ext.cylc_lang.domains import (
     ParsecDomain,
-    CylcDomain
+    CylcDomain,
+    CylcScopeDirective
 )
 from cylc.sphinx_ext.cylc_lang.lexers import CylcLexer, CylcGraphLexer
 
@@ -190,4 +198,5 @@ def setup(app):
     app.add_domain(ParsecDomain)
     app.add_directive('auto-cylc-conf', CylcAutoDirective)
     app.add_directive('auto-cylc-type', CylcAutoTypeDirective)
+    app.add_directive('cylc-scope', CylcScopeDirective)
     return {'version': __version__, 'parallel_read_safe': True}

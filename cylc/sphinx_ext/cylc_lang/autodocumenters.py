@@ -109,10 +109,10 @@ def directive(
 def repr_value(value):
     """Return a string repr for a configuration value.
 
-        >>> doc_default([1, 2, 3])
+        >>> repr_value([1, 2, 3])
         '1, 2, 3'
 
-        >>> doc_default(['a b', 'c d'])
+        >>> repr_value(['a b', 'c d'])
         "'a b', 'c d'"
     """
     if isinstance(value, list):
