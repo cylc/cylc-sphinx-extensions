@@ -78,6 +78,9 @@ Sphinx domain for ``cylc`` configurations.
 
         a section called ``bar``.
 
+        Here's a link to :cylc:conf:`this section <my-conf1.rc[bar]>`, note
+        we re-named the target using the sphinx/rst ``name <target>`` syntax.
+
         .. cylc:setting:: pub
 
            a setting called ``pub``

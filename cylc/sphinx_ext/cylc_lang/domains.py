@@ -1,16 +1,14 @@
-import logging
 import re
 
 from sphinx import addnodes
 from sphinx.directives import ObjectDescription
 from sphinx.domains import Domain, ObjType
 from sphinx.roles import XRefRole
-from sphinx.util import ws_re
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import make_refnode
 
 
-DEFAULT_SCOPE = 'suite.rc|'
+DEFAULT_SCOPE = 'suite.rc'
 
 KEYS = {
     'conf': lambda s: f'{s}',
@@ -19,18 +17,12 @@ KEYS = {
     'value': lambda s: f'={s}'
 }
 
-# NOTE we allow `<...>` because this is used for custom sections
-# (i.e. for `__MANY__` items)
+# NOTE we allow `<...>` because this is used for custom sections
+# (i.e. for `__MANY__` items)
 CYLC_WORD = r'''
-    (?:
-        (?:
-            (?:[\<\w\-\_])?
-            (?:[\w\-\_][\w\-\_ \.]+)?
-            [\w\>]
-        ) | (?:
-            \.\.
-        )
-    )
+    (?:[\<\w\-\_])?
+    (?:[\w\-\_][\w\-\_ ]+)?
+    [\w\>]
 '''
 
 REGEX = re.compile(
@@ -38,26 +30,25 @@ REGEX = re.compile(
     ^
     # the base configuration
     (?:
-        (?P<conf>{CYLC_WORD})
-        # must be followed by a section or setting
-        (?=[\[\|])
+        (?P<conf>[\w\-\_]+\.[\w]+)
     )?
     # the sections
     (?:
         (?:
             # regex cannot capture an arbitrary number of sections
             # so we define a "max depth" here
-            (?:\[(?P<section1>{CYLC_WORD})\])?
-            (?:\[(?P<section2>{CYLC_WORD})\])?
-            (?:\[(?P<section3>{CYLC_WORD})\])?
-            (?:\[(?P<section4>{CYLC_WORD})\])?
+            (?:\[(?P<section1>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\[(?P<section2>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\[(?P<section3>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\[(?P<section4>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            # note \.\. is to allow relative referencing
         )|(?:
             \|
         )
     )?
     # the setting
-    (?P<setting>{CYLC_WORD})?
-    # the value
+    (?P<setting>(?:(?:{CYLC_WORD})|\.\.))?
+    # the value (note \.\. is to allow relative referencing)
     (?:
         (?:\s+)?=(?:\s+)?
         (?P<value>.*)
@@ -73,18 +64,23 @@ def tokenise(namespace_string):
 
     Examples:
         Normal Usage:
+        >>> tokenise('x.rc')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.rc',
+         'section': None,
+         'setting': None,
+         'value': None}
         >>> tokenise('a = b')  # doctest: +NORMALIZE_WHITESPACE
         {'conf': None,
          'section': None,
          'setting': 'a',
          'value': 'b'}
-        >>> tokenise('x[a][b][c]d = e')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x',
+        >>> tokenise('x.rc[a][b][c]d = e')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.rc',
          'section': ('a', 'b', 'c'),
          'setting': 'd',
          'value': 'e'}
-        >>> tokenise('x|a')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x',
+        >>> tokenise('x.rc|a')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.rc',
          'section': None,
          'setting': 'a',
          'value': None}
@@ -126,10 +122,12 @@ def detokenise(namespace_tokens):
     """
     Examples:
         Full namespace
-        >>> detokenise(tokenise('x[a][b][c]d=e'))
-        'x[a][b][c]d=e'
-        >>> detokenise(tokenise('x|a'))
-        'x|a'
+        >>> detokenise(tokenise('x.rc[a][b][c]d=e'))
+        'x.rc[a][b][c]d=e'
+        >>> detokenise(tokenise('x.rc|a'))
+        'x.rc|a'
+        >>> detokenise(tokenise('x.rc'))
+        'x.rc'
         >>> detokenise(tokenise('a'))
         'a'
 
@@ -156,8 +154,8 @@ def partials_from_tokens(tokens):
     """
     Examples:
         >>> partials_from_tokens(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('x[a][b][c]d=e'))
-        (('conf', 'x'),
+        ...     tokenise('x.rc[a][b][c]d=e'))
+        (('conf', 'x.rc'),
          ('section', ('a', 'b', 'c')),
          ('setting', 'd'),
          ('value', 'e'))
@@ -177,11 +175,11 @@ def tokens_from_partials(partials):
     """
     Examples:
         >>> tokens_from_partials([  # doctest: +NORMALIZE_WHITESPACE
-        ...     ('conf', 'a'),
+        ...     ('conf', 'a.rc'),
         ...     ('section', ('b', 'c')),
         ...     ('setting', 'd')
         ... ])
-        {'conf': 'a',
+        {'conf': 'a.rc',
          'section': ('b', 'c'),
          'setting': 'd',
          'value': None}
@@ -213,7 +211,7 @@ def tokens_from_partials(partials):
 
 
 def tokens_relative(base, override):
-    """Return one path relative to the other.
+    """Return one pat h relative to the other.
 
     Arguments:
         base (dict):
@@ -229,16 +227,16 @@ def tokens_relative(base, override):
         ...     return detokenise(tokens_relative(
         ...         tokenise(base), tokenise(override)))
 
-        >>> test_tokens('a[b]c', '[..]d')
-        'a[b]d'
-        >>> test_tokens('a[b]c=d', '..=e')
-        'a[b]c=e'
-        >>> test_tokens('a[b]c', '[..][d]e')
-        'a[b][d]e'
-        >>> test_tokens('a[b]', '[c]d')
-        'a[b][c]d'
-        >>> test_tokens('a[b]c=d', '[..][..]e')
-        'a[b]e'
+        >>> test_tokens('a.rc[b]c', '[..]d')
+        'a.rc[b]d'
+        >>> test_tokens('a.rc[b]c=d', '..=e')
+        'a.rc[b]c=e'
+        >>> test_tokens('a.rc[b]c', '[..][d]e')
+        'a.rc[b][d]e'
+        >>> test_tokens('a.rc[b]', '[c]d')
+        'a.rc[b][c]d'
+        >>> test_tokens('a.rc[b]c=d', '[..][..]e')
+        'a.rc[b]e'
 
     """
     # ensure that base is an aboslute path
@@ -420,19 +418,20 @@ class CylcScopeDirective(SphinxDirective):
 
     """
 
-    optional_arguments = 1
+    # effectively permits spaces in arguments
+    optional_arguments = 99
 
     @staticmethod
     def get_ref_context(namespace):
         """
-            >>> CylcScopeDirective.get_ref_context('a[b][c]d'
+            >>> CylcScopeDirective.get_ref_context('a.rc[b][c]d'
             ... )  # doctest: +NORMALIZE_WHITESPACE
-            [('cylc', 'conf', 'a', None),
+            [('cylc', 'conf', 'a.rc', None),
             ('cylc', 'section', ('b', 'c'), None),
             ('cylc', 'setting', 'd', None)]
 
-            >>> CylcScopeDirective.get_ref_context('a|')
-            [('cylc', 'conf', 'a', None)]
+            >>> CylcScopeDirective.get_ref_context('a.rc')
+            [('cylc', 'conf', 'a.rc', None)]
         """
         ret = []
         for token, value in partials_from_tokens(tokenise(namespace)):
@@ -447,8 +446,8 @@ class CylcScopeDirective(SphinxDirective):
 
     def run(self):
         scope = DEFAULT_SCOPE
-        if len(self.arguments) == 1:
-            scope = self.arguments[0]
+        if len(self.arguments) >= 1:
+            scope = ' '.join(self.arguments)
         self.wipe_scope(self.env.ref_context)
         for partials in self.get_ref_context(scope):
             self.env.ref_context[partials] = None
@@ -585,7 +584,7 @@ class CylcDomain(Domain):
             )
             import sys
             print(message, sys.stderr)
-            breakpoint()
+            # breakpoint()
             return None
 
         # standardise the display text
@@ -702,7 +701,7 @@ class ParsecDomain(Domain):
             # object does not exist, "nitpicky" mode will pick this up
             return None
 
-        # detokenise
+        # detokenise
         display = parsec_ref(tokens)
 
         # build and return a reference node
