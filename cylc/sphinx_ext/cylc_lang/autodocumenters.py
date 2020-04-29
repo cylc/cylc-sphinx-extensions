@@ -133,6 +133,8 @@ def doc_setting(item):
     if item.options:
         fields['options'] = ', '.join(
             f'``{option}``'
+            if option != ''
+            else '`` ``'  # prevents ```` which is an RST error
             for option in item.options
         )
 
