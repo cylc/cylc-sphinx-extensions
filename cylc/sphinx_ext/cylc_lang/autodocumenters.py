@@ -109,17 +109,30 @@ def directive(
 def repr_value(value):
     """Return a string repr for a configuration value.
 
-        >>> repr_value([1, 2, 3])
-        '1, 2, 3'
-
+    Examples:
+        >>> repr_value([1, 3, 5])
+        '1, 3, 5'
         >>> repr_value(['a b', 'c d'])
         "'a b', 'c d'"
+        >>> repr_value([1, 2, 3])
+        '1 .. 3'
+
     """
     if isinstance(value, list):
+        if (
+                all((isinstance(x, int) for x in value))
+                and value == list(range(value[0], value[-1] + 1))
+        ):
+            # format range lists nicely (e.g. port ranges)
+            return f'{value[0]} .. {value[-1]}'
+
+        # format regular lists being careful to quote where necessary
         return ', '.join((
             f"'{x}'" if ' ' in str(x) else f'{x}'
             for x in value
         ))
+
+    # otherwise just use the string representation
     return str(value)
 
 
