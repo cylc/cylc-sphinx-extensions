@@ -584,7 +584,6 @@ class CylcDomain(Domain):
             )
             import sys
             print(message, sys.stderr)
-            # breakpoint()
             return None
 
         # standardise the display text
