@@ -1,12 +1,14 @@
-import logging
 import re
 
 from sphinx import addnodes
 from sphinx.directives import ObjectDescription
 from sphinx.domains import Domain, ObjType
 from sphinx.roles import XRefRole
+from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import make_refnode
 
+
+DEFAULT_SCOPE = 'suite.rc'
 
 KEYS = {
     'conf': lambda s: f'{s}',
@@ -15,10 +17,12 @@ KEYS = {
     'value': lambda s: f'={s}'
 }
 
+# NOTE we allow `<...>` because this is used for custom sections
+# (i.e. for `__MANY__` items)
 CYLC_WORD = r'''
-    (?:[\w\-\_])?
-    (?:[\w\-\_][\w\-\_ \.]+)?
-    [\w]
+    (?:[\<\w\-\_])?
+    (?:[\w\-\_][\w\-\_ ]+)?
+    [\w\>]
 '''
 
 REGEX = re.compile(
@@ -26,25 +30,25 @@ REGEX = re.compile(
     ^
     # the base configuration
     (?:
-        (?P<conf>{CYLC_WORD})
-        # must be followed by a section or setting
-        (?=[\[\|])
+        (?P<conf>[\w\-\_]+\.[\w]+)
     )?
     # the sections
     (?:
         (?:
             # regex cannot capture an arbitrary number of sections
             # so we define a "max depth" here
-            (?:\[(?P<section1>{CYLC_WORD})\])?
-            (?:\[(?P<section2>{CYLC_WORD})\])?
-            (?:\[(?P<section3>{CYLC_WORD})\])?
+            (?:\[(?P<section1>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\[(?P<section2>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\[(?P<section3>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\[(?P<section4>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            # note \.\. is to allow relative referencing
         )|(?:
             \|
         )
     )?
     # the setting
-    (?P<setting>{CYLC_WORD})?
-    # the value
+    (?P<setting>(?:(?:{CYLC_WORD})|\.\.))?
+    # the value (note \.\. is to allow relative referencing)
     (?:
         (?:\s+)?=(?:\s+)?
         (?P<value>.*)
@@ -60,18 +64,23 @@ def tokenise(namespace_string):
 
     Examples:
         Normal Usage:
+        >>> tokenise('x.rc')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.rc',
+         'section': None,
+         'setting': None,
+         'value': None}
         >>> tokenise('a = b')  # doctest: +NORMALIZE_WHITESPACE
         {'conf': None,
          'section': None,
          'setting': 'a',
          'value': 'b'}
-        >>> tokenise('x[a][b][c]d = e')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x',
+        >>> tokenise('x.rc[a][b][c]d = e')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.rc',
          'section': ('a', 'b', 'c'),
          'setting': 'd',
          'value': 'e'}
-        >>> tokenise('x|a')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x',
+        >>> tokenise('x.rc|a')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.rc',
          'section': None,
          'setting': 'a',
          'value': None}
@@ -112,12 +121,19 @@ def tokenise(namespace_string):
 def detokenise(namespace_tokens):
     """
     Examples:
-        >>> detokenise(tokenise('x[a][b][c]d=e'))
-        'x[a][b][c]d=e'
-        >>> detokenise(tokenise('x|a'))
-        'x|a'
+        Full namespace
+        >>> detokenise(tokenise('x.rc[a][b][c]d=e'))
+        'x.rc[a][b][c]d=e'
+        >>> detokenise(tokenise('x.rc|a'))
+        'x.rc|a'
+        >>> detokenise(tokenise('x.rc'))
+        'x.rc'
         >>> detokenise(tokenise('a'))
         'a'
+
+        Partial namespace
+        >>> detokenise({'section': 'a'})
+        '[a]'
 
     """
     ret = ''
@@ -138,8 +154,8 @@ def partials_from_tokens(tokens):
     """
     Examples:
         >>> partials_from_tokens(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('x[a][b][c]d=e'))
-        (('conf', 'x'),
+        ...     tokenise('x.rc[a][b][c]d=e'))
+        (('conf', 'x.rc'),
          ('section', ('a', 'b', 'c')),
          ('setting', 'd'),
          ('value', 'e'))
@@ -159,11 +175,11 @@ def tokens_from_partials(partials):
     """
     Examples:
         >>> tokens_from_partials([  # doctest: +NORMALIZE_WHITESPACE
-        ...     ('conf', 'a'),
+        ...     ('conf', 'a.rc'),
         ...     ('section', ('b', 'c')),
         ...     ('setting', 'd')
         ... ])
-        {'conf': 'a',
+        {'conf': 'a.rc',
          'section': ('b', 'c'),
          'setting': 'd',
          'value': None}
@@ -195,59 +211,84 @@ def tokens_from_partials(partials):
 
 
 def tokens_relative(base, override):
-    """
+    """Return one pat h relative to the other.
+
+    Arguments:
+        base (dict):
+            Tokens dictionary, the absolute path.
+        override (dict):
+            Tokens dictionary, the relative path.
+
+    Returns:
+        dict - Token dictionary.
+
     Examples:
-        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('a[b]c=d'),
-        ...     tokenise('f')
-        ... )
-        {'conf': 'a',
-         'section': ('b',),
-         'setting': 'f',
-         'value': None}
-        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('a[b]c=d'),
-        ...     tokenise('f|g')
-        ... )
-        {'conf': 'f',
-         'section': None,
-         'setting': 'g',
-         'value': None}
-        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('a[b][c]'),
-        ...     tokenise('[d]e')
-        ... )
-        {'conf': 'a',
-         'section': ('d',),
-         'setting': 'e',
-         'value': None}
-        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('a[b]c'),
-        ...     tokenise('[d]')
-        ... )
-        {'conf': 'a',
-         'section': ('d',),
-         'setting': None,
-         'value': None}
-        >>> tokens_relative(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('a[b]c'),
-        ...     tokenise('[b]')
-        ... )
-        {'conf': 'a',
-         'section': ('b',),
-         'setting': None,
-         'value': None}
+        >>> def test_tokens(base, override):
+        ...     return detokenise(tokens_relative(
+        ...         tokenise(base), tokenise(override)))
+
+        >>> test_tokens('a.rc[b]c', '[..]d')
+        'a.rc[b]d'
+        >>> test_tokens('a.rc[b]c=d', '..=e')
+        'a.rc[b]c=e'
+        >>> test_tokens('a.rc[b]c', '[..][d]e')
+        'a.rc[b][d]e'
+        >>> test_tokens('a.rc[b]', '[c]d')
+        'a.rc[b][c]d'
+        >>> test_tokens('a.rc[b]c=d', '[..][..]e')
+        'a.rc[b]e'
+
     """
-    flag = False
-    ret = {**base}
+    # ensure that base is an aboslute path
+    if not base.get('conf'):
+        return ValueError(f'{base} is not an absoute path')
+
+    # if override is an absolute path return it (cannot make it relative)
+    if override.get('conf'):
+        return override
+
+    base_list = []
+    over_list = []
     for token in KEYS:
-        value = override.get(token)
-        if value:
-            flag = True
-            ret[token] = value
-        elif flag:
-            ret[token] = value
-    return ret
+        base_value = base.get(token)
+        over_value = override.get(token)
+        if token == 'section':
+            if base_value:
+                base_list.extend(base_value)
+            if over_value:
+                over_list.extend(over_value)
+        else:
+            if base_value:
+                base_list.append(base_value)
+            if over_value:
+                over_list.append(over_value)
+
+    path = base_list + over_list
+
+    kill = []
+    run = None
+    for ind, item in enumerate(list(path)):
+        if run is not None and item == '..':
+            run = ind
+            kill.extend([ind, ind - 3])
+        elif item == '..':
+            run = ind
+            kill.extend([ind, ind - 1])
+        else:
+            run = None
+
+    for ind in sorted([x for x in kill if x > 0], reverse=True):
+        del path[ind]
+
+    tokens = {key: None for key in KEYS}
+    tokens['conf'] = path.pop(0)
+    if override.get('value') is not None:
+        tokens['value'] = path.pop()
+    if override.get('setting') is not None:
+        tokens['setting'] = path.pop()
+    tokens['section'] = tuple(path)
+
+    return tokens
 
 
 class CylcDirective(ObjectDescription):
@@ -258,10 +299,6 @@ class CylcDirective(ObjectDescription):
         self.ref_context_key = self.get_reference_context()
 
         index_node, cont_node = ObjectDescription.run(self)
-
-        # cont_node.ref_context = {
-        #     self.ref_context_key: None
-        # }
 
         return [index_node, cont_node]
 
@@ -295,11 +332,17 @@ class CylcDirective(ObjectDescription):
 
     def handle_signature(self, sig, signode):
         sig, value = self.sanitise_signature(sig)
-        signode += addnodes.desc_name(sig, sig)
+        signode += addnodes.desc_name(sig, self.display_name())
         if value:
             annotation = f' = {value}'
             signode += addnodes.desc_annotation(annotation, annotation)
         return (sig, self.NAME, sig)
+
+    def display_name(self):
+        sig = self.arguments[0]
+        if self.NAME == CylcSectionDirective.NAME:
+            sig = [sig]
+        return detokenise({self.NAME: sig})
 
     def get_tokens(self, sig):
         return tokens_from_partials(
@@ -357,6 +400,60 @@ class CylcValueDirective(CylcDirective):
     NAME = 'value'
 
 
+class CylcScopeDirective(SphinxDirective):
+    """Sets the namespace for relative references.
+
+    Example:
+        See the :cylc:conf:`x[a]b` setting
+
+        .. cylc-scope: x[a]
+
+        See the :cylc:conf:`b` setting.
+
+        Be nice and tidy up afterwards:
+
+        .. cylc:scope::
+
+        Done.
+
+    """
+
+    # effectively permits spaces in arguments
+    optional_arguments = 99
+
+    @staticmethod
+    def get_ref_context(namespace):
+        """
+            >>> CylcScopeDirective.get_ref_context('a.rc[b][c]d'
+            ... )  # doctest: +NORMALIZE_WHITESPACE
+            [('cylc', 'conf', 'a.rc', None),
+            ('cylc', 'section', ('b', 'c'), None),
+            ('cylc', 'setting', 'd', None)]
+
+            >>> CylcScopeDirective.get_ref_context('a.rc')
+            [('cylc', 'conf', 'a.rc', None)]
+        """
+        ret = []
+        for token, value in partials_from_tokens(tokenise(namespace)):
+            ret.append(('cylc', token, value, None))
+        return ret
+
+    @staticmethod
+    def wipe_scope(ref_context):
+        for item in dict(ref_context):
+            if isinstance(item, tuple) and item[0] == 'cylc':
+                ref_context.pop(item)
+
+    def run(self):
+        scope = DEFAULT_SCOPE
+        if len(self.arguments) >= 1:
+            scope = ' '.join(self.arguments)
+        self.wipe_scope(self.env.ref_context)
+        for partials in self.get_ref_context(scope):
+            self.env.ref_context[partials] = None
+        return []
+
+
 class CylcXRefRole(XRefRole):
     """Handle references to Rose objects.
 
@@ -373,7 +470,7 @@ class CylcXRefRole(XRefRole):
             if isinstance(context, tuple)
             and context[0] == 'cylc'
         ))  # TODO combine
-        return title, target
+        return title.replace('[..]', '').replace('..', ''), target
 
 
 class CylcDomain(Domain):
@@ -456,18 +553,145 @@ class CylcDomain(Domain):
         # get tokens for the object we are trying to reference
         tokens = tokenise(target)
 
-        # check if we have a relative reference
-        if len([key for key, value in tokens.items() if value]) < 2:
-            if typ == 'section':
-                tokens = {typ: (target,)}
-            else:
-                # NOTE: this also handles `conf` items which get mistaken for
-                #       settings by the `tokenise` method.
-                tokens = {typ: target}
+        # get the context of the reference (the scope)
+        ref_tokens = None
+        if not tokens['conf']:
+            ref_tokens = tokens_from_partials(node['ref_context'])
+            if not any(ref_tokens.values()):
+                ref_tokens = tokenise(DEFAULT_SCOPE)
+            tokens = tokens_relative(ref_tokens, tokens)
 
-        # get the context of the reference (to allow relative referencing)
-        ref_tokens = tokens_from_partials(node['ref_context'])
-        tokens = tokens_relative(ref_tokens, tokens)
+        # get the page this item is documented on
+        try:
+            try:
+                # have a go at getting the setting with a value if specified
+                docname = self.get(tokens)
+            except KeyError:
+                # if we can't find it, drop the value and try again
+                # this allows stuff like this:
+                #  > will work if you set :cylc:conf:`foo = 1`.
+                # otherwise we would have to document the value ``1``
+                tokens['value'] = None
+                docname = self.get(tokens)
+        except KeyError:
+            # object does not exist, "nitpicky" mode will pick this up
+            # context = detokenise(ref_tokens)
+            message = (
+                f'Could not reference "{detokenise(tokens)}"'
+                f' from the context'
+                f' "{detokenise(ref_tokens or tokenise(DEFAULT_SCOPE))}"'
+                f' in file "{fromdocname}".'
+            )
+            import sys
+            print(message, sys.stderr)
+            return None
+
+        # standardise the display text
+        display = detokenise(tokens)
+
+        # build and return a reference node
+        return make_refnode(
+            builder,
+            fromdocname,
+            docname,
+            display,
+            contnode,
+            display
+        )
+
+
+# The following is a minimal domain for documenting parsec objects:
+
+def parsec_ref(tokens):
+    """The detokenise equivalent for parsec (much simpler).i
+
+    Example:
+        >>> parsec_ref(('domain_name', 'object_type', 'object name'))
+        'domain_name-object_type-object_name'
+
+    """
+    return ('-'.join(tokens)).replace(' ', '_')
+
+
+class ParsecDirective(ObjectDescription):
+    """Base directive for parsec objects."""
+
+    DOMAIN = 'parsec'
+    TYP = None
+
+    def handle_signature(self, sig, signode):
+        signode += addnodes.desc_name(sig, sig)
+        return sig
+
+    def add_target_and_index(self, sig, _, signode):
+        tokens = (self.DOMAIN, self.TYP, sig)
+        # register this item with the cylc domain
+        self.env.domains[self.DOMAIN].set(tokens, self.env.docname)
+        # associate this node with the fqdn (allows hyperlinks)
+        signode['ids'].append(parsec_ref(tokens))
+
+
+class ParsecTypeDirective(ParsecDirective):
+    """Directive for parsec "types" i.e. validators."""
+
+    TYP = 'type'
+
+
+class ParsecDomain(Domain):
+    """Domain for documenting primitive parsec objects.
+
+    This way they become referenceable objects we can link to from other
+    sections. This "domain" is a minimal facade to achieve this.
+
+    """
+
+    name = 'parsec'
+    label = 'Parsec'
+
+    object_types = {
+        'type': ObjType('type', 'type', 'obj')
+    }
+
+    directives = {
+        'type': ParsecTypeDirective
+    }
+
+    roles = {
+        'type': XRefRole()
+    }
+
+    initial_data = {
+        'objects': {}
+    }
+
+    dangling_warnings = {
+    }
+
+    def set(self, tokens, docname):
+        self.data['objects'][tokens] = docname
+
+    def get(self, tokens):
+        return self.data['objects'][tokens]
+
+    def get_objects(self):
+        for tokens, docname in self.data['objects'].items():
+            name = tokens[-1]
+            dispname = name
+            anchor = name
+            priority = 1
+            yield(
+                name,
+                dispname,
+                'type',
+                docname,
+                anchor,
+                priority
+            )
+
+    def resolve_xref(
+        self, env, fromdocname, builder, typ, target, node, contnode
+    ):
+        tokens = ('parsec', typ, target)
 
         # get the page this item is documented on
         try:
@@ -476,8 +700,8 @@ class CylcDomain(Domain):
             # object does not exist, "nitpicky" mode will pick this up
             return None
 
-        # standardise the display text
-        display = detokenise(tokens)
+        # detokenise
+        display = parsec_ref(tokens)
 
         # build and return a reference node
         return make_refnode(

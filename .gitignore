@@ -1,0 +1,35 @@
+# derived content
+extensions/
+_build/
+
+# python bytecode
+*.py[cod]
+__pycache__/
+
+# vim backup files
+*.sw[op]
+
+# emacs backup files
+*~
+
+# vscode
+.vscode
+
+# coverage
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# distutils files
+build
+dist
+MANIFEST
+*.egg-info
+.eggs
+
+# virtualenv
+venv
+
+# mypy
+.mypy_cache/
