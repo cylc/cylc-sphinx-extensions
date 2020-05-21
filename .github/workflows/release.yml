@@ -1,6 +1,6 @@
 name: release
 
-on: [publish]
+on: [create]
 
 jobs:
   gh-pages:
