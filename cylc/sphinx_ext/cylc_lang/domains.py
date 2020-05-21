@@ -550,6 +550,9 @@ class CylcDomain(Domain):
         # strip intersphinx mapping
         # TODO
 
+        # allow line breaks in long references
+        target = target.replace('\n', ' ')
+
         # get tokens for the object we are trying to reference
         tokens = tokenise(target)
 
@@ -600,7 +603,9 @@ class CylcDomain(Domain):
         )
 
 
-# The following is a minimal domain for documenting parsec objects:
+# The following is a minimal domain for documenting parsec objects.
+# Sadly the standard domain is not suitable for documenting these things
+# because it's entries are not linkable so we need an new domain
 
 def parsec_ref(tokens):
     """The detokenise equivalent for parsec (much simpler).i
