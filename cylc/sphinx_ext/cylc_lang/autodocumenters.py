@@ -161,11 +161,14 @@ def doc_setting(item):
 
 
 def doc_section(item):
+    fields = {}
+    if item.meta:
+        fields['Inherits'] = f':cylc:conf:`{repr(item.meta)}`'
     return directive(
         'cylc:section',
         [item.display_name],
         {},
-        {},
+        fields,
         item.desc
     )
 
@@ -187,13 +190,13 @@ def doc_spec(spec):
             ret.extend(
                 doc_conf(item)
             )
-        elif item.is_leaf():
+        elif item.is_leaf() and not item.meta:
             # setting
             ret.extend([
                 indent(line, '   ' * level)
                 for line in doc_setting(item)
             ])
-        else:
+        elif not item.is_leaf():
             # section
             ret.extend([
                 indent(line, '   ' * level)
