@@ -22,7 +22,7 @@ from pathlib import Path
 import os
 
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 
 def register_static(app, extension):
