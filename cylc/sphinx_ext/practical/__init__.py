@@ -17,6 +17,7 @@
 # -----------------------------------------------------------------------------
 """Directives for use in practical exercises.
 
+.. _example-tutorial:
 
 Directives
 ----------
@@ -67,6 +68,30 @@ Directives
          * warning
          * error
 
+.. rst:directive:: tutorial
+
+   Provides a formatted admonition to make a reader aware of a tutorial
+   related to the content they are currently reading.
+
+   For example if we had a tutorial like this:
+
+   .. code-block:: rst
+
+      .. _example-tutorial:
+
+      Example Tutorial
+      ----------------
+
+      Meh.
+
+   We could reference it like this:
+
+   .. rst-example::
+
+      .. tutorial:: example-tutorial
+
+
+
 """
 
 
@@ -81,7 +106,8 @@ __all__ = [
 from cylc.sphinx_ext.practical.admonitions import (
     Practical,
     PracticalExtension,
-    Spoiler
+    Spoiler,
+    Tutorial
 )
 
 
@@ -95,5 +121,7 @@ def setup(app):
     app.add_directive('practical-extension', PracticalExtension)
     app.add_directive('spoiler', Spoiler)
     app.add_javascript('js/spoiler.js')  # self-hiding node.
+    app.add_directive('tutorial', Tutorial)
+    app.add_stylesheet('css/tutorial.css')  # special tutoria-ref style
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}
