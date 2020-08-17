@@ -8,7 +8,7 @@ from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import make_refnode
 
 
-DEFAULT_SCOPE = 'suite.rc'
+DEFAULT_SCOPE = 'flow.cylc'
 
 KEYS = {
     'conf': lambda s: f'{s}',
@@ -64,8 +64,8 @@ def tokenise(namespace_string):
 
     Examples:
         Normal Usage:
-        >>> tokenise('x.rc')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x.rc',
+        >>> tokenise('x.cylc')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.cylc',
          'section': None,
          'setting': None,
          'value': None}
@@ -74,13 +74,13 @@ def tokenise(namespace_string):
          'section': None,
          'setting': 'a',
          'value': 'b'}
-        >>> tokenise('x.rc[a][b][c]d = e')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x.rc',
+        >>> tokenise('x.cylc[a][b][c]d = e')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.cylc',
          'section': ('a', 'b', 'c'),
          'setting': 'd',
          'value': 'e'}
-        >>> tokenise('x.rc|a')  # doctest: +NORMALIZE_WHITESPACE
-        {'conf': 'x.rc',
+        >>> tokenise('x.cylc|a')  # doctest: +NORMALIZE_WHITESPACE
+        {'conf': 'x.cylc',
          'section': None,
          'setting': 'a',
          'value': None}
@@ -122,12 +122,12 @@ def detokenise(namespace_tokens):
     """
     Examples:
         Full namespace
-        >>> detokenise(tokenise('x.rc[a][b][c]d=e'))
-        'x.rc[a][b][c]d=e'
-        >>> detokenise(tokenise('x.rc|a'))
-        'x.rc|a'
-        >>> detokenise(tokenise('x.rc'))
-        'x.rc'
+        >>> detokenise(tokenise('x.cylc[a][b][c]d=e'))
+        'x.cylc[a][b][c]d=e'
+        >>> detokenise(tokenise('x.cylc|a'))
+        'x.cylc|a'
+        >>> detokenise(tokenise('x.cylc'))
+        'x.cylc'
         >>> detokenise(tokenise('a'))
         'a'
 
@@ -154,8 +154,8 @@ def partials_from_tokens(tokens):
     """
     Examples:
         >>> partials_from_tokens(  # doctest: +NORMALIZE_WHITESPACE
-        ...     tokenise('x.rc[a][b][c]d=e'))
-        (('conf', 'x.rc'),
+        ...     tokenise('x.cylc[a][b][c]d=e'))
+        (('conf', 'x.cylc'),
          ('section', ('a', 'b', 'c')),
          ('setting', 'd'),
          ('value', 'e'))
@@ -175,11 +175,11 @@ def tokens_from_partials(partials):
     """
     Examples:
         >>> tokens_from_partials([  # doctest: +NORMALIZE_WHITESPACE
-        ...     ('conf', 'a.rc'),
+        ...     ('conf', 'a.cylc'),
         ...     ('section', ('b', 'c')),
         ...     ('setting', 'd')
         ... ])
-        {'conf': 'a.rc',
+        {'conf': 'a.cylc',
          'section': ('b', 'c'),
          'setting': 'd',
          'value': None}
@@ -227,16 +227,16 @@ def tokens_relative(base, override):
         ...     return detokenise(tokens_relative(
         ...         tokenise(base), tokenise(override)))
 
-        >>> test_tokens('a.rc[b]c', '[..]d')
-        'a.rc[b]d'
-        >>> test_tokens('a.rc[b]c=d', '..=e')
-        'a.rc[b]c=e'
-        >>> test_tokens('a.rc[b]c', '[..][d]e')
-        'a.rc[b][d]e'
-        >>> test_tokens('a.rc[b]', '[c]d')
-        'a.rc[b][c]d'
-        >>> test_tokens('a.rc[b]c=d', '[..][..]e')
-        'a.rc[b]e'
+        >>> test_tokens('a.cylc[b]c', '[..]d')
+        'a.cylc[b]d'
+        >>> test_tokens('a.cylc[b]c=d', '..=e')
+        'a.cylc[b]c=e'
+        >>> test_tokens('a.cylc[b]c', '[..][d]e')
+        'a.cylc[b][d]e'
+        >>> test_tokens('a.cylc[b]', '[c]d')
+        'a.cylc[b][c]d'
+        >>> test_tokens('a.cylc[b]c=d', '[..][..]e')
+        'a.cylc[b]e'
 
     """
     # ensure that base is an aboslute path
@@ -424,14 +424,14 @@ class CylcScopeDirective(SphinxDirective):
     @staticmethod
     def get_ref_context(namespace):
         """
-            >>> CylcScopeDirective.get_ref_context('a.rc[b][c]d'
+            >>> CylcScopeDirective.get_ref_context('a.cylc[b][c]d'
             ... )  # doctest: +NORMALIZE_WHITESPACE
-            [('cylc', 'conf', 'a.rc', None),
+            [('cylc', 'conf', 'a.cylc', None),
             ('cylc', 'section', ('b', 'c'), None),
             ('cylc', 'setting', 'd', None)]
 
-            >>> CylcScopeDirective.get_ref_context('a.rc')
-            [('cylc', 'conf', 'a.rc', None)]
+            >>> CylcScopeDirective.get_ref_context('a.cylc')
+            [('cylc', 'conf', 'a.cylc', None)]
         """
         ret = []
         for token, value in partials_from_tokens(tokenise(namespace)):
