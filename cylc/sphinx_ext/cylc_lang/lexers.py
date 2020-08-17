@@ -23,10 +23,9 @@ from pygments.token import (Name, Comment, Text, Operator, String,
 
 
 class CylcLexer(RegexLexer):
-    """Pygments lexer for the Cylc suite.rc language."""
+    """Pygments lexer for the Cylc language."""
 
-    # Pygments tokens for Cylc suite.rc elements which have no direct
-    # translation.
+    # Pygments tokens for flow.cylc elements which have no direct translation.
     HEADING_TOKEN = Name.Tag
     SETTING_TOKEN = Name.Variable
     GRAPH_TASK_TOKEN = Keyword.Declaration
@@ -44,7 +43,7 @@ class CylcLexer(RegexLexer):
     # Pygments values.
     name = 'Cylc'
     aliases = ['cylc', 'suiterc']
-    filenames = ['suite.rc']
+    filenames = ['suite.rc', 'flow.cylc']
     # mimetypes = ['text/x-ini', 'text/inf']
 
     # Patterns, rules and tokens.

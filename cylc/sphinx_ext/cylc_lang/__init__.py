@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
-'''An extension providing pygments lexers for the Cylc suite.rc language.
+'''An extension providing pygments lexers for the Cylc flow.cylc language.
 
 
 Pygments Lexers
@@ -24,7 +24,7 @@ Pygments Lexers
 ``cylc``
 ^^^^^^^^
 
-Lexer for the Cylc ``.rc`` language and ``suite.rc`` extensions.
+Lexer for the Cylc language and ``flow.cylc`` extensions.
 
 .. rst-example::
 
@@ -62,7 +62,7 @@ Sphinx domain for ``cylc`` configurations.
 
 .. rst-example::
 
-   .. cylc:conf:: my-conf1.rc
+   .. cylc:conf:: my-conf1.cylc
 
      .. cylc:setting:: foo
 
@@ -78,7 +78,7 @@ Sphinx domain for ``cylc`` configurations.
 
         a section called ``bar``.
 
-        Here's a link to :cylc:conf:`this section <my-conf1.rc[bar]>`, note
+        Here's a link to :cylc:conf:`this section <my-conf1.cylc[bar]>`, note
         we re-named the target using the sphinx/rst ``name <target>`` syntax.
 
         .. cylc:setting:: pub
@@ -154,7 +154,7 @@ Directives
 
    .. rst-example::
 
-      .. cylc-scope:: my-conf1.rc[bar]
+      .. cylc-scope:: my-conf1.cylc[bar]
 
       Lets head to the :cylc:conf:`pub`.
 
@@ -166,7 +166,7 @@ Directives
 
       .. note::
 
-         This resets it to the hardcoded default which is ``suite.rc``.
+         This resets it to the hardcoded default which is ``flow.cylc``.
 
 '''
 
