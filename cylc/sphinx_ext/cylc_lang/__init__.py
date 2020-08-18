@@ -74,6 +74,11 @@ Sphinx domain for ``cylc`` configurations.
 
         Note the ``[..]`` will disappear when the docs are built.
 
+        Note also that arbitrary whitespace is supported in references,
+        for example :cylc:conf:`[..]
+        [bar]
+        pub`
+
      .. cylc:section:: bar
 
         a section called ``bar``.
