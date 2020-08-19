@@ -120,8 +120,6 @@ def setup(app):
     app.add_directive('practical', Practical)
     app.add_directive('practical-extension', PracticalExtension)
     app.add_directive('spoiler', Spoiler)
-    app.add_javascript('js/spoiler.js')  # self-hiding node.
     app.add_directive('tutorial', Tutorial)
-    app.add_stylesheet('css/tutorial.css')  # special tutoria-ref style
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}

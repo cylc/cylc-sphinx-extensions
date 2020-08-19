@@ -51,6 +51,5 @@ __all__ = ['setup']
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_css_file('css/hieroglyph_addons.css')
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}

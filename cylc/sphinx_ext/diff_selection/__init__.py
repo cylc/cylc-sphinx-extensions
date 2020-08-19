@@ -42,7 +42,5 @@ __all__ = ['setup']
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_css_file('css/diff_selector.css')
-    app.add_js_file('js/diff_selector.js')
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}
