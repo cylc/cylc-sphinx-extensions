@@ -109,6 +109,5 @@ def setup(app):
                  text=(text_visit_graphviz, None),
                  man=(man_visit_graphviz, None))
     app.add_directive('minicylc', MiniCylcDirective)
-    app.add_js_file('js/minicylc.js')
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}

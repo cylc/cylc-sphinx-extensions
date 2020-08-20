@@ -62,7 +62,5 @@ __all__ = ['setup']
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_css_file('css/addons.css')
-    app.add_js_file('js/addons.js')
     register_static(app, __name__)
     return {'version': __version__, 'parallel_read_safe': True}

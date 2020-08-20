@@ -19,6 +19,7 @@
 
 from docutils import nodes
 from docutils.parsers.rst.directives.admonitions import BaseAdmonition
+from docutils.statemachine import StringList
 
 
 class Practical(BaseAdmonition):
@@ -67,3 +68,26 @@ class Spoiler(BaseAdmonition):
         self.arguments = args[:1]
         self.options.update({'class': classes})
         return super(Spoiler, self).run()
+
+
+class Tutorial(BaseAdmonition):
+    """Directive for referencing a tutorial in related content.
+
+    This class serves as a stand-in for maintainability purposes. It is
+    equivalent to:
+
+        .. admonition:: Tutorial
+           :class: note
+
+    """
+    node_class = nodes.admonition
+    NAME = 'Related Tutorial'
+    CLASSES = ['tip', 'tutorial-ref']
+    required_arguments = 1
+    has_content = False
+
+    def run(self):
+        self.options.update({'class': self.CLASSES})  # Affects the display.
+        self.content = StringList([f':ref:`{self.arguments[0]}`'])
+        self.arguments = [self.NAME]  # Sets the title of the admonition.
+        return super(Tutorial, self).run()
