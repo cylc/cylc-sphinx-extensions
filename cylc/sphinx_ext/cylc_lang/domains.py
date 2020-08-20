@@ -38,8 +38,11 @@ REGEX = re.compile(
             # regex cannot capture an arbitrary number of sections
             # so we define a "max depth" here
             (?:\[(?P<section1>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\s+)?  # allow arbitrary whitespace
             (?:\[(?P<section2>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\s+)?  # allow arbitrary whitespace
             (?:\[(?P<section3>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
+            (?:\s+)?  # allow arbitrary whitespace
             (?:\[(?P<section4>(?:(?:{CYLC_WORD})|(?:\.\.)))\])?
             # note \.\. is to allow relative referencing
         )|(?:
@@ -47,6 +50,7 @@ REGEX = re.compile(
         )
     )?
     # the setting
+    (?:\s+)?  # allow arbitrary whitespace
     (?P<setting>(?:(?:{CYLC_WORD})|\.\.))?
     # the value (note \.\. is to allow relative referencing)
     (?:
@@ -93,15 +97,19 @@ def tokenise(namespace_string):
         >>> tokenise('__MANY__')['setting']
         '__MANY__'
 
+        Permitted Arbitrary Whitesapce:
+        >>> tokenise(' [a] [b] [c] ')['section']
+        ('a', 'b', 'c')
+        >>> tokenise(' [a] b ')['setting']
+        'b'
+
         Exceptions:
-        >>> tokenise('a b ')
+        >>> tokenise('a[b]c[d]')
         Traceback (most recent call last):
-        ValueError: Not a valid namespace "a b "
-        >>> tokenise(' a b')
-        Traceback (most recent call last):
-        ValueError: Not a valid namespace " a b"
+        ValueError: Not a valid namespace "a[b]c[d]"
 
     """
+    namespace_string = namespace_string.strip()
     match = REGEX.match(namespace_string)
     if match:
         ret = match.groupdict()
@@ -470,7 +478,19 @@ class CylcXRefRole(XRefRole):
             if isinstance(context, tuple)
             and context[0] == 'cylc'
         ))  # TODO combine
-        return title.replace('[..]', '').replace('..', ''), target
+        return (
+            # standardise namespace (this removes arbitrary whitespace)
+            detokenise(tokenise(
+                title
+                # strip newlines just from the reference
+                # (sphinx seems to handle this separately for the domain)
+                .replace('\n', '')
+                # strip relative syntax
+                .replace('[..]', '')
+                .replace('..', '')
+            )),
+            target
+        )
 
 
 class CylcDomain(Domain):
