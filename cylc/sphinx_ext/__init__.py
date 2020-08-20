@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # THIS FILE IS PART OF THE CYLC SUITE ENGINE.
-# Copyright (C) 2008-2019 NIWA & British Crown (Met Office) & Contributors.
+# Copyright (C) NIWA & British Crown (Met Office) & Contributors.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import os
 from shutil import copyfile
 
 
-__version__ = '1.0.0'
+__version__ = '1.2.0'
 
 
 # map sub directory name to the name of the sphinx registration function
