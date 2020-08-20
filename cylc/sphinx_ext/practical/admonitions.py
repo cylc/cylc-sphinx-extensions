@@ -81,7 +81,7 @@ class Tutorial(BaseAdmonition):
 
     """
     node_class = nodes.admonition
-    NAME = 'Tutorial'
+    NAME = 'Related Tutorial'
     CLASSES = ['tip', 'tutorial-ref']
     required_arguments = 1
     has_content = False
