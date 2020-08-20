@@ -47,9 +47,6 @@ REQS = {
         'pygments',
         'cylc-flow'
     ],
-    'hieroglyph_patch': [
-        'hieroglyph'
-    ],
     'hieroglyph_addons': [
         'hieroglyph'
     ],
@@ -77,9 +74,7 @@ setup(
     description='Sphinx extensions for documenting Cylc',
     long_description=open('README.rst', 'r').read(),
     install_requires=[
-        'sphinx>=2.1.0,<2.4.0',
-        # TODO: docutils version is pinned due to issue with hieroglyph
-        'docutils<0.16.0'
+        'sphinx>=2',
     ],
     tests_require=TESTS_REQUIRE,
     extras_require=REQS,
