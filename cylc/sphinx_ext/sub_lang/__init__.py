@@ -46,5 +46,5 @@ __version__ = '1.0.0'
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_lexer('sub', SubstitutionLexer())
+    app.add_lexer('sub', SubstitutionLexer)
     return {'version': __version__, 'parallel_read_safe': True}
