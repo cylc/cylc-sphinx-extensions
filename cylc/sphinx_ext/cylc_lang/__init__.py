@@ -200,8 +200,8 @@ __version__ = '1.0.0'
 
 def setup(app):
     """Sphinx plugin setup function."""
-    app.add_lexer('cylc', CylcLexer())
-    app.add_lexer('cylc-graph', CylcGraphLexer())
+    app.add_lexer('cylc', CylcLexer)
+    app.add_lexer('cylc-graph', CylcGraphLexer)
     app.add_domain(CylcDomain)
     app.add_domain(ParsecDomain)
     app.add_directive('auto-cylc-conf', CylcAutoDirective)

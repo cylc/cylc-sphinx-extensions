@@ -74,7 +74,7 @@ setup(
     description='Sphinx extensions for documenting Cylc',
     long_description=open('README.rst', 'r').read(),
     install_requires=[
-        'sphinx>=2',
+        'sphinx>=2.1',
     ],
     tests_require=TESTS_REQUIRE,
     extras_require=REQS,
