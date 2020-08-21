@@ -1,15 +1,24 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>practical &mdash; Cylc Sphinx Extensions 1.0.0 documentation</title>
+  <title>practical &mdash; Cylc Sphinx Extensions 1.2.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/diff_selector.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/grid_table.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/hieroglyph_theme_addons.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/tutorial.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/addons.css" type="text/css" />
 
   
   
@@ -17,7 +26,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -33,15 +44,6 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/diff_selector.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/grid_table.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/hieroglyph_addons.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/addons.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="rtd_theme_addons" href="cylc.sphinx_ext.rtd_theme_addons.html" />
@@ -59,7 +61,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Cylc Sphinx Extensions
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Cylc Sphinx Extensions
           
 
           
@@ -82,6 +84,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -94,7 +97,6 @@
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.diff_selection.html">diff_selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.grid_table.html">grid_table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_addons.html">hieroglyph_addons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_patch.html">hieroglyph_patch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.minicylc.html">minicylc</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">practical</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a></li>
@@ -108,6 +110,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -146,7 +149,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>practical</li>
     
@@ -171,8 +174,8 @@
 <span id="practical"></span><h1>practical<a class="headerlink" href="#module-cylc.sphinx_ext.practical" title="Permalink to this headline">¶</a></h1>
 <p>Directives for use in practical exercises.</p>
 <div class="section" id="directives">
-<h2>Directives<a class="headerlink" href="#directives" title="Permalink to this headline">¶</a></h2>
-<dl class="directive">
+<span id="example-tutorial"></span><h2>Directives<a class="headerlink" href="#directives" title="Permalink to this headline">¶</a></h2>
+<dl class="rst directive">
 <dt id="directive-practical">
 <code class="sig-name descname">.. practical::</code><a class="headerlink" href="#directive-practical" title="Permalink to this definition">¶</a></dt>
 <dd><p>Directive for practical exercise.</p>
@@ -195,7 +198,7 @@
 </div>
 </dd></dd></dl>
 
-<dl class="directive">
+<dl class="rst directive">
 <dt id="directive-practical-extension">
 <code class="sig-name descname">.. practical-extension::</code><a class="headerlink" href="#directive-practical-extension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Directive for practical exercise extensions.</p>
@@ -210,7 +213,7 @@
 </div>
 </dd></dd></dl>
 
-<dl class="directive">
+<dl class="rst directive">
 <dt id="directive-spoiler">
 <code class="sig-name descname">.. spoiler::</code><a class="headerlink" href="#directive-spoiler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Directive for content which is hidden by default.</p>
@@ -241,6 +244,30 @@ i.e. one of:</p>
 </dl>
 </dd></dl>
 
+<dl class="rst directive">
+<dt id="directive-tutorial">
+<code class="sig-name descname">.. tutorial::</code><a class="headerlink" href="#directive-tutorial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a formatted admonition to make a reader aware of a tutorial
+related to the content they are currently reading.</p>
+<p>For example if we had a tutorial like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="nt">_example-tutorial:</span>
+
+<span class="gh">Example Tutorial</span>
+<span class="gh">----------------</span>
+
+Meh.
+</pre></div>
+</div>
+<p>We could reference it like this:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">tutorial</span><span class="p">::</span> example-tutorial
+</pre></div>
+</div>
+<dd><div class="tip tutorial-ref admonition">
+<p class="admonition-title">Related Tutorial</p>
+<p><a class="reference internal" href="#example-tutorial"><span class="std std-ref">Directives</span></a></p>
+</div>
+</dd></dd></dl>
+
 </div>
 </div>
 
@@ -264,11 +291,19 @@ i.e. one of:</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -279,7 +314,6 @@ i.e. one of:</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

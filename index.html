@@ -1,15 +1,24 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cylc Sphinx Extensions &mdash; Cylc Sphinx Extensions 1.0.0 documentation</title>
+  <title>Cylc Sphinx Extensions &mdash; Cylc Sphinx Extensions 1.2.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/diff_selector.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/grid_table.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/hieroglyph_theme_addons.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/tutorial.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/addons.css" type="text/css" />
 
   
   
@@ -17,7 +26,9 @@
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -33,15 +44,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/diff_selector.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/grid_table.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/hieroglyph_addons.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/addons.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="cylc_lang" href="extensions/cylc.sphinx_ext.cylc_lang.html" /> 
@@ -58,7 +60,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Cylc Sphinx Extensions
+            <a href="#" class="icon icon-home" alt="Documentation Home"> Cylc Sphinx Extensions
           
 
           
@@ -81,6 +83,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,7 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.diff_selection.html">diff_selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.grid_table.html">grid_table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.hieroglyph_addons.html">hieroglyph_addons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.hieroglyph_patch.html">hieroglyph_patch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.minicylc.html">minicylc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.practical.html">practical</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cylc.sphinx_ext.rtd_theme_addons.html">rtd_theme_addons</a></li>
@@ -104,6 +106,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -142,7 +145,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
       <li>Cylc Sphinx Extensions</li>
     
@@ -223,6 +226,18 @@ $ eslint cylc/   # javascript
 </pre></div>
 </div>
 </div>
+<div class="section" id="copyright-and-terms-of-use">
+<h2>Copyright and Terms of Use<a class="headerlink" href="#copyright-and-terms-of-use" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (C) 2008-2020 NIWA &amp; British Crown (Met Office) &amp; Contributors.</p>
+<p>Cylc is free software: you can redistribute it and/or modify it under the terms
+of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.</p>
+<p>Cylc is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with
+Cylc.  If not, see GNU licenses <a class="reference external" href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+</div>
 <div class="section" id="available-extensions">
 <h2>Available Extensions<a class="headerlink" href="#available-extensions" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
@@ -232,7 +247,7 @@ $ eslint cylc/   # javascript
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.cylc_lang.html#module-cylc.sphinx_ext.cylc_lang" title="cylc.sphinx_ext.cylc_lang"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.cylc_lang</span></code></a></p></td>
-<td><p>An extension providing pygments lexers for the Cylc suite.rc language.</p></td>
+<td><p>An extension providing pygments lexers for the Cylc flow.cylc language.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.diff_selection.html#module-cylc.sphinx_ext.diff_selection" title="cylc.sphinx_ext.diff_selection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.diff_selection</span></code></a></p></td>
 <td><p>Makes text selection in diff code-blocks fool-proof.</p></td>
@@ -243,22 +258,19 @@ $ eslint cylc/   # javascript
 <tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.hieroglyph_addons.html#module-cylc.sphinx_ext.hieroglyph_addons" title="cylc.sphinx_ext.hieroglyph_addons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.hieroglyph_addons</span></code></a></p></td>
 <td><p>Patches the hard-coded Heroglyph slides theme.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.hieroglyph_patch.html#module-cylc.sphinx_ext.hieroglyph_patch" title="cylc.sphinx_ext.hieroglyph_patch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.hieroglyph_patch</span></code></a></p></td>
-<td><p>Monkey patch hieroglyph to work with Sphinx 1.8.0+.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.minicylc.html#module-cylc.sphinx_ext.minicylc" title="cylc.sphinx_ext.minicylc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.minicylc</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.minicylc.html#module-cylc.sphinx_ext.minicylc" title="cylc.sphinx_ext.minicylc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.minicylc</span></code></a></p></td>
 <td><p>An extension for visualising simple Cylc graph strings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.practical.html#module-cylc.sphinx_ext.practical" title="cylc.sphinx_ext.practical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.practical</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.practical.html#module-cylc.sphinx_ext.practical" title="cylc.sphinx_ext.practical"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.practical</span></code></a></p></td>
 <td><p>Directives for use in practical exercises.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.rtd_theme_addons.html#module-cylc.sphinx_ext.rtd_theme_addons" title="cylc.sphinx_ext.rtd_theme_addons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.rtd_theme_addons</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.rtd_theme_addons.html#module-cylc.sphinx_ext.rtd_theme_addons" title="cylc.sphinx_ext.rtd_theme_addons"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.rtd_theme_addons</span></code></a></p></td>
 <td><p>Patches the Read The Docs Sphinx Theme.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.rst_example.html#module-cylc.sphinx_ext.rst_example" title="cylc.sphinx_ext.rst_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.rst_example</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.rst_example.html#module-cylc.sphinx_ext.rst_example" title="cylc.sphinx_ext.rst_example"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.rst_example</span></code></a></p></td>
 <td><p>Directive for rendering RST alongside its code representation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.sub_lang.html#module-cylc.sphinx_ext.sub_lang" title="cylc.sphinx_ext.sub_lang"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.sub_lang</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="extensions/cylc.sphinx_ext.sub_lang.html#module-cylc.sphinx_ext.sub_lang" title="cylc.sphinx_ext.sub_lang"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cylc.sphinx_ext.sub_lang</span></code></a></p></td>
 <td><p>An extension providing a pygments lexer for &lt;substitutions&gt; in text.</p></td>
 </tr>
 </tbody>
@@ -284,11 +296,19 @@ $ eslint cylc/   # javascript
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -299,7 +319,6 @@ $ eslint cylc/   # javascript
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

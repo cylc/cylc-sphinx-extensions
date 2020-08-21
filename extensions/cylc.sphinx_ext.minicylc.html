@@ -1,15 +1,24 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>minicylc &mdash; Cylc Sphinx Extensions 1.0.0 documentation</title>
+  <title>minicylc &mdash; Cylc Sphinx Extensions 1.2.0 documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/diff_selector.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/grid_table.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/hieroglyph_theme_addons.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/tutorial.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/addons.css" type="text/css" />
 
   
   
@@ -17,7 +26,9 @@
   
 
   
-  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -33,19 +44,10 @@
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/diff_selector.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/grid_table.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/hieroglyph_addons.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/addons.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="practical" href="cylc.sphinx_ext.practical.html" />
-    <link rel="prev" title="hieroglyph_patch" href="cylc.sphinx_ext.hieroglyph_patch.html" /> 
+    <link rel="prev" title="hieroglyph_addons" href="cylc.sphinx_ext.hieroglyph_addons.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -59,7 +61,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> Cylc Sphinx Extensions
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Cylc Sphinx Extensions
           
 
           
@@ -82,6 +84,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -94,7 +97,6 @@
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.diff_selection.html">diff_selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.grid_table.html">grid_table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_addons.html">hieroglyph_addons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_patch.html">hieroglyph_patch</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">minicylc</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
@@ -113,6 +115,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -151,7 +154,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>minicylc</li>
     
@@ -192,27 +195,27 @@ bar -&gt; baz
 }</p></object></div>
 </div></dd><div class="section" id="directives">
 <h2>Directives<a class="headerlink" href="#directives" title="Permalink to this headline">¶</a></h2>
-<dl class="directive">
+<dl class="rst directive">
 <dt id="directive-minicylc">
 <code class="sig-name descname">.. minicylc::</code><a class="headerlink" href="#directive-minicylc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders a visualisation of a simple Cylc graph.</p>
 <p>In HTML documents this will display an animated graph,
 otherwise a plain graph will be displayed as an image.</p>
-<dl class="directive:option">
-<dt id="directive:option-minicylc-snippet">
-<code class="sig-name descname">:snippet:</code><em class="property"> (flag)</em><a class="headerlink" href="#directive:option-minicylc-snippet" title="Permalink to this definition">¶</a></dt>
+<dl class="rst directive:option">
+<dt id="directive-option-minicylc-snippet">
+<span id="directive:option-minicylc-snippet"></span><code class="sig-name descname">:snippet:</code><em class="property"> (flag)</em><a class="headerlink" href="#directive-option-minicylc-snippet" title="Permalink to this definition">¶</a></dt>
 <dd><p>If set a code snippet containing the graph string will also be rendered.</p>
 </dd></dl>
 
-<dl class="directive:option">
-<dt id="directive:option-minicylc-size">
-<code class="sig-name descname">:size:</code><a class="headerlink" href="#directive:option-minicylc-size" title="Permalink to this definition">¶</a></dt>
+<dl class="rst directive:option">
+<dt id="directive-option-minicylc-size">
+<span id="directive:option-minicylc-size"></span><code class="sig-name descname">:size:</code><a class="headerlink" href="#directive-option-minicylc-size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the <a class="reference external" href="https://graphviz.org/doc/info/attrs.html#d:size">graphviz size attribute</a>.</p>
 </dd></dl>
 
-<dl class="directive:option">
-<dt id="directive:option-minicylc-theme">
-<code class="sig-name descname">:theme:</code><a class="headerlink" href="#directive:option-minicylc-theme" title="Permalink to this definition">¶</a></dt>
+<dl class="rst directive:option">
+<dt id="directive-option-minicylc-theme">
+<span id="directive:option-minicylc-theme"></span><code class="sig-name descname">:theme:</code><a class="headerlink" href="#directive-option-minicylc-theme" title="Permalink to this definition">¶</a></dt>
 <dd><p>The name of the colour theme for animation, currently supported:</p>
 <dl class="simple">
 <dt>demo</dt><dd><p>Active / completed tasks are blue, all other states are blank.</p>
@@ -224,7 +227,7 @@ otherwise a plain graph will be displayed as an image.</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Inherits options from the <a class="reference external" href="http://www.sphinx-doc.org/en/master/usage/extensions/graphviz.html#directive-digraph" title="(in Sphinx v4.0.0+/a3a775b1e)"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">digraph</span></code></a> directive.</p>
+<p>Inherits options from the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/graphviz.html#directive-digraph" title="(in Sphinx v4.0.0+)"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">digraph</span></code></a> directive.</p>
 </div>
 </dd></dl>
 
@@ -267,7 +270,7 @@ otherwise a plain graph will be displayed as an image.</p>
         <a href="cylc.sphinx_ext.practical.html" class="btn btn-neutral float-right" title="practical" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cylc.sphinx_ext.hieroglyph_patch.html" class="btn btn-neutral float-left" title="hieroglyph_patch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cylc.sphinx_ext.hieroglyph_addons.html" class="btn btn-neutral float-left" title="hieroglyph_addons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -276,11 +279,19 @@ otherwise a plain graph will be displayed as an image.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -291,7 +302,6 @@ otherwise a plain graph will be displayed as an image.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
