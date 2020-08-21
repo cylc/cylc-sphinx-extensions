@@ -1,6 +1,8 @@
 name: release
 
-on: [publish]
+on:
+  release:
+  workflow_dispatch:
 
 jobs:
   gh-pages:
