@@ -328,6 +328,8 @@ class CylcDirective(ObjectDescription):
         Examples:
             >>> CylcSettingDirective.sanitise_signature('a=b')
             ('a', 'b')
+            >>> CylcSettingDirective.sanitise_signature('share/cycle')
+            ('share/cycle', None)
 
         """
         value = None
