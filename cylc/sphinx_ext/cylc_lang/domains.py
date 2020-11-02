@@ -344,8 +344,8 @@ class CylcDirective(ObjectDescription):
             value = tokens['value']
             tokens['value'] = None
             sig = detokenise(tokens)
-            if is_slash_in_sig is True:
-                sig = sig.replace('FORWARD_SLASH', '/')
+        if is_slash_in_sig is True:
+            sig = sig.replace('FORWARD_SLASH', '/')
         return sig, value
 
     def handle_signature(self, sig, signode):
