@@ -20,8 +20,8 @@ KEYS = {
 # NOTE we allow `<...>` because this is used for custom sections
 # (i.e. for `__MANY__` items)
 CYLC_WORD = r'''
-    (?:[\<\w\-\_])?
-    (?:[\w\-\_][\w\-\_ ]+)?
+    (?:[\<\w\-\_\/])?
+    (?:[\w\-\_][\w\-\_\/ ]+)?
     [\w\>]
 '''
 
@@ -328,24 +328,13 @@ class CylcDirective(ObjectDescription):
         Examples:
             >>> CylcSettingDirective.sanitise_signature('a=b')
             ('a', 'b')
-            >>> CylcSettingDirective.sanitise_signature('share/cycle')
-            ('share/cycle', None)
-
         """
         value = None
-        is_slash_in_sig = False
-        # This is necessary to allow slash config entries, e.g. share/cycle
-        if "/" in sig:
-            is_slash_in_sig = True
-            sig = sig.replace('/', 'FORWARD_SLASH')
-
         if cls.NAME == 'setting':
             tokens = tokenise(sig)
             value = tokens['value']
             tokens['value'] = None
             sig = detokenise(tokens)
-        if is_slash_in_sig is True:
-            sig = sig.replace('FORWARD_SLASH', '/')
         return sig, value
 
     def handle_signature(self, sig, signode):
