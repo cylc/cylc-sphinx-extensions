@@ -66,7 +66,7 @@ Sphinx domain for ``cylc`` configurations.
 
      .. cylc:setting:: foo
 
-        a setting called ``foo``.
+        A setting called ``foo``.
 
         We can use relative references to link to other sections in the
         same configuration tree. Just use ``..`` to back up a level
@@ -81,14 +81,14 @@ Sphinx domain for ``cylc`` configurations.
 
      .. cylc:section:: bar
 
-        a section called ``bar``.
+        A section called ``bar``.
 
         Here's a link to :cylc:conf:`this section <my-conf1.cylc[bar]>`, note
         we re-named the target using the sphinx/rst ``name <target>`` syntax.
 
         .. cylc:setting:: pub
 
-           a setting called ``pub``
+           A setting called ``pub``
 
            .. cylc:value:: integer
 
@@ -102,6 +102,10 @@ Sphinx domain for ``cylc`` configurations.
            .. cylc:value:: string
 
               an iso8601 duration.
+
+        .. cylc:setting:: a/b/c
+
+           A setting with a ``/`` in the name.
 
 
 Auto Documenters

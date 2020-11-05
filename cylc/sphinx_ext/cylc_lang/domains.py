@@ -20,8 +20,8 @@ KEYS = {
 # NOTE we allow `<...>` because this is used for custom sections
 # (i.e. for `__MANY__` items)
 CYLC_WORD = r'''
-    (?:[\<\w\-\_])?
-    (?:[\w\-\_][\w\-\_ ]+)?
+    (?:[\<\w\-\_\/])?
+    (?:[\w\-\_][\w\-\_\/ ]+)?
     [\w\>]
 '''
 
@@ -328,7 +328,6 @@ class CylcDirective(ObjectDescription):
         Examples:
             >>> CylcSettingDirective.sanitise_signature('a=b')
             ('a', 'b')
-
         """
         value = None
         if cls.NAME == 'setting':
