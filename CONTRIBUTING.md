@@ -2,7 +2,7 @@
 
 ## Report Bugs
 
-Report bugs by opening an issue [on 
+Report bugs by opening an issue [on
 Github](https://github.com/cylc/cylc-sphinx-extensions/issues). Give the
 version affected by the bug (you should test the latest release if possible)
 and a recipe to reproduce the problem.
@@ -24,7 +24,7 @@ not be able to consider large changes that appear out of the blue. New
 contributors should add their details to the [Code Contributors
 ](#code-contributors) section of this file as part of their first Pull
 Request, and reviewers are responsible for checking this before merging the
-new branch into *master*. 
+new branch into *master*.
 
 ## Code Contributors
 
@@ -36,6 +36,7 @@ below.
  - Tim Pillinger
  - Bruno Kinoshita
  - Mel Hall
+ - Ronnie Dutta
 
 (All contributors are identifiable with email addresses in the git version
 control logs or otherwise.)
