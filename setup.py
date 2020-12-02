@@ -38,7 +38,8 @@ __version__ = get_version(
 
 
 TESTS_REQUIRE = [
-    'pytest'
+    'pytest',
+    'wheel'
 ]
 
 
