@@ -57,6 +57,7 @@ jobs:
         commitish: ${{ env.MERGE_SHA }}
         tag_name: ${{ env.VERSION }}
         release_name: ${{ env.VERSION }}
+        prerelease: ${{ env.PRERELEASE }}
 
     - name: Make HTML
       run: make html
