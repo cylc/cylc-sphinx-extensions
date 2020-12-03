@@ -20,9 +20,6 @@ jobs:
     timeout-minutes: 10
     steps:
 
-    - name: Get the version number
-      uses: cylc/release-actions/stage-2/get-version-from-pr@v1
-
     - name: Checkout repo
       uses: actions/checkout@v2
       with:
@@ -38,6 +35,9 @@ jobs:
         sudo apt-get install -y graphviz
         pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
         pip install -e .[all]
+
+    - name: Get the version number
+      uses: cylc/release-actions/stage-2/get-version-from-pr@v1
 
     - name: Build
       uses: cylc/release-actions/build-python-package@v1
