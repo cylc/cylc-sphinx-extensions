@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.2.0 documentation</title>
+  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.3.0 documentation</title>
   
 
   
@@ -235,7 +235,7 @@
 
 <span class="p">  ..</span> <span class="ow">cylc:setting</span><span class="p">::</span> foo
 
-     a setting called <span class="s">``foo``</span>.
+     A setting called <span class="s">``foo``</span>.
 
      We can use relative references to link to other sections in the
      same configuration tree. Just use <span class="s">``..``</span> to back up a level
@@ -250,14 +250,14 @@
 
 <span class="p">  ..</span> <span class="ow">cylc:section</span><span class="p">::</span> bar
 
-     a section called <span class="s">``bar``</span>.
+     A section called <span class="s">``bar``</span>.
 
      Here&#39;s a link to <span class="na">:cylc:conf:</span><span class="nv">`this section &lt;my-conf1.cylc[bar]&gt;`</span>, note
      we re-named the target using the sphinx/rst <span class="s">``name &lt;target&gt;``</span> syntax.
 
 <span class="p">     ..</span> <span class="ow">cylc:setting</span><span class="p">::</span> pub
 
-        a setting called <span class="s">``pub``</span>
+        A setting called <span class="s">``pub``</span>
 
 <span class="p">        ..</span> <span class="ow">cylc:value</span><span class="p">::</span> integer
 
@@ -271,6 +271,10 @@
 <span class="p">        ..</span> <span class="ow">cylc:value</span><span class="p">::</span> string
 
            an iso8601 duration.
+
+<span class="p">     ..</span> <span class="ow">cylc:setting</span><span class="p">::</span> a/b/c
+
+        A setting with a <span class="s">``/``</span> in the name.
 </pre></div>
 </div>
 <dd><dl class="cylc conf">
@@ -279,7 +283,7 @@
 <dd><dl class="cylc setting">
 <dt id="my-conf1.cylc|foo">
 <code class="sig-name descname">foo</code><a class="headerlink" href="#my-conf1.cylc|foo" title="Permalink to this definition">¶</a></dt>
-<dd><p>a setting called <code class="docutils literal notranslate"><span class="pre">foo</span></code>.</p>
+<dd><p>A setting called <code class="docutils literal notranslate"><span class="pre">foo</span></code>.</p>
 <p>We can use relative references to link to other sections in the
 same configuration tree. Just use <code class="docutils literal notranslate"><span class="pre">..</span></code> to back up a level
 like this: <a class="reference internal" href="#my-conf1.cylc[bar]pub" title="my-conf1.cylc[bar]pub"><code class="xref cylc cylc-conf docutils literal notranslate"><span class="pre">[bar]pub</span></code></a></p>
@@ -291,13 +295,13 @@ for example <a class="reference internal" href="#my-conf1.cylc[bar]pub" title="m
 <dl class="cylc section">
 <dt id="my-conf1.cylc[bar]">
 <code class="sig-name descname">[bar]</code><a class="headerlink" href="#my-conf1.cylc[bar]" title="Permalink to this definition">¶</a></dt>
-<dd><p>a section called <code class="docutils literal notranslate"><span class="pre">bar</span></code>.</p>
+<dd><p>A section called <code class="docutils literal notranslate"><span class="pre">bar</span></code>.</p>
 <p>Here’s a link to <a class="reference internal" href="#my-conf1.cylc[bar]" title="my-conf1.cylc[bar]"><code class="xref cylc cylc-conf docutils literal notranslate"><span class="pre">this</span> <span class="pre">section</span></code></a>, note
 we re-named the target using the sphinx/rst <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">&lt;target&gt;</span></code> syntax.</p>
 <dl class="cylc setting">
 <dt id="my-conf1.cylc[bar]pub">
 <code class="sig-name descname">pub</code><a class="headerlink" href="#my-conf1.cylc[bar]pub" title="Permalink to this definition">¶</a></dt>
-<dd><p>a setting called <code class="docutils literal notranslate"><span class="pre">pub</span></code></p>
+<dd><p>A setting called <code class="docutils literal notranslate"><span class="pre">pub</span></code></p>
 <dl class="cylc value">
 <dt id="my-conf1.cylc[bar]pub=integer">
 <code class="sig-name descname">=integer</code><a class="headerlink" href="#my-conf1.cylc[bar]pub=integer" title="Permalink to this definition">¶</a></dt>
@@ -317,6 +321,12 @@ a relative reference).</p>
 <dd><p>an iso8601 duration.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="cylc setting">
+<dt id="my-conf1.cylc[bar]a/b/c">
+<code class="sig-name descname">a/b/c</code><a class="headerlink" href="#my-conf1.cylc[bar]a/b/c" title="Permalink to this definition">¶</a></dt>
+<dd><p>A setting with a <code class="docutils literal notranslate"><span class="pre">/</span></code> in the name.</p>
 </dd></dl>
 
 </dd></dl>
