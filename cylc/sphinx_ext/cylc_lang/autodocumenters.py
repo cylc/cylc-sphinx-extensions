@@ -141,7 +141,7 @@ def doc_setting(item):
     if item.vdr:
         vdr_info = get_vdr_info(item.vdr)
         fields['type'] = f':parsec:type:`{vdr_info[0]}`'
-    if item.default and item.default != ConfigNode.UNSET:
+    if item.default not in (None, '', ConfigNode.UNSET):
         fields['default'] = f'``{repr_value(item.default)}``'
     if item.options:
         fields['options'] = ', '.join(
