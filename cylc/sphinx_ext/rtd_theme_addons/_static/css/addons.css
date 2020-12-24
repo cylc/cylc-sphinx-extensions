@@ -119,3 +119,10 @@ span.versionmodified{
     overflow-x: hidden!important;
     overflow-y: hidden!important;
 }
+
+
+/* (8)
+ * Fix zero height auto size of svg */
+.logo {
+    height: 110px!important;
+}
