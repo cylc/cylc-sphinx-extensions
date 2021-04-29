@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# THIS FILE IS PART OF THE CYLC SUITE ENGINE.
+# THIS FILE IS PART OF THE CYLC WORKFLOW ENGINE.
 # Copyright (C) NIWA & British Crown (Met Office) & Contributors.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ class CylcLexer(RegexLexer):
     GRAPH_TASK_TOKEN = Keyword.Declaration
     GRAPH_XTRIGGER_TOKEN = Keyword.Type
     PARAMETERISED_TASK_TOKEN = Name.Builtin
-    EXTERNAL_SUITE_TOKEN = Name.Builtin.Pseudo
+    EXTERNAL_WORKFLOW_TOKEN = Name.Builtin.Pseudo
     INTERCYCLE_OFFSET_TOKEN = Name.Builtin
 
     EMPY_BLOCK_REGEX = (
@@ -130,7 +130,7 @@ class CylcLexer(RegexLexer):
         'graph': [
             include('preproc'),
             include('comment'),
-            include('inter-suite-trigger'),
+            include('inter-workflow-trigger'),
             include('parameterisation'),
             (r'@\w+', GRAPH_XTRIGGER_TOKEN),
             (r'\w+', GRAPH_TASK_TOKEN),
@@ -143,13 +143,13 @@ class CylcLexer(RegexLexer):
             (r'.', Comment)
         ],
 
-        'inter-suite-trigger': [
+        'inter-workflow-trigger': [
             (r'(\<)'
-             r'([^\>]+)'  # foreign suite
+             r'([^\>]+)'  # foreign workflow
              r'(::)'
              r'([^\>]+)'  # foreign task
              r'(\>)',
-             bygroups(Text, EXTERNAL_SUITE_TOKEN, Text,
+             bygroups(Text, EXTERNAL_WORKFLOW_TOKEN, Text,
                       PARAMETERISED_TASK_TOKEN, Text)),
         ],
 
