@@ -138,6 +138,13 @@ def repr_value(value):
 
 def doc_setting(item):
     fields = {}
+    parents = list(item.parents())
+    if parents and parents[0].meta is True:
+        # too meta for us
+        # this is a setting in a section in a meta section
+        # TODO: this is a limitation which prevents us from documenting
+        # deeply nested stuff in meta sections
+        return []
     if item.vdr:
         vdr_info = get_vdr_info(item.vdr)
         fields['type'] = f':parsec:type:`{vdr_info[0]}`'
@@ -162,6 +169,10 @@ def doc_setting(item):
 
 def doc_section(item):
     fields = {}
+    if item.meta is True:
+        # too meta for us
+        # this is section inside a meta section
+        return []
     if item.meta:
         fields['Inherits'] = f':cylc:conf:`{repr(item.meta)}`'
     return directive(
