@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * THIS FILE IS PART OF THE CYLC SUITE ENGINE.
+ * THIS FILE IS PART OF THE CYLC WORKFLOW ENGINE.
  * Copyright (C) NIWA & British Crown (Met Office) & Contributors.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -275,9 +275,9 @@ class MiniCylc {
                 // The simulation has ended, reset and restart.
                 this._init();
             } else {
-                // The suite is stalled, log a console message and do nothing.
+                // The worklfow stalled, log a console message and do nothing.
                 exit = true;
-                console.log('Suite stalled :(');
+                console.log('Workflow stalled :(');
             }
         }
 
