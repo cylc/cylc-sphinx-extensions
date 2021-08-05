@@ -23,7 +23,7 @@ import os
 from shutil import copyfile
 
 
-__version__ = '1.3.0'
+__version__ = '1.3.1'
 
 
 # map sub directory name to the name of the sphinx registration function
