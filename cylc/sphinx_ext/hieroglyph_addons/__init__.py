@@ -1,16 +1,16 @@
 """Patches the hard-coded Heroglyph slides theme.
 
-.. _Heroglyph: https://github.com/nyergler/hieroglyph
+.. _Hieroglyph: https://github.com/nyergler/hieroglyph
 
 .. warning::
 
-   These modifications only in `Heroglyph`_ slides builds.
+   These modifications only work in `Hieroglyph`_ slides builds.
 
 .. nextslide::
 
 .. note::
 
-   extension is automatically loaded when added to extensions, no directives or
+   Extension is automatically loaded when added to extensions, no directives or
    configurations required.
 
 .. nextslide::
