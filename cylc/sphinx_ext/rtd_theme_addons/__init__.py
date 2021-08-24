@@ -8,7 +8,7 @@
 
 .. note::
 
-   extension is automatically loaded when added to extensions, no directives or
+   Extension is automatically loaded when added to extensions, no directives or
    configurations required.
 
 
@@ -25,7 +25,7 @@ Modifications:
 
 2. Permit linking admonitions
 
-   .. note::
+   .. admonition:: Example
 
       When hovering the title of this admonition a link symbol should appear.
 
@@ -43,7 +43,19 @@ Modifications:
 
 5. Restyle code-block captions
 
+   .. code-block:: bash
+      :caption: Hello World
+
+      $ echo 'hello world'
+
 6. Address lack of whitespace under lists in admonitions
+
+   .. admonition:: Example
+
+      - Darmok
+      - Jalad
+
+      Temba, his arms wide.
 
 7. Improve sidebar scrolling
 
