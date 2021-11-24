@@ -1,0 +1,1 @@
+cylc-sphinx-extensions version |version|

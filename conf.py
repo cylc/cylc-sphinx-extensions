@@ -39,6 +39,7 @@ extensions = [
     'cylc.sphinx_ext.rtd_theme_addons',
     'cylc.sphinx_ext.rst_example',
     'cylc.sphinx_ext.sub_lang',
+    'cylc.sphinx_ext.literal_sub_include',
 
     # addons required by extensions
     'hieroglyph',
@@ -61,3 +62,8 @@ intersphinx_mapping = {
 
 # avoid issues with transitive files
 exclude_patterns = ['_build', 'venv', 'env']
+
+# for use by the literal_sub_include plugin
+literal_sub_include_subs = {
+    'version': __version__,
+}
