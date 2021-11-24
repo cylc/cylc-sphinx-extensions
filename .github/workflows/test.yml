@@ -12,30 +12,34 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v1
+
+      - name: eslint
+        run: npx eslint .
+
       - name: configure python
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - name: configure node
-        uses: actions/setup-node@v1
-        with:
-            node-version: '10.x'
+
       - name: install
         run: |
           sudo apt-get install -y graphviz
           pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
           pip install -e .[all]
-          npm install -g eslint
-      - name: style
+
+      - name: pycodestyle
         run: |
           pycodestyle .
-          eslint cylc/
+          npx eslint cylc/
+
       - name: unittest
         run: |
           pytest
+
       - name: build
         run: |
           make html slides linkcheck
+
       - name: debug
         if: failure()
         run: |
