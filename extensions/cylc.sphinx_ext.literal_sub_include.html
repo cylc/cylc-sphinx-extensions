@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>rtd_theme_addons &mdash; Cylc Sphinx Extensions 1.3.3 documentation</title>
+  <title>literal_sub_include &mdash; Cylc Sphinx Extensions 1.3.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -28,8 +28,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="sub_lang" href="cylc.sphinx_ext.sub_lang.html" />
-    <link rel="prev" title="rst_example" href="cylc.sphinx_ext.rst_example.html" /> 
+    <link rel="next" title="minicylc" href="cylc.sphinx_ext.minicylc.html" />
+    <link rel="prev" title="hieroglyph_addons" href="cylc.sphinx_ext.hieroglyph_addons.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,11 +52,15 @@
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.diff_selection.html">diff_selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.grid_table.html">grid_table</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_addons.html">hieroglyph_addons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.literal_sub_include.html">literal_sub_include</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">literal_sub_include</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configurations">Configurations</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.minicylc.html">minicylc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.practical.html">practical</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.rst_example.html">rst_example</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">rtd_theme_addons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.rtd_theme_addons.html">rtd_theme_addons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.sub_lang.html">sub_lang</a></li>
 </ul>
 
@@ -74,9 +78,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>rtd_theme_addons</li>
+      <li>literal_sub_include</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/extensions/cylc.sphinx_ext.rtd_theme_addons.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/extensions/cylc.sphinx_ext.literal_sub_include.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -84,76 +88,67 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-cylc.sphinx_ext.rtd_theme_addons">
-<span id="rtd-theme-addons"></span><h1>rtd_theme_addons<a class="headerlink" href="#module-cylc.sphinx_ext.rtd_theme_addons" title="Permalink to this headline"></a></h1>
-<p>Patches the Read The Docs Sphinx Theme.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>These modifications only work in the <a class="reference external" href="https://github.com/readthedocs/sphinx_rtd_theme">Read The Docs Theme</a></p>
-</div>
+  <section id="module-cylc.sphinx_ext.literal_sub_include">
+<span id="literal-sub-include"></span><h1>literal_sub_include<a class="headerlink" href="#module-cylc.sphinx_ext.literal_sub_include" title="Permalink to this headline"></a></h1>
+<p>A literal include block that supports hardcoded substitutions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Extension is automatically loaded when added to extensions, no directives or
-configurations required.</p>
+<p>Hopefully we can move a feature like this into Sphinx in the long run.</p>
 </div>
-<p>Modifications:</p>
-<ol class="arabic">
-<li><p>Permit nested admonitions of differing class</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<div class="admonition error">
-<p class="admonition-title">Error</p>
-<p>The inner admonition should appear in a different colour to the outer
-one.</p>
-</div>
-</div>
-</li>
-<li><p>Permit linking admonitions</p>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<p>When hovering the title of this admonition a link symbol should appear.</p>
-</div>
-</li>
-<li><p>Add warning symbols before deprecated items.</p>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 1.2.3: </span>Oh no!</p>
-</div>
-</li>
-<li><p>Make versionchanged items more prominent.</p>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 1.2.3: </span>Something changed!</p>
-</div>
-</li>
-<li><p>Restyle code-block captions</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Hello World</span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s1">&#39;hello world&#39;</span>
+<section id="directives">
+<h2>Directives<a class="headerlink" href="#directives" title="Permalink to this headline"></a></h2>
+<dl class="rst directive">
+<dt class="sig sig-object rst" id="directive-literalsubinclude">
+<span class="sig-name descname"><span class="pre">..</span> <span class="pre">literalsubinclude::</span></span><a class="headerlink" href="#directive-literalsubinclude" title="Permalink to this definition"></a></dt>
+<dd><p>Directive for practical exercise.</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>With substitutions turned off:
+
+<span class="p">..</span> <span class="ow">literalsubinclude</span><span class="p">::</span> ../cylc/sphinx_ext/literal_sub_include/test.txt
+
+With substitutions turned on:
+
+<span class="p">..</span> <span class="ow">literalsubinclude</span><span class="p">::</span> ../cylc/sphinx_ext/literal_sub_include/test.txt
+  <span class="nc">:substitutions:</span>
 </pre></div>
 </div>
+<dd><p>With substitutions turned off:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cylc</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">extensions</span> <span class="n">version</span> <span class="o">|</span><span class="n">version</span><span class="o">|</span>
+</pre></div>
 </div>
-</li>
-<li><p>Address lack of whitespace under lists in admonitions</p>
-<div class="admonition-example admonition">
-<p class="admonition-title">Example</p>
-<ul class="simple">
-<li><p>Darmok</p></li>
-<li><p>Jalad</p></li>
-</ul>
-<p>Temba, his arms wide.</p>
+<p>With substitutions turned on:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cylc</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">extensions</span> <span class="n">version</span> <span class="mf">1.3.3</span>
+</pre></div>
 </div>
-</li>
-<li><p>Improve sidebar scrolling</p></li>
-</ol>
-<p>Extension is automatically loaded for all code diffs when it is added to
-a project’s Sphinx extensions. No directives required.</p>
+</dd></dd></dl>
+
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline"></a></h2>
+<dl class="object">
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">literal_sub_include_subs</span></span></dt>
+<dd><p>Dictionary containing key value pairs of substitutions e.g:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">literal_sub_include_subs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Patching into the Sphinx substitutions appears to be tricky due to the
+stage at which they are applied.</p>
+</div>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="cylc.sphinx_ext.rst_example.html" class="btn btn-neutral float-left" title="rst_example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cylc.sphinx_ext.sub_lang.html" class="btn btn-neutral float-right" title="sub_lang" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cylc.sphinx_ext.hieroglyph_addons.html" class="btn btn-neutral float-left" title="hieroglyph_addons" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cylc.sphinx_ext.minicylc.html" class="btn btn-neutral float-right" title="minicylc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
