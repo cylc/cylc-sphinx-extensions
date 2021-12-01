@@ -35,8 +35,8 @@ Lexer for the Cylc language and ``flow.cylc`` extensions.
           [[dependencies]]
               [[[P1Y]]]
                   graph = """
-                      @wall_clock => foo => bar
-                      (foo & bar) => pub
+                      @wall_clock => foo? => bar
+                      (foo? & bar) => pub
                   """
 
 ``cylc-graph``
@@ -48,8 +48,8 @@ Lexer for the Cylc "graph string" language.
 
    .. code-block:: cylc-graph
 
-      @wall_clock => foo => bar
-      (foo & bar) => pub
+      @wall_clock => foo? => bar
+      (foo? & bar) => pub
 
 
 Domains

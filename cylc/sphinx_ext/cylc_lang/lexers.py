@@ -30,6 +30,7 @@ class CylcLexer(RegexLexer):
     SETTING_TOKEN = Name.Variable
     GRAPH_TASK_TOKEN = Keyword.Declaration
     GRAPH_XTRIGGER_TOKEN = Keyword.Type
+    GRAPH_OPTIONAL_OUTPUT_TOKEN = Keyword.Type
     PARAMETERISED_TASK_TOKEN = Name.Builtin
     EXTERNAL_WORKFLOW_TOKEN = Name.Builtin.Pseudo
     INTERCYCLE_OFFSET_TOKEN = Name.Builtin
@@ -137,6 +138,7 @@ class CylcLexer(RegexLexer):
             (r'\!\w+', Other),
             (r'\s', Text),
             (r'=>', Operator),
+            (r'\?', GRAPH_OPTIONAL_OUTPUT_TOKEN),
             (r'[\&\|]', Operator),
             (r'[\(\)]', Punctuation),
             (r'\[', Text, 'intercycle-offset'),
