@@ -148,6 +148,7 @@ def test_doc_setting(
     assert doc_setting(simple_setting) == [
         '.. cylc:setting:: simple-setting',
         '',
+        '   :Path: ``simple-setting``',
         '   :type: :parsec:type:`string`',
         ''
     ]
@@ -155,6 +156,7 @@ def test_doc_setting(
     assert doc_setting(option_setting) == [
         '.. cylc:setting:: option-setting',
         '',
+        '   :Path: ``option-setting``',
         '   :type: :parsec:type:`string`',
         '   :options: ``a``, ``b``, ``c``',
         ''
@@ -163,6 +165,7 @@ def test_doc_setting(
     assert doc_setting(default_setting) == [
         '.. cylc:setting:: default-setting',
         '',
+        '   :Path: ``default-setting``',
         '   :type: :parsec:type:`string`',
         '   :default: ``x``',
         ''
@@ -171,6 +174,7 @@ def test_doc_setting(
     assert doc_setting(documented_setting) == [
         '.. cylc:setting:: documented-setting',
         '',
+        '   :Path: ``documented-setting``',
         '   :type: :parsec:type:`string`',
         '',
         '   foo',
@@ -252,6 +256,10 @@ def test_doc_spec(documented_spec):
         '',
         '      .. cylc:setting:: documented-setting',
         '',
+        (
+            '         '
+            ':Path: ``documented-conf[documented-section]documented-setting``'
+        ),
         '         :type: :parsec:type:`string`',
         '',
         '         f',

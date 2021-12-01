@@ -137,7 +137,7 @@ def repr_value(value):
 
 
 def doc_setting(item):
-    fields = {}
+    fields = {'Path': f'``{repr(item)}``'}
     parents = list(item.parents())
     if parents and parents[0].meta is True:
         # too meta for us
