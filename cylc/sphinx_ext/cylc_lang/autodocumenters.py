@@ -106,8 +106,12 @@ def directive(
     return ret
 
 
-def repr_value(value):
+def repr_value(value, vdr=None):
     """Return a string repr for a configuration value.
+
+    Arguments:
+        value: The value to generate a repr for.
+        vdr: The validator used to parse this value.
 
     Examples:
         >>> repr_value([1, 3, 5])
@@ -115,6 +119,8 @@ def repr_value(value):
         >>> repr_value(['a b', 'c d'])
         "'a b', 'c d'"
         >>> repr_value([1, 2, 3])
+        '1 .. 3'
+        >>> repr_value((1, 3), vdr=ParsecValidator.V_RANGE)
         '1 .. 3'
 
     """
@@ -131,6 +137,9 @@ def repr_value(value):
             f"'{x}'" if ' ' in str(x) else f'{x}'
             for x in value
         ))
+    elif vdr == ParsecValidator.V_RANGE:
+        min_, max_ = value
+        return f'{min_} .. {max_}'
 
     # otherwise just use the string representation
     return str(value)
@@ -149,7 +158,7 @@ def doc_setting(item):
         vdr_info = get_vdr_info(item.vdr)
         fields['type'] = f':parsec:type:`{vdr_info[0]}`'
     if item.default not in (None, '', ConfigNode.UNSET):
-        fields['default'] = f'``{repr_value(item.default)}``'
+        fields['default'] = f'``{repr_value(item.default, item.vdr)}``'
     if item.options:
         fields['options'] = ', '.join(
             f'``{option}``'
