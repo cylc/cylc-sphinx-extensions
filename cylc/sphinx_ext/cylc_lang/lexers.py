@@ -59,22 +59,11 @@ class CylcLexer(RegexLexer):
             # Leading whitespace.
             (r'^[\s\t]+', Text),
 
+            # Cylc graph heading:  [[graph]]
+            (r'(\[\[\s*graph)', HEADING_TOKEN, 'graph-section'),
+
             # Cylc headings:  [<heading>]
             (r'([\[]+)', HEADING_TOKEN, 'heading'),
-
-            # Multi-line graph sections:  graph = """ ...
-            (r'(graph)(\s+)?(=)([\s+])?(\"\"\")',
-                bygroups(SETTING_TOKEN,
-                         Text,
-                         Operator,
-                         Text,
-                         String.Double), 'multiline-graph'),
-
-            # Inline graph sections:  graph = ...
-            (r'(graph)(\s+)?(=)',
-                bygroups(SETTING_TOKEN,
-                         String,
-                         Operator), 'inline-graph'),
 
             # Multi-line settings:  key = """ ...
             (r'([^=\n]+)(=)([\s+])?(\"\"\")',
@@ -95,6 +84,39 @@ class CylcLexer(RegexLexer):
             (r'\s', Text)
         ],
 
+        # The [[graph]] section
+        # (contains special rules for formatting graph strings)
+        'graph-section': [
+            # The remainder of the graph heading:  ]]\n
+            (r'\s*\]\]', HEADING_TOKEN),
+
+            # Multi-line graph sections:  graph = """ ...
+            (r'(.*)(\s*)(=)(\s*)(\"\"\")',
+                bygroups(SETTING_TOKEN,
+                         Text,
+                         Operator,
+                         Text,
+                         String.Double), 'multiline-graph'),
+
+            # Inline graph sections:  graph = ...
+            (r'(.*)(\s*)(=)',
+                bygroups(SETTING_TOKEN,
+                         String,
+                         Operator), 'inline-graph'),
+
+            # Other things that can be present inside this section.
+            include('comment'),
+            include('preproc'),
+
+            # Arbitrary whitespace
+            (r'\s+', Text),
+            (r'\n', Text),
+
+            # Pop when we encounter the next heading
+            (r'(?=\[)', HEADING_TOKEN, '#pop')
+        ],
+
+        # Config section headings.
         'heading': [
             (r'[\]]+', HEADING_TOKEN, '#pop'),
             include('preproc'),
@@ -110,13 +132,13 @@ class CylcLexer(RegexLexer):
             (r'(\s+)?(?<!\$\{)(#.*)', bygroups(Text, Comment.Single))
         ],
 
+
         # The value in a key = value pair.
         'setting': [
             include('comment'),
             include('preproc'),
             (r'\\\n', String),
             (r'.', String),
-
         ],
 
         # The value in a key = """value""" pair.

@@ -32,12 +32,16 @@ Lexer for the Cylc language and ``flow.cylc`` extensions.
 
       [scheduling]
           initial cycle point = 2000
-          [[dependencies]]
-              [[[P1Y]]]
-                  graph = """
-                      @wall_clock => foo? => bar
-                      (foo? & bar) => pub
-                  """
+          [[graph]]
+              P1Y = """
+                  @wall_clock => foo? => bar
+                  (foo? & bar) => pub
+              """
+
+.. note::
+
+   The graph part should format the same as the ``cylc-graph`` example
+   below.
 
 ``cylc-graph``
 ^^^^^^^^^^^^^^
