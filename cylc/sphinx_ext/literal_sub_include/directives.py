@@ -17,23 +17,25 @@
 # -----------------------------------------------------------------------------
 
 from functools import wraps
+from typing import List
 
 from docutils.parsers.rst import directives
 from sphinx.directives.code import LiteralInclude, LiteralIncludeReader
 
 
-def substitute(lines, items):
+def substitute(lines: List[str], items: dict) -> None:
     """Substitute |strings| in the provided "lines" with values from "items".
 
     Example:
-        >>> lines = ['foo |bar| baz']
-        >>> substitute(lines, {'bar': 'pub'})
+        >>> lines = ['foo |bar| baz', 'foo bar |baz|']
+        >>> substitute(lines, {'bar': 'pub', 'baz': 'qux'})
         >>> lines
-        ['foo pub baz']
+        ['foo pub baz', 'foo bar qux']
     """
     for ind, line in enumerate(lines):
         for key, value in items.items():
-            lines[ind] = line.replace(f'|{key}|', value)
+            line = line.replace(f'|{key}|', value)
+        lines[ind] = line
 
 
 def substitution_decorator(fcn):

@@ -59,7 +59,13 @@ Configurations
 
 """
 
+from typing import TYPE_CHECKING
+
 from cylc.sphinx_ext.literal_sub_include.directives import LiteralSubInclude
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
+
 
 __version__ = '1.0.0'
 
