@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.3.4 documentation</title>
+  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.4.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -109,25 +109,28 @@
 
 <span class="s">   [scheduling]</span>
 <span class="s">       initial cycle point = 2000</span>
-<span class="s">       [[dependencies]]</span>
-<span class="s">           [[[P1Y]]]</span>
-<span class="s">               graph = &quot;&quot;&quot;</span>
-<span class="s">                   @wall_clock =&gt; foo? =&gt; bar</span>
-<span class="s">                   (foo? &amp; bar) =&gt; pub</span>
-<span class="s">               &quot;&quot;&quot;</span>
+<span class="s">       [[graph]]</span>
+<span class="s">           P1Y = &quot;&quot;&quot;</span>
+<span class="s">               @wall_clock =&gt; foo? =&gt; bar</span>
+<span class="s">               (foo? &amp; bar) =&gt; pub</span>
+<span class="s">           &quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <dd><div class="highlight-cylc notranslate"><div class="highlight"><pre><span></span><span class="nt">[scheduling]</span>
     <span class="nv">initial cycle point </span><span class="o">=</span><span class="s"> 2000</span>
-    <span class="nt">[[dependencies]]</span>
-        <span class="nt">[[[P1Y]]]</span>
-            <span class="nv">graph</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-                <span class="cp">@wall_clock</span> <span class="o">=&gt;</span> <span class="kd">foo</span><span class="kt">?</span> <span class="o">=&gt;</span> <span class="kd">bar</span>
-                <span class="p">(</span><span class="kd">foo</span><span class="kt">?</span> <span class="o">&amp;</span> <span class="kd">bar</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kd">pub</span>
-            <span class="s2">&quot;&quot;&quot;</span>
+    <span class="nt">[[graph]]</span>
+        <span class="nv">P1Y </span><span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+            <span class="cp">@wall_clock</span> <span class="o">=&gt;</span> <span class="kd">foo</span><span class="kt">?</span> <span class="o">=&gt;</span> <span class="kd">bar</span>
+            <span class="p">(</span><span class="kd">foo</span><span class="kt">?</span> <span class="o">&amp;</span> <span class="kd">bar</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kd">pub</span>
+        <span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-</dd></section>
+</dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The graph part should format the same as the <code class="docutils literal notranslate"><span class="pre">cylc-graph</span></code> example
+below.</p>
+</div>
+</section>
 <section id="cylc-graph">
 <h3><code class="docutils literal notranslate"><span class="pre">cylc-graph</span></code><a class="headerlink" href="#cylc-graph" title="Permalink to this headline"></a></h3>
 <p>Lexer for the Cylc “graph string” language.</p>

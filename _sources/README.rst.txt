@@ -70,7 +70,7 @@ For code linting::
 Copyright and Terms of Use
 --------------------------
 
-Copyright (C) 2008-2021 NIWA & British Crown (Met Office) & Contributors.
+Copyright (C) 2008-2022 NIWA & British Crown (Met Office) & Contributors.
 
 Cylc is free software: you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation,
