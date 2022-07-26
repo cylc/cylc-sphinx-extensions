@@ -93,9 +93,9 @@ class MiniCylc {
             var node = $(this)[0];
             var node_class = $(node).attr('class');
             if (node_class == 'node') {
-                nodes[node.textContent.split('\n')[0]] = node;
+                nodes[node.textContent.trim().split('\n')[0]] = node;
             } else if (node_class == 'edge') {
-                edges[node.textContent.split('\n')[0]] = node;
+                edges[node.textContent.trim().split('\n')[0]] = node;
             }
         });
         this.nodes = nodes;
