@@ -194,6 +194,8 @@ def test_doc_section(simple_section):
     """It should docuement configuration sections."""
     assert doc_section(simple_section) == [
         '.. cylc:section:: simple-section',
+        '',
+        '   :Path: ``simple-section``',
         ''
     ]
 
@@ -250,6 +252,8 @@ def test_doc_spec(documented_spec):
         '   c',
         '',
         '   .. cylc:section:: documented-section',
+        '',
+        '      :Path: ``documented-conf[documented-section]``',
         '',
         '      d',
         '      e',
