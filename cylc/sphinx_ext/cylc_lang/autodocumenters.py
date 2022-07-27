@@ -168,7 +168,7 @@ def doc_setting(item):
 
 
 def doc_section(item):
-    fields = {}
+    fields = {'Path': f'``{repr(item)}``'}
     if item.meta is True:
         # too meta for us
         # this is section inside a meta section
