@@ -1,6 +1,10 @@
 name: test
 
-on: [pull_request]
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches: [master]
 
 jobs:
   test:
@@ -8,16 +12,18 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        python-version: ['3.7']
+        python-version: ['3.7', '3.9']
+    env:
+        PYTEST_ADDOPTS: --color=yes
     steps:
       - name: checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: eslint
         run: npx eslint .
 
       - name: configure python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
