@@ -122,3 +122,8 @@ span.versionmodified{
     overflow-x: hidden!important;
     overflow-y: hidden!important;
 }
+
+/* Remove awkward margin for config reference "Path", "Type" etc. */
+.rst-content .cylc.conf .field-list {
+    margin-bottom: 0;
+}

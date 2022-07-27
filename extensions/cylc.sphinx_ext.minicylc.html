@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>minicylc &mdash; Cylc Sphinx Extensions 1.4.0 documentation</title>
+  <title>minicylc &mdash; Cylc Sphinx Extensions 1.4.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -20,6 +20,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/js/diff_selector.js"></script>
         <script src="../_static/js/minicylc.js"></script>
@@ -93,7 +94,7 @@
            <div itemprop="articleBody">
              
   <section id="module-cylc.sphinx_ext.minicylc">
-<span id="minicylc"></span><h1>minicylc<a class="headerlink" href="#module-cylc.sphinx_ext.minicylc" title="Permalink to this headline"></a></h1>
+<span id="minicylc"></span><h1>minicylc<a class="headerlink" href="#module-cylc.sphinx_ext.minicylc" title="Permalink to this heading"></a></h1>
 <p>An extension for visualising simple Cylc graph strings.</p>
 <div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">minicylc</span><span class="p">::</span>
    <span class="nc">:snippet:</span>
@@ -104,14 +105,14 @@
 <dd><div class="highlight-cylc-graph notranslate"><div class="highlight"><pre><span></span><span class="kd">foo</span> <span class="o">=&gt;</span> <span class="kd">bar</span> <span class="o">=&gt;</span> <span class="kd">baz</span>
 </pre></div>
 </div>
-<div class="minicylc" style="text-align: center;" data-dependencies="foo => bar => baz" data-theme="default" ><div class="graphviz"><object data="../_images/graphviz-f743e1a6dd04e30f77989e801c0eeed4fe5aea24.svg" type="image/svg+xml" class="graphviz">
+<div class="minicylc" style="text-align: center;" data-dependencies="foo => bar => baz" data-theme="default" ><div class="graphviz"><object data="../_images/graphviz-fe5c05dcafa673a1f4f2d293f63dfc01e894a9b2.svg" type="image/svg+xml" class="graphviz">
 <p class="warning">digraph Mini_Cylc {
-baz
 foo -&gt; bar
 bar -&gt; baz
+baz
 }</p></object></div>
 </div></dd><section id="directives">
-<h2>Directives<a class="headerlink" href="#directives" title="Permalink to this headline"></a></h2>
+<h2>Directives<a class="headerlink" href="#directives" title="Permalink to this heading"></a></h2>
 <dl class="rst directive">
 <dt class="sig sig-object rst" id="directive-minicylc">
 <span class="sig-name descname"><span class="pre">..</span> <span class="pre">minicylc::</span></span><a class="headerlink" href="#directive-minicylc" title="Permalink to this definition"></a></dt>
@@ -120,19 +121,19 @@ bar -&gt; baz
 otherwise a plain graph will be displayed as an image.</p>
 <dl class="rst directive:option">
 <dt class="sig sig-object rst" id="directive-option-minicylc-snippet">
-<span id="directive:option-minicylc-snippet"></span><span class="sig-name descname"><span class="pre">:snippet:</span></span><em class="property"> <span class="pre">(flag)</span></em><a class="headerlink" href="#directive-option-minicylc-snippet" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">:snippet:</span></span><em class="property"> <span class="pre">(flag)</span></em><a class="headerlink" href="#directive-option-minicylc-snippet" title="Permalink to this definition"></a></dt>
 <dd><p>If set a code snippet containing the graph string will also be rendered.</p>
 </dd></dl>
 
 <dl class="rst directive:option">
 <dt class="sig sig-object rst" id="directive-option-minicylc-size">
-<span id="directive:option-minicylc-size"></span><span class="sig-name descname"><span class="pre">:size:</span></span><a class="headerlink" href="#directive-option-minicylc-size" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">:size:</span></span><a class="headerlink" href="#directive-option-minicylc-size" title="Permalink to this definition"></a></dt>
 <dd><p>Sets the <a class="reference external" href="https://graphviz.org/doc/info/attrs.html#d:size">graphviz size attribute</a>.</p>
 </dd></dl>
 
 <dl class="rst directive:option">
 <dt class="sig sig-object rst" id="directive-option-minicylc-theme">
-<span id="directive:option-minicylc-theme"></span><span class="sig-name descname"><span class="pre">:theme:</span></span><a class="headerlink" href="#directive-option-minicylc-theme" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">:theme:</span></span><a class="headerlink" href="#directive-option-minicylc-theme" title="Permalink to this definition"></a></dt>
 <dd><p>The name of the colour theme for animation, currently supported:</p>
 <dl class="simple">
 <dt>demo</dt><dd><p>Active / completed tasks are blue, all other states are blank.</p>
@@ -144,15 +145,15 @@ otherwise a plain graph will be displayed as an image.</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Inherits options from the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/graphviz.html#directive-digraph" title="(in Sphinx v5.0.0+)"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">digraph</span></code></a> directive.</p>
+<p>Inherits options from the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/graphviz.html#directive-digraph" title="(in Sphinx v6.0.0)"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">digraph</span></code></a> directive.</p>
 </div>
 </dd></dl>
 
 </section>
 <section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline"></a></h2>
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this heading"></a></h2>
 <section id="required">
-<h3>Required<a class="headerlink" href="#required" title="Permalink to this headline"></a></h3>
+<h3>Required<a class="headerlink" href="#required" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>extensions</dt><dd><p>Must include <code class="docutils literal notranslate"><span class="pre">sphinx.ext.graphviz</span></code></p>
 </dd>
@@ -161,7 +162,7 @@ otherwise a plain graph will be displayed as an image.</p>
 </dl>
 </section>
 <section id="recommended">
-<h3>Recommended<a class="headerlink" href="#recommended" title="Permalink to this headline"></a></h3>
+<h3>Recommended<a class="headerlink" href="#recommended" title="Permalink to this heading"></a></h3>
 <dl class="simple">
 <dt>extensions</dt><dd><p>Should contain either:</p>
 <ul class="simple">
