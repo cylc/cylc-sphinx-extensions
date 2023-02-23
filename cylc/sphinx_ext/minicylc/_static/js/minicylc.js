@@ -51,17 +51,49 @@ class MiniCylc {
          * Initiate the object.
          * @param div The <div> element containing the SVG.
          * */
+        this.div = div;
+        this.load();
+    }
 
-        // Obtain nodes and edges from svg.
-        var svg = ($(div).find('object:first')[0]).contentDocument;
+    load() {
+        /**
+         * Obtain nodes and edges from svg.
+         *
+         * This function calls itself recursively until the SVG is loaded.
+         *
+         * This function starts the animation when finished.
+         */
+        const svg = ($(this.div).find('object:first')[0]).contentDocument;
+        const self = this;
+
+        if (!svg) {
+          console.log('Wait for SVG load: Gecko');
+          // this retry loop works for Firefox, etc
+          setTimeout(function() {
+            self.load();
+          }, 500)
+          return;
+        }
+        var eles = $(svg).find('g');
+        if (!eles.length) {
+          console.log('Wait for SVG load: Blink');
+          // this retry loop works for Chrome, etc
+          setTimeout(function() {
+            self.load();
+          }, 500)
+          return;
+        }
+
         this._find_svg_elements(svg);
 
         // Parse dependencies.
-        var deps = this._get_dependencies_from_graph(div);
+        var deps = this._get_dependencies_from_graph(this.div);
         this._construct_dependency_map(deps);
 
         // Process colour theme.
-        this.setup_colours($(div).data('theme'));
+        this.setup_colours($(this.div).data('theme'));
+
+        this.run()
     }
 
     setup_colours(theme) {
@@ -89,7 +121,7 @@ class MiniCylc {
          */
         var nodes = {};
         var edges = {};
-        $(svg).find('.graph g').each(function() {
+        $(svg).find('g').each(function() {
             var node = $(this)[0];
             var node_class = $(node).attr('class');
             if (node_class == 'node') {
@@ -117,7 +149,7 @@ class MiniCylc {
                 continue;  // Graph line does not contain a dependency => skip.
             }
             for(ind = 0; ind < parts.length-1; ind++) {
-                deps.push([parts[ind], parts[ind + 1]]);  // [left, right].
+                deps.push([parts[ind].trim(), parts[ind + 1].trim()]);  // [left, right].
             }
         }
 
@@ -305,6 +337,6 @@ class MiniCylc {
 $(document).ready(function() {
     $('.minicylc').each(function() {
         var obj = this;
-        new MiniCylc(obj).run();
+        new MiniCylc(obj);
     });
 });
