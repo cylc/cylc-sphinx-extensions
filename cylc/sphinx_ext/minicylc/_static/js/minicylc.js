@@ -21,6 +21,16 @@
 // Default Cylc colour theme.
 var minicylc_default_theme = {
     'waiting_fill': 'none',
+    'waiting_stroke': 'black',
+    'running_fill': '#55c3e5ff',
+    'running_stroke': 'black',
+    'succeed_fill': '#64c77eff',
+    'succeed_stroke': 'black'
+}
+
+// Old Cylc 7 theme.
+var minicylc_cylc7_theme = {
+    'waiting_fill': 'none',
     'waiting_stroke': '#88c6ff',
     'running_fill': '#00c410',
     'running_stroke': 'black',
@@ -105,6 +115,8 @@ class MiniCylc {
             this.theme = minicylc_default_theme;
         } else if (theme == 'demo') {
             this.theme = minicylc_demo_theme;
+        } else if (theme == 'cylc7') {
+            this.theme = minicylc_cylc7_theme;
         } else {
             console.log('Warning: Invalid theme detected "' + theme +
                         '", defaulting to black.');
