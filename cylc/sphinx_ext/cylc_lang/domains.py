@@ -12,7 +12,7 @@ DEFAULT_SCOPE = 'flow.cylc'
 
 KEYS = {
     'conf': lambda s: f'{s}',
-    'section': lambda l: ''.join(f'[{s}]' for s in l),
+    'section': lambda part: ''.join(f'[{s}]' for s in part),
     'setting': lambda s: s,
     'value': lambda s: f'={s}'
 }
@@ -554,7 +554,7 @@ class CylcDomain(Domain):
                     break
             anchor = name
             priority = 1
-            yield(
+            yield (
                 name,
                 dispname,
                 type_,
@@ -703,7 +703,7 @@ class ParsecDomain(Domain):
             dispname = name
             anchor = name
             priority = 1
-            yield(
+            yield (
                 name,
                 dispname,
                 'type',
