@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.4.1 documentation</title>
+  <title>cylc_lang &mdash; Cylc Sphinx Extensions 1.4.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,6 +22,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/js/diff_selector.js"></script>
         <script src="../_static/js/minicylc.js"></script>
         <script src="../_static/js/spoiler.js"></script>
@@ -38,11 +39,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Cylc Sphinx Extensions
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Cylc Sphinx Extensions
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -59,8 +64,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">cylc</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#auto-documenters">Auto Documenters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#auto-documenters">Auto Documenters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#directive-auto-cylc-conf"><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">auto-cylc-conf::</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#directive-auto-cylc-type"><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">auto-cylc-type::</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#directive-cylc-scope"><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">cylc-scope::</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.diff_selection.html">diff_selection</a></li>
@@ -87,8 +99,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>cylc_lang</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">cylc_lang</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/extensions/cylc.sphinx_ext.cylc_lang.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -227,7 +239,7 @@ we re-named the target using the sphinx/rst <code class="docutils literal notran
 <dt class="sig sig-object cylc" id="my-conf1.cylc[bar]pub=integer">
 <span class="sig-name descname"><span class="pre">=integer</span></span><a class="headerlink" href="#my-conf1.cylc[bar]pub=integer" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Deprecated</dt>
+<dt class="field-odd">Deprecated<span class="colon">:</span></dt>
 <dd class="field-odd"><p>1.2.3</p>
 </dd>
 </dl>

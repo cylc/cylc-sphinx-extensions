@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>minicylc &mdash; Cylc Sphinx Extensions 1.4.1 documentation</title>
+  <title>minicylc &mdash; Cylc Sphinx Extensions 1.4.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -22,6 +22,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
         <script src="../_static/js/diff_selector.js"></script>
         <script src="../_static/js/minicylc.js"></script>
         <script src="../_static/js/spoiler.js"></script>
@@ -38,11 +39,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Cylc Sphinx Extensions
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Cylc Sphinx Extensions
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,7 +60,15 @@
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.hieroglyph_addons.html">hieroglyph_addons</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cylc.sphinx_ext.literal_sub_include.html">literal_sub_include</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">minicylc</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#directive-minicylc"><code class="docutils literal notranslate"><span class="pre">..</span> <span class="pre">minicylc::</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#directive-option-minicylc-snippet"><code class="docutils literal notranslate"><span class="pre">:snippet:</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#directive-option-minicylc-size"><code class="docutils literal notranslate"><span class="pre">:size:</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#directive-option-minicylc-theme"><code class="docutils literal notranslate"><span class="pre">:theme:</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#required">Required</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#recommended">Recommended</a></li>
@@ -82,8 +95,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>minicylc</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">minicylc</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/extensions/cylc.sphinx_ext.minicylc.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -105,11 +118,11 @@
 <dd><div class="highlight-cylc-graph notranslate"><div class="highlight"><pre><span></span><span class="kd">foo</span> <span class="o">=&gt;</span> <span class="kd">bar</span> <span class="o">=&gt;</span> <span class="kd">baz</span>
 </pre></div>
 </div>
-<div class="minicylc" style="text-align: center;" data-dependencies="foo => bar => baz" data-theme="default" ><div class="graphviz"><object data="../_images/graphviz-fe5c05dcafa673a1f4f2d293f63dfc01e894a9b2.svg" type="image/svg+xml" class="graphviz">
+<div class="minicylc" style="text-align: center;" data-dependencies="foo => bar => baz" data-theme="default" ><div class="graphviz"><object data="../_images/graphviz-0c940f87f1e18cbbd3efae8a362a61291319c4dc.svg" type="image/svg+xml" class="graphviz">
 <p class="warning">digraph Mini_Cylc {
 foo -&gt; bar
-bar -&gt; baz
 baz
+bar -&gt; baz
 }</p></object></div>
 </div></dd><section id="directives">
 <h2>Directives<a class="headerlink" href="#directives" title="Permalink to this heading"></a></h2>
@@ -145,7 +158,7 @@ otherwise a plain graph will be displayed as an image.</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Inherits options from the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/graphviz.html#directive-digraph" title="(in Sphinx v6.0.0)"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">digraph</span></code></a> directive.</p>
+<p>Inherits options from the <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/extensions/graphviz.html#directive-digraph" title="(in Sphinx v6.2.0)"><code class="xref rst rst-dir docutils literal notranslate"><span class="pre">digraph</span></code></a> directive.</p>
 </div>
 </dd></dl>
 
