@@ -1,17 +1,48 @@
+# -----------------------------------------------------------------------------
+# THIS FILE IS PART OF THE CYLC WORKFLOW ENGINE.
+# Copyright (C) NIWA & British Crown (Met Office) & Contributors.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# -----------------------------------------------------------------------------
+
+from copy import copy
 from importlib import import_module
 import json
+import os
+from pathlib import Path
+from subprocess import run
 from textwrap import (
     dedent,
     indent
 )
+from typing import Any, Dict, List, Optional
 
-from docutils.parsers.rst import Directive
-from docutils.statemachine import StringList
+from docutils.parsers.rst import Directive, directives
+from docutils.statemachine import StringList, ViewList
 
-from sphinx import addnodes
+from sphinx import addnodes, project
+from sphinx.util.docutils import SphinxDirective
 
 from cylc.flow.parsec.config import ConfigNode
 from cylc.flow.parsec.validate import ParsecValidator, CylcConfigValidator
+
+
+CYLC_CONF = 'cylc:conf'
+
+
+class DependencyError(Exception):
+    ...
 
 
 def get_vdr_info(vdr):
@@ -77,6 +108,7 @@ def directive(
         ['.. my_directive:: a b c', '']
 
     """
+    arguments = arguments or []
     ret = [
         f'.. {directive}::{" " if arguments else ""}{" ".join(arguments)}'
     ]
@@ -93,6 +125,8 @@ def directive(
         ])
         ret.append('')
     if content:
+        if isinstance(content, List):
+            content = '\n'.join(content)
         ret.extend(
             indent(
                 # remove indentation and head,tail blanklines
@@ -216,7 +250,6 @@ def doc_spec(spec):
     return ret
 
 
-class CylcAutoDirective(Directive):
     """Auto-documenter for Parsec configuration schemas.
 
     This implementation translates a Parsec ``SPEC`` into an RST document then
@@ -276,7 +309,7 @@ def doc_type(typ):
             directive('rubric', ['Examples:'])
         )
         if isinstance(examples, list):
-            examples = {k: None for k in examples}
+            examples = dict.fromkeys(examples)
         for example, notes in examples.items():
             content.append(
                 f'* ``{example}``'
@@ -322,7 +355,7 @@ class CylcAutoTypeDirective(Directive):
         types = {}
         for obj in objects:
             types.update(obj)
-        for name, info in sorted(types.items()):
+        for _, info in sorted(types.items()):
             yield dict(zip(cls.INFO_FIELDS, info))
 
     def run(self):
@@ -346,3 +379,312 @@ class CylcAutoTypeDirective(Directive):
         )
 
         return [node]
+
+
+class CylcGlobalDirective(SphinxDirective):
+    """Represent a Cylc Global Config.
+    """
+    optional_arguments = 1
+    option_spec = {
+        'show': directives.split_escaped_whitespace
+    }
+
+    def run(self):
+        display_these = None
+        if 'show' in self.options:
+            display_these = [
+                i.strip() for i in self.options['show'][0].split(',')]
+        src = self.arguments[0] if self.arguments else None
+        ret = self.config_to_node(load_cfg(src), src, display_these)
+        node = addnodes.desc_content()
+        self.state.nested_parse(
+            StringList(ret),
+            self.content_offset,
+            node
+        )
+        return [node]
+
+    @staticmethod
+    def config_to_node(
+        config: [Dict, Any],
+        src: str,
+        display_these=None,
+    ) -> List[str]:
+        """Take a global config and create a node for display.
+
+        * Displays `platform groups` and then `platforms`.
+        * For each group and platform:
+            * Adds a title, either the platform name, or the ``[meta]title``
+              field.
+            * Creates a key item list containing:
+                * The name of the item as :regex: if the ``[meta]title`` set.
+                * Job Runner.
+                * Hosts/Platforms to be selected from.
+            * ``[meta]URL``.
+
+
+        Returns:
+            A list of lines for inclusion in the document.
+        """
+        # Basic info about platforms.
+        ret = []
+
+        note = directive(
+            'note',
+            content=(
+                'Platforms and platform groups are listed'
+                ' in the order in which Cylc will check for matches to the'
+                ' ``[runtime][NAMESPACE]platform`` setting.'
+            )
+        )
+
+        for section_name, selectable in zip(
+            ['platform groups', 'platforms'],
+            ['platforms', 'hosts']
+        ):
+            section = config.get(section_name, {})
+            if not section:
+                continue
+
+            content = []
+            for regex, conf in section.items():
+                # Build info about a given platform or platform group.
+                section_content = []
+
+                meta = conf.get('meta', {})
+
+                # Title - Use regex if [meta]title not supplied;
+                # but include regex field if title is supplied:
+                title = meta.get('title', '')
+                if title:
+                    section_content.append(f':regex: ``{regex}``')
+                else:
+                    title = regex
+
+                # Job Runner
+                section_content.append(
+                    f":job runner: {conf.get('job runner', 'background')}")
+
+                # List of hosts or platforms:
+                section_content.append(
+                    f':{selectable}: ' + ', '.join(
+                        f'``{s}``' for s in
+                        conf.get(selectable, [regex])
+                    )
+                )
+
+                # Get [meta]URL - if it exists put it in a seealso directive:
+                url = meta.get('URL', '')
+                if url:
+                    section_content.append(f':URL: {url}')
+
+                # Custom keys:
+                section_content += custom_items(meta)
+
+                if display_these:
+                    section_content += custom_items(conf, these=display_these)
+
+                # Add description tag.
+                description = meta.get('description', '')
+                if description:
+                    section_content += ['', description, '']
+
+                content += directive(
+                    CYLC_CONF, [title], content=section_content)
+
+            ret += directive(
+                CYLC_CONF, [section_name], content=content)
+
+        ret = directive(
+            CYLC_CONF, [src], content=note + ret)
+
+        # Prettified Debug to help with finding errors:
+        if project.logger.getEffectiveLevel() > 9:
+            [print(f'{i + 1:03}|{line}') for i, line in enumerate(ret)]
+
+        return ret
+
+
+class CylcWorkflowDirective(SphinxDirective):
+    """Represent a Cylc Workflow Config.
+    """
+    required_arguments = 1
+    option_spec = {
+        'show': directives.split_escaped_whitespace
+    }
+
+    def run(self):
+        display_these = None
+        if 'show' in self.options:
+            display_these = [
+                i.strip() for i in self.options['show'][0].split(',')]
+        ret = self.config_to_node(
+            load_cfg(self.arguments[0]),
+            self.arguments[0],
+            display_these
+        )
+        node = addnodes.desc_content()
+        self.state.nested_parse(
+            StringList(ret),
+            self.content_offset,
+            node
+        )
+        return [node]
+
+    @staticmethod
+    def config_to_node(config, src, display_these=None):
+        """Document Workflow
+
+        Additional processing:
+        * If no title field is provided use either the workflow folder
+          or the task/family name.
+
+        """
+        workflow_content = []
+
+        # Handle workflow level metadata:
+        workflow_meta = config.get('meta', {})
+        # Title or path
+        workflow_name = workflow_meta.get('title', '')
+        if not workflow_name:
+            workflow_name = src
+        
+        # URL if available
+        url = workflow_meta.get('URL', '')
+        if url:
+            workflow_content += directive('seealso', [url])
+
+            # Custom keys:
+            workflow_content += custom_items(workflow_meta)
+
+        # Description:
+        workflow_content += ['', workflow_meta.get('description', ''), '']
+
+        # Add details of the runtime section:
+        for task_name, taskdef in config.get('runtime', {}).items():
+            task_content = []
+            task_meta = taskdef.get('meta', {})
+
+            # Does task have a title?
+            title = task_meta.get('title', '')
+            if title:
+                title = f'{title} ({task_name})'
+            else:
+                title = task_name
+
+            # Task URL
+            url = task_meta.get('URL', '')
+            if url:
+                task_content.append(f':URL: {url}')
+
+            # Custom keys:
+            task_content += custom_items(task_meta)
+
+            # Config keys given
+            if display_these:
+                task_content += custom_items(taskdef, display_these)
+
+            desc = task_meta.get('description', '')
+            if desc:
+                task_content += ['', desc, '']
+
+            workflow_content += directive(
+                CYLC_CONF, [title], content=task_content)
+
+        ret = directive(CYLC_CONF, [workflow_name], content=workflow_content)
+
+        # Pretty debug statement:
+        if project.logger.getEffectiveLevel() > 9:
+            [print(f'{i + 1:03}|{line}') for i, line in enumerate(ret)]
+
+        return ret
+
+
+def load_cfg(conf_path: Optional[str] = None) -> Dict[str, Any]:
+    """Get Workflow Configuration metadata:
+
+    Args:
+        conf_path: global or workflow conf path.
+
+    Raises:
+        DependencyError: If a version of Cylc without the
+            ``cylc config --json`` facility is installed.
+    """
+    env = None
+    if conf_path is None:
+        cmd = ['cylc', 'config', '--json']
+    elif (Path(conf_path) / 'flow.cylc').exists():
+        # Load workflow Config:
+        cmd = ['cylc', 'config', '--json', conf_path]
+    elif (Path(conf_path) / 'flow/global.cylc').exists():
+        # Load Global Config:
+        if conf_path:
+            env = copy(os.environ)
+            env = env.update({'CYLC_SITE_CONF_PATH': conf_path})
+            cmd = ['cylc', 'config', '--json']
+    else:
+        raise FileNotFoundError(
+            f'No Cylc config file found at {conf_path}')
+
+    sub = run(
+        cmd,
+        capture_output=True,
+        env=env or os.environ
+    )
+
+    # Catches failure caused by a version of Cylc without
+    # the ``cylc config --json`` option.
+    if sub.returncode:
+        # cylc config --json not available:
+        if 'no such option: --json' in sub.stderr.decode():
+            msg = (
+                'Requires cylc config --json, not available'
+                ' for this version of Cylc')
+            raise DependencyError(msg)
+        # all other errors in the subprocess:
+        else:
+            msg = 'Cylc config metadata failed with: \n'
+            msg += '\n'.join(
+                i.strip("\n") for i in sub.stderr.decode().split('\n'))
+            raise Exception(msg)
+
+    return json.loads(sub.stdout)
+
+
+def custom_items(
+    data: Dict[str, Any],
+    not_these: Optional[List[str]] = None,
+    these: Optional[List[str]] = None
+) -> List[str]:
+    """Given a dict return a keylist.
+
+    Args:
+        data: The input dictionary.
+        not_these: Keys to ignore.
+        these: Keys to include.
+
+    Examples:
+        >>> data = {'foo': 'I cannot believe it!', 'title': 'Hi'}
+        >>> custom_items(data)
+        :foo:
+           I cannot believe it!
+        >>> custom(data, these=['title'])
+        :title:
+           Hi
+    """
+    ret = []
+    if these:
+        for key in these:
+            value = data.get(key, '')
+            if value and isinstance(value, str):
+                value = value.replace("\n", "\n   ")
+                ret.append(f':{key}:\n   {value}')
+    else:
+        for key, val in data.items():
+            if (
+                key not in (not_these or ['title', 'description', 'URL'])
+                and isinstance(val, str)
+            ):
+                value = val.replace("\n", "\n   ")
+                ret.append(f':{key}:\n   {value}')
+    return ret

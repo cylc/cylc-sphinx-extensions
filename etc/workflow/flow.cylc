@@ -1,0 +1,40 @@
+[meta]
+    title = 'Hello World'
+    description = """
+        This flow.cylc file is placed here to allow the
+        testing of the metadata config extension.
+    """
+    URL = 'https://www.myproject.com'
+    custom key yan = "Perhaps it's relevent?"
+    custom key tan = "Perhaps it's also relevent?"
+    custom key tethera = "Or perhaps not?"
+
+
+[scheduling]
+    [[graph]]
+        R1 = foo & bar
+
+[runtime]
+    [[foo]]
+        [[[meta]]]
+            title = 'task title'
+            description = """
+                .. admonition:: To the tune of "All around my hat"
+
+                   All about my task
+
+                   I will document my working
+
+                   All about my task
+
+                   for a P12M + P1D
+            """
+            URL = 'https://www.myproject.com/tasks/foo'
+
+    [[bar]]
+        [[[meta]]]
+            description = """
+                Lorem Ipsum blah blah blah
+            """
+            URL = 'https://www.myproject.com/tasks/bar'
+            and another thing = Morse

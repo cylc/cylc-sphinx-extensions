@@ -15,7 +15,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
-'''An extension providing pygments lexers for the Cylc flow.cylc language.
+from pathlib import Path
+from cylc.sphinx_ext.cylc_lang.autodocumenters import (
+    CylcAutoDirective,
+    CylcAutoTypeDirective,
+    CylcWorkflowDirective,
+    CylcGlobalDirective,
+)
+from cylc.sphinx_ext.cylc_lang.domains import (
+    ParsecDomain,
+    CylcDomain,
+    CylcScopeDirective
+)
+from cylc.sphinx_ext.cylc_lang.lexers import CylcLexer, CylcGraphLexer
+
+
+rawdoc1 = '''An extension providing pygments lexers for the Cylc flow.cylc
+language.
 
 
 Pygments Lexers
@@ -157,7 +173,9 @@ Auto Documenters
             cylc.flow.parsec.validate.ParsecValidator.V_TYPE_HELP
             cylc.flow.parsec.validate.CylcConfigValidator.V_TYPE_HELP
 
+'''
 
+rawdoc3 = '''
 Directives
 ----------
 
@@ -181,19 +199,51 @@ Directives
 
          This resets it to the hardcoded default which is ``flow.cylc``.
 
+
+
 '''
 
-from cylc.sphinx_ext.cylc_lang.autodocumenters import (
-    CylcAutoDirective,
-    CylcAutoTypeDirective
-)
-from cylc.sphinx_ext.cylc_lang.domains import (
-    ParsecDomain,
-    CylcDomain,
-    CylcScopeDirective
-)
-from cylc.sphinx_ext.cylc_lang.lexers import CylcLexer, CylcGraphLexer
+rawdoc2 = """
+.. rst:directive:: .. auto-global-cylc:: source
 
+   Get a Cylc Global Configuration and render metadata fields.
+
+   If the optional source argument is give,
+   set ``CYLC_SITE_CONF_PATH`` to this value.
+
+   .. note::
+
+      If you have a user config this will still override the site
+      config!
+
+   .. rst-example::
+
+      .. auto-cylc-global:: {workflow_path}
+         :show:
+            foo,
+            install target,
+            bar,
+            qax
+
+.. rst:directive:: .. auto-cylc-workflow:: source
+
+   Get a Cylc Workflow Configuration from source and document the settings.
+
+   .. rst-example::
+
+      .. auto-cylc-workflow:: {workflow_path}/workflow
+         :show:
+            foo,
+            platform
+"""
+
+
+workflow_path = Path(__file__).parent.parent.parent.parent / 'etc'
+__doc__ = (
+    rawdoc1
+    + rawdoc2.format(workflow_path=workflow_path)
+    + rawdoc3
+)
 
 __all__ = [
     'CylcAutoDirective',
@@ -214,5 +264,7 @@ def setup(app):
     app.add_domain(ParsecDomain)
     app.add_directive('auto-cylc-conf', CylcAutoDirective)
     app.add_directive('auto-cylc-type', CylcAutoTypeDirective)
+    app.add_directive('auto-cylc-workflow', CylcWorkflowDirective)
+    app.add_directive('auto-cylc-global', CylcGlobalDirective)
     app.add_directive('cylc-scope', CylcScopeDirective)
     return {'version': __version__, 'parallel_read_safe': True}
