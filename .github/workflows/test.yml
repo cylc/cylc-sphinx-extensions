@@ -20,7 +20,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: eslint
-        run: npx --package='eslint/js' -c 'eslint .'
+        run: |
+          npm install -g npm
+          npx --package='eslint/js' -c 'eslint .'
 
       - name: configure python
         uses: actions/setup-python@v4
