@@ -79,6 +79,10 @@ class Doc(ViewList):
         super().append('', '', 1)
 
 
+class DependencyError(Exception):
+    ...
+
+
 class CylcMetadata(SphinxDirective):
     """Represent a Cylc Config.
     """
@@ -125,6 +129,9 @@ class CylcMetadata(SphinxDirective):
             )
         else:
             sub = run(['cylc', 'config', '--json'], capture_output=True)
+
+        CylcMetadata.check_subproc_output(sub)
+
         return json.loads(sub.stdout)
 
     @staticmethod
@@ -211,6 +218,7 @@ class CylcMetadata(SphinxDirective):
             ['cylc', 'config', '--json', conf_path],
             capture_output=True,
         )
+        CylcMetadata.check_subproc_output(sub)
         return json.loads(sub.stdout)
 
     @staticmethod
@@ -294,3 +302,22 @@ class CylcMetadata(SphinxDirective):
 
         # Description
         rst.append(section.get('description', ''))
+
+    @staticmethod
+    def check_subproc_output(sub):
+        """Check subprocess outputs - catch failure.
+        """
+        if sub.returncode:
+            # Very specifically handle the case where the correct
+            # version of Cylc isn't installed:
+            if 'no such option: --json' in sub.stderr.decode():
+                msg = (
+                    'Requires cylc config --json, not available'
+                    ' for this version of Cylc')
+                raise DependencyError(msg)
+            # Handle any and all other errors in the subprocess:
+            else:
+                msg = 'Cylc config metadata failed with: \n'
+                msg += '\n'.join(
+                    i.strip("\n") for i in sub.stderr.decode().split('\n'))
+                raise Exception(msg)
