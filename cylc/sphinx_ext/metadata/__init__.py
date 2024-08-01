@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # -----------------------------------------------------------------------------
+from docutils import nodes
+from docutils.statemachine import ViewList
+import json
 import os
 from pathlib import Path
-from docutils import nodes
-import json
 from sphinx.util.docutils import SphinxDirective
-# from cylc.flow.config import WorkflowConfig
-# from cylc.flow.cfgspec.glbl_cfg import glbl_cfg
-from docutils.statemachine import ViewList
 from sphinx.util.nodes import nested_parse_with_titles
 from subprocess import run
 
