@@ -18,12 +18,13 @@
 import os
 from pathlib import Path
 from docutils import nodes
-from typing import Dict, List, Optional
+import json
 from sphinx.util.docutils import SphinxDirective
-from cylc.flow.config import WorkflowConfig
-from cylc.flow.cfgspec.glbl_cfg import glbl_cfg
+# from cylc.flow.config import WorkflowConfig
+# from cylc.flow.cfgspec.glbl_cfg import glbl_cfg
 from docutils.statemachine import ViewList
 from sphinx.util.nodes import nested_parse_with_titles
+from subprocess import run
 
 
 rawdoc = """An extension for grabbing Cylc Config Metadata.
@@ -31,10 +32,10 @@ rawdoc = """An extension for grabbing Cylc Config Metadata.
 .. rst-example::
 
    .. cylc_metadata::
-      :source: {workflow_path}
+      :global: {workflow_path}
 
    .. cylc_metadata::
-      :global: {workflow_path}
+      :source: {workflow_path}
 
 
 Directives
@@ -50,16 +51,10 @@ Directives
       If set, renders the metadata of a workflow, otherwise the global
       config.
 
-   .. rst:directive:option:: CYLC_CONF_PATH
+   .. rst:directive:option:: global
       :type: string
 
-      If set, override the CYLC_SITE_CONF_PATH. Only
-      relevent if loading a global config
-
-   .. rst:directive:option:: render_empty
-      :type: boolean
-
-      If true renders empty metadata values.
+      Set CYLC_SITE_CONF_PATH to this value.
 
 """
 
@@ -79,7 +74,7 @@ def setup(app):
 class Doc(ViewList):
     """Convenience wrapper for ViewList to allow us to use it to
     collect lines of RST, with options to underline."""
-    def append(self, text: str, underline: Optional[str] = None):
+    def append(self, text, underline=None):
         super().append(text, '', 1)
         if underline:
             super().append(underline * len(text), '', 1)
@@ -88,12 +83,6 @@ class Doc(ViewList):
 
 class CylcMetadata(SphinxDirective):
     """Represent a Cylc Config.
-
-    .. cylc_metadata::
-
-    .. TODO::
-
-       - Template variable and opt conf keys support
     """
     optional_arguments = 3
 
@@ -106,45 +95,43 @@ class CylcMetadata(SphinxDirective):
             self.options.update({key: value})
 
         # Get global or workflow metadara
-        if 'global' in self.options:
-            metadata = self.get_global_metadata(self.options['global'])
-            rst = self.convert_global_to_rst(metadata)
-        else:
-            metadata = self.get_workflow_metadata(self.options['source'])
+        if 'source' in self.options:
+            config = self.load_workflow_cfg(self.options['source'])
+            metadata = self.get_workflow_metadata(
+                config, self.options['source'])
             rst = self.convert_workflow_to_rst(metadata)
+        else:
+            config = self.load_global_cfg(self.options['global'])
+            metadata = self.get_global_metadata(config)
+            rst = self.convert_global_to_rst(metadata)
 
         container = nodes.Element()
         nested_parse_with_titles(self.state, rst, container)
         return container.children
 
     @staticmethod
-    def get_metadata(cfg, keys: Optional[List[str]] = None):
-        """Get metadata items from a config.
-
-        Args:
-            keys: Keys to access metadata - if given this is
-                assumed to be a section containing sections contining
-                metadata. This is a reasonable assumption
-                for current Cylc configs but may need reviewing.
-
-        Returns:
-            A metadata dictionary.
-        """
-        meta = {}
-        if keys:
-            for section, content in cfg.get(keys).items():
-                meta[section] = content['meta']
-        else:
-            meta = cfg.get(['meta'])
-        return meta
-
-    @staticmethod
-    def get_global_metadata(conf_path: str) -> Dict[str, Dict[str, str]]:
+    def load_global_cfg(conf_path=None):
         """Get Global Configuration metadata:
 
         Args:
             Path: Global conf path.
 
+        """
+        # Load Global Config:
+        if conf_path:
+            env = os.environ
+            sub = run(
+                ['cylc', 'config', '--json'],
+                capture_output=True,
+                env=env.update({'CYLC_SITE_CONF_PATH': conf_path})
+            )
+        else:
+            sub = run(['cylc', 'config', '--json'], capture_output=True)
+        return json.loads(sub.stdout)
+
+    @staticmethod
+    def get_global_metadata(config):
+        """
         Additional Processing:
         * Get lists of hosts/platforms and job runner from the config.
         * If no title is provided, use the platform/group regex as the title.
@@ -155,33 +142,28 @@ class CylcMetadata(SphinxDirective):
             A dictionary in the form:
             'platforms': {'platform regex': {..metadata..}},
             'platform groups': {'platform regex': {..metadata..}}
-
-        TODO - Reliably load from conf path
         """
-        # Load Global Config:
-        os.environ['CYLC_SITE_CONF_PATH'] = conf_path
-        from cylc.flow.cfgspec import global
-        config = glbl_cfg(cached=)
-        # delattr(config, '_DEFAULT')
-        # config = glbl_cfg()
-
-        # extract metadata
         metadata = {}
-        for section in ['platforms', 'platform groups']:
-            metadata[section] = CylcMetadata.get_metadata(config, [section])
-            for key in config.get([section]).keys():
+        for section, select_from in zip(
+            ['platforms', 'platform groups'],
+            ['hosts', 'platforms']
+        ):
+            metadata[section] = config.get(section)
+            if not metadata[section]:
+                continue
+            for key in config.get(section).keys():
                 # Grab a list of hosts or platforms that this
                 # platform or group will select from:
                 select_from = (
-                    config.get([section, key]).get('hosts')
-                    or config.get([section, key]).get('platforms'))
+                    config.get(section).get(key).get('hosts')
+                    or config.get(section).get(key).get('platforms'))
                 select_from = select_from or [key]
                 metadata[section][key]['select_from'] = select_from
 
                 # Grab the job runner this platform uses:
                 if section == 'platforms':
                     metadata[section][key]['job_runner'] = config.get(
-                        [section, key]).get('job runner', 'background')
+                        section).get(key).get('job runner', 'background')
         return metadata
 
     @staticmethod
@@ -220,11 +202,25 @@ class CylcMetadata(SphinxDirective):
         return rst
 
     @staticmethod
-    def get_workflow_metadata(conf_path: str) -> Dict[str, Dict[str, str]]:
+    def load_workflow_cfg(conf_path):
+        """Get Workflow Configuration metadata:
+
+        Args:
+            conf_path: workflow conf path.
+        """
+        # Load Global Config:
+        sub = run(
+            ['cylc', 'config', '--json', conf_path],
+            capture_output=True,
+        )
+        return json.loads(sub.stdout)
+
+    @staticmethod
+    def get_workflow_metadata(config, conf_path):
         """Get workflow metadata.
 
         Additional processing:
-        * If no title foeld is provided use either the workflow folder
+        * If no title field is provided use either the workflow folder
           or the task/family name.
         * Don't return the root family if there is no metadata.
 
@@ -233,16 +229,17 @@ class CylcMetadata(SphinxDirective):
             'runtime': {'namespace': '.. task or family metadata ..'}
 
         """
-        # Load Workflow Config
-        config = WorkflowConfig(
-            '', os.path.join(conf_path, 'flow.cylc'), {}, {})
         # Extract Data
         meta = {}
-        meta['workflow'] = CylcMetadata.get_metadata(config.pcfg)
-        meta['runtime'] = CylcMetadata.get_metadata(config.pcfg, ['runtime'])
+
+        # Copy metadata to the two top level sections:
+        meta['workflow'] = config.get('meta')
+        meta['runtime'] = {
+            k: v.get('meta', {})
+            for k, v in config.get('runtime', {}).items()}
 
         # Title is parent directory if otherwise unset:
-        if not meta['workflow'].get('title', ''):
+        if not meta.get('workflow', {}).get('title', ''):
             meta['workflow']['title'] = Path(conf_path).name
 
         # Title of namespace is parent if otherwise unset:
@@ -257,6 +254,7 @@ class CylcMetadata(SphinxDirective):
             ):
                 poproot = True
 
+            # If metadata doesn't have a title set title to the namespace name:
             if not info.get('title', ''):
                 meta['runtime'][namespace]['title'] = namespace
 
@@ -267,17 +265,21 @@ class CylcMetadata(SphinxDirective):
 
     @staticmethod
     def convert_workflow_to_rst(meta):
+        """Convert workflow metadata to RST.
+
+        Returns
+        """
         rst = Doc()
 
         # Handle the workflow config metadata:
-        workflow = meta['workflow']
-        rst.append(workflow.get('title'), '#')
+        workflow = meta.get('workflow', {})
+        rst.append(workflow.get('title', ''), '#')
         rst.append(workflow.get('description', 'No description given'))
 
         # Handle the runtime config metadata:
         rst.append('Runtime', '=')
         for taskmeta in meta['runtime'].values():
-            rst.append(taskmeta['title'], '^')
-            rst.append(taskmeta['description'])
+            rst.append(taskmeta.get('title', ''), '^')
+            rst.append(taskmeta.get('description', ''))
 
         return rst
