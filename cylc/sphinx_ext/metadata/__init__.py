@@ -272,14 +272,27 @@ class CylcMetadata(SphinxDirective):
         rst = Doc()
 
         # Handle the workflow config metadata:
-        workflow = meta.get('workflow', {})
-        rst.append(workflow.get('title', ''), '#')
-        rst.append(workflow.get('description', 'No description given'))
+        CylcMetadata.write_section(rst, meta.get('workflow', {}), '#')
 
         # Handle the runtime config metadata:
         rst.append('Runtime', '=')
         for taskmeta in meta['runtime'].values():
-            rst.append(taskmeta.get('title', ''), '^')
-            rst.append(taskmeta.get('description', ''))
+            CylcMetadata.write_section(rst, taskmeta)
 
         return rst
+
+    @staticmethod
+    def write_section(rst, section, title_level='^'):
+        # Title
+        title = section.get('title', '')
+        if not title:
+            return
+        rst.append(title, title_level)
+
+        # Url
+        url = section.get('url', '')
+        if url:
+            rst.append(url)
+
+        # Description
+        rst.append(section.get('description', ''))

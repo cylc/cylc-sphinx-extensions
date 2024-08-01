@@ -4,6 +4,11 @@ description = """
 This flow.cylc file is placed here to allow the
 testing of the metadata config extension.
 """
+url = 'https://www.myproject.com'
+custom key yan = "Perhaps it's relevent?"
+custom key tan = "Perhaps it's also relevent?"
+custom key tethera = "Or perhaps not?"
+
 
 [scheduling]
     [[graph]]
@@ -19,6 +24,7 @@ testing of the metadata config extension.
                 All about my task
                 for a P12M + P1D
             """
+            url = 'https://www.myproject.com/tasks/foo'
 
     [[bar]]
         [[[meta]]]
@@ -26,3 +32,5 @@ testing of the metadata config extension.
                 What should happen if I forget the title?
                 Should I process RST?
             """
+            url = 'https://www.myproject.com/tasks/bar'
+            see also = Bar task docs.
