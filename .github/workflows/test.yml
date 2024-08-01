@@ -6,37 +6,45 @@ on:
   push:
     branches: [master]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: 2
+  PS4: '[command]'
+
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
       matrix:
-        python-version: ['3.7', '3.9']
+        python-version: ['3.7', '3']
+      fail-fast: false
     env:
         PYTEST_ADDOPTS: --color=yes
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: eslint
-        run: npx eslint .
+        run: npx eslint@8 .
 
       - name: configure python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: install
         run: |
+          set -x
           sudo apt-get install -y graphviz
           pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
           pip install -e .[all]
 
       - name: pycodestyle
-        run: |
-          pycodestyle .
-          npx eslint cylc/
+        run: pycodestyle .
 
       - name: unittest
         run: |
