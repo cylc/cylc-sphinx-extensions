@@ -40,8 +40,7 @@ jobs:
         run: |
           set -x
           sudo apt-get install -y graphviz
-          pip install git+https://github.com/cylc/cylc-flow/  # install latest cylc-flow
-          pip install -e .[all]
+          pip install git+https://github.com/cylc/cylc-flow/ -e .[all]
 
       - name: pycodestyle
         run: pycodestyle .

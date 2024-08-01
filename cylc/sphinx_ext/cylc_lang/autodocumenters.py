@@ -26,7 +26,7 @@ def get_obj_from_module(namespace):
 
     Examples:
         >>> get_obj_from_module('os')  # doctest: +ELLIPSIS
-        <module 'os' from ...>
+        <module 'os' ...>
         >>> get_obj_from_module('os.walk')  # doctest: +ELLIPSIS
         <function walk at ...>
         >>> get_obj_from_module('os.path.join')  # doctest: +ELLIPSIS
