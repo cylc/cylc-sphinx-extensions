@@ -1,0 +1,13 @@
+[platforms]
+    [[.*cross]]
+        [[[meta]]]
+            title = "Kings/Charing/Bounds Cross"
+            description = """
+                If platform name is a regex you might want
+                an explicit title
+            """
+    [[mornington_crescent]]
+        [[[meta]]]
+            description = """
+                I win!
+            """
