@@ -1,13 +1,13 @@
 [meta]
-title = 'Hello World'
-description = """
-This flow.cylc file is placed here to allow the
-testing of the metadata config extension.
-"""
-url = 'https://www.myproject.com'
-custom key yan = "Perhaps it's relevent?"
-custom key tan = "Perhaps it's also relevent?"
-custom key tethera = "Or perhaps not?"
+    title = 'Hello World'
+    description = """
+        This flow.cylc file is placed here to allow the
+        testing of the metadata config extension.
+    """
+    url = 'https://www.myproject.com'
+    custom key yan = "Perhaps it's relevent?"
+    custom key tan = "Perhaps it's also relevent?"
+    custom key tethera = "Or perhaps not?"
 
 
 [scheduling]
