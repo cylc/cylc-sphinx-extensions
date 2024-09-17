@@ -30,12 +30,20 @@ Lexer for the Cylc language and ``flow.cylc`` extensions.
 
    .. code-block:: cylc
 
+      # Jinja2
+
+      {% set final_cycle_point = final_cycle_point | default('') %}
+      {% set duration = duration | default('P1Y') %}
+
       [scheduling]
           initial cycle point = 2000
+          final cycle point = {{ final_cycle_point }}
           [[graph]]
               P1Y = """
                   @wall_clock => foo? => bar
                   (foo? & bar) => pub
+
+                  foo[-{{ duration }}+P1D] => foo
               """
 
 .. note::

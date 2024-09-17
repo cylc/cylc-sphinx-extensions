@@ -200,7 +200,33 @@ class CylcLexer(RegexLexer):
             include('integer-duration'),  # matches a subset of iso8601
             include('iso8601-duration'),
             (r'[\^\$]', INTERCYCLE_OFFSET_TOKEN),
+            (
+                # anything that contains Jinja2 syntax
+                r'(?=[^\]]*{{)',
+                INTERCYCLE_OFFSET_TOKEN,
+                'preproc-intercycle-offset',
+            ),
+            (
+                # anything that contains EmPy syntax
+                r'(?=[^\]]*@)',
+                INTERCYCLE_OFFSET_TOKEN,
+                'preproc-intercycle-offset',
+            ),
             (r'\]', Text, '#pop')
+        ],
+
+        # Task inter-cycle offset with preprocessing: foo[-{{duration}}+P1D]
+        # Note: This is done in its own section so that we don't bypass the
+        # validation that has been implemented for explicit offsets
+        'preproc-intercycle-offset': [
+            # permit pre-processing
+            include('preproc'),
+            # interpret all other text as part of the offset
+            # (we can't perform validation when preprocessing is involved)
+            (r'[^\]]', INTERCYCLE_OFFSET_TOKEN),
+            # the first "]" (outside of preprocessing) marks the end of the
+            # offset
+            (r'(?=\])', Text, '#pop')
         ],
 
         # generic Cylc cycle point:  2000
