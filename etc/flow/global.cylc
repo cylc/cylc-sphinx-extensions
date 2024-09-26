@@ -1,0 +1,38 @@
+[platforms]
+    [[.*cross]]
+        [[[meta]]]
+            title = "Kings/Charing/Bounds Cross"
+            description = """
+                * Demonstrate that you can insert RST here.
+
+                .. warning::
+
+                   If platform name is a regex you might want
+                   an explicit title.
+
+                And another thing
+                ^^^^^^^^^^^^^^^^^
+            """
+            URL = https://www.mysupercomputer.ac.uk
+    [[mornington_crescent]]
+        [[[meta]]]
+            description = """
+                ######
+                I win!
+                ######
+            """
+            location = Otago
+            contractor = Takahē Industries
+            other info = """
+                This is a longer
+                chunk of metadata designed
+                to see if the extra section
+                handling can manage.
+            """
+    [[camden_town]]
+        hosts = northern, buslink
+        job runner = pbs
+        install target = northern
+[platform groups]
+    [[northern line]]
+        platforms = camden_town, mornington_crescent
