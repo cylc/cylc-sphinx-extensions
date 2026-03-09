@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 5
     strategy:
       matrix:
-        python-version: ['3.7', '3']
+        python-version: ['3.14', '3']
       fail-fast: false
     env:
         PYTEST_ADDOPTS: --color=yes
