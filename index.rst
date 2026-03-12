@@ -10,7 +10,6 @@ Available Extensions
    cylc.sphinx_ext.cylc_lang
    cylc.sphinx_ext.diff_selection
    cylc.sphinx_ext.grid_table
-   cylc.sphinx_ext.hieroglyph_addons
    cylc.sphinx_ext.literal_sub_include
    cylc.sphinx_ext.minicylc
    cylc.sphinx_ext.practical
