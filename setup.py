@@ -47,9 +47,6 @@ REQS = {
         'pygments',
         'cylc-flow'
     ],
-    'hieroglyph_addons': [
-        'hieroglyph'
-    ],
     'rtd_theme_addons': [
         'sphinx_rtd_theme'
     ],
