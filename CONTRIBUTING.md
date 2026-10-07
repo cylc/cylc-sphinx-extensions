@@ -37,6 +37,7 @@ below.
  - Bruno Kinoshita
  - Mel Hall
  - Ronnie Dutta
+ - James Frost
 
 (All contributors are identifiable with email addresses in the git version
 control logs or otherwise.)
