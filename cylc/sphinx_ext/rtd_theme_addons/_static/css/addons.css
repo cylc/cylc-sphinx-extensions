@@ -127,3 +127,9 @@ span.versionmodified{
 .rst-content .cylc.conf .field-list {
     margin-bottom: 0;
 }
+
+/* Add some vertical margin to images to prevent crowding. */
+.rst-content img.align-center {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
