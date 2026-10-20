@@ -133,3 +133,8 @@ span.versionmodified{
   margin-top: 24px;
   margin-bottom: 24px;
 }
+
+/* Increase bottom margin on tab sets. */
+.rst-content .sd-tab-set {
+    margin: 1em 0 3em;
+}
